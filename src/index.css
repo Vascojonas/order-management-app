@@ -39,22 +39,74 @@ body{
     border-bottom:  1px solid white;
 }
 
-li button:hover{
-    background-color: white;
-    border-top: 1px solid #4d4dff;
-    border-bottom: 1px solid #4d4dff;
-}
-
-li button:hover{
-    color: #4d4dff;
-}
 
 .active{
-    background-color: white;
+    background-color: #4d4dff;
     border-top: 1px solid #4d4dff;
     border-bottom: 1px solid #4d4dff;
+    box-shadow:1px solid #4d4dff;
+    color:white;
 }
 
-a:hover{
-    color:#4d4dff;
+.box-upload{
+    width: 400px;
+    height: 230px;
+    position: relative;
+    background-color:  rgb(237,237,237);
+}
+
+.box-upload-image{
+    width: 400px;
+    height: 230px;
+}
+
+.box-upload-text{
+    margin:0;
+  position: absolute;
+  top: 50%;
+  left: 85px;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+
+.number-box{
+    position: relative;
+    display:inline-block;
+    width: 15px;
+    height: 15px;
+    color: red;
+    font-size: 10px;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 10px;
+    
+    background-color: aliceblue;
+    margin: 0px;
+    margin-top:0;
+}
+
+
+.btn-icon{
+    position: absolute;
+    right: 0;
+    top:8px;
+    margin-left: 0px;
+    margin-top: 2px;
+    color: white;
+    
+    z-index: 1;
+}
+
+.box{
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    padding: 2px;
+}
+
+.cabecalho{
+    height: 55px;
 }
