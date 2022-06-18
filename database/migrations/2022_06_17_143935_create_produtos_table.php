@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nome');
             $table->longText('descricao');
             $table->integer('quantidade')->default(1);
-            $table->double('preco',4,2);
+            $table->double('preco');
             $table->string('imagem');
             $table->timestamps();
         });

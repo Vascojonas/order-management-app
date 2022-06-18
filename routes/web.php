@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/api/admin/produtos/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarProduto']);
+
+//Route::post('/user/profile',[UserProfileController::class, 'show']);
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/produtos/cadastrar', function () {
+    return view('welcome');
+});
+
