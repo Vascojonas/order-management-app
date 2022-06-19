@@ -44,7 +44,7 @@ function nav() {
 
         <ul className='navbar-nav p-0 m-0 bg-sinza'>
             <li className='nav-item border-inferior' >
-              <NavLink to='/admin/produtos/funcionarios' className='btn btn-block text-left'><FaUsers/> Funcionários</NavLink>
+              <NavLink to='/admin/funcionarios' className='btn btn-block text-left'><FaUsers/> Funcionários</NavLink>
             </li> 
             <li className='nav-item border-inferior btn btn-danger text-left mt-3'><BiLogOutCircle/> Sair</li> 
            

@@ -3,17 +3,26 @@ import axios from 'axios';
 import swal from 'sweetalert';
 
 function produtoCadastrar() {
+
+  const[editProduct, setEditProduct]= useState(false);
+
   const [selectedImage, setSelectedImage] = useState(null);
+
+    const [productInput, setProduct] = useState({
+      categoria: '',
+      nome: '',
+      descricao: '',
+      quantidade: '',
+      preco: '',
+      imagem: '',
+      error_list: [],
+  });
+
+  if(editProduct){
+    
+  }
+
   
-  const [productInput, setProduct] = useState({
-    categoria: '',
-    nome: '',
-    descricao: '',
-    quantidade: '',
-    preco: '',
-    imagem: '',
-    error_list: [],
-});
 
 const handleInput = (e) => {
   e.persist();
@@ -79,7 +88,7 @@ const savePrduct = (e) => {
           <div className='col-6'>
              
                 <div className='form-group row ml-2'>
-                    <label htmlFor="categoria" className="col-md-4 col-form-label bg-sinza">Categoria</label>
+                    <label htmlFor="categoria" className="col-md-4 col-form-label bg-sinza">Tipo de artigo</label>
                     <div className="col-md-8">
                       <select className="form-control border border-secondary " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>

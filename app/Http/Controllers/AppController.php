@@ -10,6 +10,55 @@ use Illuminate\Support\Facades\Validator;
 
 class AppController extends Controller
 {
+      public function editProduct($id)
+    {
+        $produto = Produto::find($id);
+        if($produto)
+        {
+            return response()->json([
+                'status'=> 200,
+                'produto' => $produto,
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'Nenhum produto foi achado com esse ID',
+            ]);
+        }
+
+    }
+
+    public function deleteProduct($id){
+       
+        $produto = Produto::find($id);
+        if($produto)
+        {
+            $produto->delete();
+            return response()->json([
+                'status'=> 200,
+                'message'=>'produto eliminadao com sucesso',
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'Nenhum produtofo encontrado com esse ID',
+            ]);
+        }
+    }
+
+
+    function allProducts(){
+        $products = Produto::all();
+        return response()->json([
+            'status'=> 200,
+            'products'=>$products,
+        ]);
+    }
+
 
     function  cadastrarProduto(Request $request){
 

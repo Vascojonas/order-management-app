@@ -4,6 +4,10 @@ import Header from "./header";
 import Nav from "./nav";
 import ProdutoCadastrar from "../../pages/produtoCadastrar";
 import ProdutoListar from "../../pages/produtoListar";
+import Funcionarios from "../../pages/funcionarios";
+import FuncionarioCadastro from "../../pages/funcionarioCadastro";
+
+
 
 
 import axios from 'axios';
@@ -27,8 +31,11 @@ function App(){
                  <Routes>
                     <Route path='/admin/produtos/cadastrar' element={<ProdutoCadastrar/>}/>
                     <Route path='/admin/produtos/listar' element={<ProdutoListar/>}/>
+                    <Route path='/admin/funcionarios' exact element={<Funcionarios/>}/>
+                    <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
 
                 </Routes>
+
                 </div>
 
                 
