@@ -2,11 +2,15 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import swal from 'sweetalert';
 
+
+
 function produtoCadastrar() {
 
   const[editProduct, setEditProduct]= useState(false);
 
   const [selectedImage, setSelectedImage] = useState(null);
+
+  
 
     const [productInput, setProduct] = useState({
       categoria: '',
@@ -32,44 +36,65 @@ const handleInput = (e) => {
 const savePrduct = (e) => {
 
   e.preventDefault();
-  
-  const data = {
-      nome:productInput.nome,
-      categoria:productInput.categoria,
-      descricao:productInput.descricao,
-      quantidade:productInput.quantidade,
-      preco:productInput.preco,
-      imagem:productInput.imagem,
 
+  const config = {
+    headers: {
+        'content-type': 'multipart/form-data'
+    }
   }
-  
-  axios.post('/api/admin/produtos/salvar', data).then(res => {
+  let dataImage = new FormData();
+    dataImage.append('file', selectedImage);
 
+    axios.post('/api/admin/produtos/upload', dataImage, config)
+    .then(function (res) {
+       //console.log(res.data.success);
+       //console.log(res.data.path);
+      
+       
+       const data = {
+        nome:productInput.nome,
+        categoria:productInput.categoria,
+        descricao:productInput.descricao,
+        quantidade:productInput.quantidade,
+        preco:productInput.preco,
+        imagem: res.data.path
+    }
     
-    if(res.data.status === 200)
-    {
-        console.log(res.data.erro);
-          console.log("Working");
-
-        swal("Success!",res.data.message,"success");
-        setProduct({
-            categoria: '',
-            nome: '',
-            descricao: '',
-            quantidade: '',
-            preco: '',
-            imagem: '',
-            error_list: [],
-          });
-          //history.push('/students');
-          
-      }
-      else if(res.data.status === 422)
+  
+    axios.post('/api/admin/produtos/salvar', data).then(res => {
+  
+      
+      if(res.data.status === 200)
       {
-        console.log("Fails", res.data.validate_err);
-        setProduct({...productInput, error_list: res.data.validate_err });
-      }
-  });
+          //console.log(res.data.imagem);
+            console.log("Working");
+  
+          swal("Success!",res.data.message,"success");
+          setProduct({
+              categoria: '',
+              nome: '',
+              descricao: '',
+              quantidade: '',
+              preco: '',
+              imagem: '',
+              error_list: [],
+            });
+
+            setSelectedImage(null);
+            //history.push('/students');
+            
+        }
+        else if(res.data.status === 422)
+        {
+          console.log("Fails", res.data.validate_err);
+          setProduct({...productInput, error_list: res.data.validate_err });
+        }
+    });
+      
+      })
+    .catch(function (err) {
+       console.log(err);
+    });
 }
 
 
@@ -79,7 +104,7 @@ const savePrduct = (e) => {
 
   return (
     <div>
-        <form onSubmit={savePrduct}>
+        <form onSubmit={savePrduct}  >
         <h4 className='mt-3'>Cadastrar brindes</h4>
 
         <div className="row" >
@@ -92,7 +117,8 @@ const savePrduct = (e) => {
                     <div className="col-md-8">
                       <select className="form-control border border-secondary " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>
-                              <option >Categoria 1</option>
+                              <option value={"quadros"} >Quadros</option>
+                              <option value={"copos"}>Copos</option>
                          </select>
                     <span className="text-danger">{productInput.error_list.categoria}</span>
 
@@ -147,21 +173,21 @@ const savePrduct = (e) => {
                   <div className={`border border-secondary box-upload ${selectedImage && 'box-upload-image'}  ml-auto mr-3  text-center`} >
                       {selectedImage?(
                           <div className=''>
-                          <img  className='box-upload-image'  src={URL.createObjectURL(selectedImage)} alt="imagem do brinde" />
+                               <img  className='box-upload-image'  src={URL.createObjectURL(selectedImage)} alt="imagem do brinde" />
                           </div>
                         ): (<div className='box-upload-text'>Nenhuma imagem selecionada</div>)}
                   </div>
               
 
                   <div className=' mt-3'>
-                    <label className="button offset-2" for="imagem">Selecione a imagem</label>
+                    <label className="button offset-2" htmlFor="imagem">Selecione a imagem</label>
                     <input className='col-6 ml-auto' type="file"  name="imagem" id="imagem" accept="image/*" 
                     onChange={(event)=>{
                       //console.log(event.target.files[0].name);
                       setSelectedImage(event.target.files[0]);
-              
-                     setProduct({...productInput, [event.target.name]: event.target.value })
-                      console.log(productInput.imagem)
+                      setProduct({...productInput, [event.target.name]: event.target.value })
+                      //console.log(productInput.imagem)
+  
                     }}  value={productInput.imagem}/>
                   </div>
                     <span className="text-danger  offset-2">{productInput.error_list.imagem}</span>

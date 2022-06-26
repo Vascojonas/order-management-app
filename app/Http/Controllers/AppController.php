@@ -6,11 +6,17 @@ use Exception;
 use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 
 class AppController extends Controller
 {
-      public function editProduct($id)
+
+
+
+
+
+  public function editProduct($id)
     {
         $produto = Produto::find($id);
         if($produto)
@@ -30,12 +36,20 @@ class AppController extends Controller
 
     }
 
+    public function deleteImage($nome){
+        Storage::delete($nome);
+    }
+
     public function deleteProduct($id){
        
         $produto = Produto::find($id);
         if($produto)
-        {
+        {   
+            
+            $this->deleteImage($produto->nome);
+
             $produto->delete();
+
             return response()->json([
                 'status'=> 200,
                 'message'=>'produto eliminadao com sucesso',
@@ -59,18 +73,42 @@ class AppController extends Controller
         ]);
     }
 
+    public function upload(Request $request){
+            
+        $request->validate([
+           'file' => 'required|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        if($request->file()) {
+            $file_name = time().'_'.$request->file->getClientOriginalName();
+            $file_path = $request->file('file')->storeAs('uploads', $file_name, 'public');
+
+            $name = time().'_'.$request->file->getClientOriginalName();
+            $path = '/storage/' . $file_path;
+    
+
+            return response()->json([
+                'path'=>$path,
+                'success'=>'File uploaded successfully.'
+            ]);
+        }
+   }
+
+   
 
     function  cadastrarProduto(Request $request){
 
-        $validator = Validator::make($request->all(),[
+       $validator = Validator::make($request->all(),[
             'nome'=>'required|min:3',
             'categoria'=>'required|min:3',
             'descricao'=>'required',
             'quantidade'=>'required',
             'preco'=>'required',
-            'imagem'=>'required|min:3',
+            'imagem'=>'required'
         ]);
-        
+
+    
+       
         if($validator->fails())
         {
             return response()->json([
@@ -90,7 +128,6 @@ class AppController extends Controller
                 'imagem'=>$request->input('imagem')
             ];
             
-            $erro='No Exce[tion';
 
             try{
                 Produto::create($data);
@@ -101,7 +138,6 @@ class AppController extends Controller
             return response()->json([
                 'status'=> 200,
                 'message'=>'produto Added Successfully',
-                'erro'=> $erro
             ]);
         }
     

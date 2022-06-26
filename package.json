@@ -28,6 +28,8 @@
         "web-vitals": "^2.1.4"
     },
     "dependencies": {
+        "formidable": "^2.0.1",
+        "fs": "^0.0.1-security",
         "sweetalert": "^2.1.2"
     }
 }

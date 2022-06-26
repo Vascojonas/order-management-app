@@ -34,18 +34,18 @@ function nav() {
 
             <li className='nav-item border-inferior  '> 
               <NavLink to='/admin/pagamentos' className='btn btn-block text-left'>< FaMoneyCheckAlt/> Pagamentos</NavLink>   
-            </li> 
+            </li>
+
+            <li className='nav-item border-inferior' >
+              <NavLink to='/admin/funcionarios' className='btn btn-block text-left'><FaUsers/> Funcionários</NavLink>
+            </li>  
           </ul>
 
        </nav>
-        <div className='w-100 bg-secondary text-white mt-3 mb-3 text-center'> 
-          <span>Definições</span>
-        </div>
+        
 
-        <ul className='navbar-nav p-0 m-0 bg-sinza'>
-            <li className='nav-item border-inferior' >
-              <NavLink to='/admin/funcionarios' className='btn btn-block text-left'><FaUsers/> Funcionários</NavLink>
-            </li> 
+        <ul className='navbar-nav p-0 m-0  mt-5'>
+            
             <li className='nav-item border-inferior btn btn-danger text-left mt-3'><BiLogOutCircle/> Sair</li> 
            
           </ul>

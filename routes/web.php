@@ -14,11 +14,11 @@ use App\Http\Controllers\AppController;
 |
 */
 
-Route::post('/api/admin/produtos/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarProduto']);
+Route::post('/api/admin/produtos/salvar',[\App\Http\Controllers\AppController::class,'cadastrarProduto']);
 Route::get('/api/admin/produtos',[\App\Http\Controllers\AppController::class, 'allProducts']);
 Route::delete('/api/admin/produtos/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteProduct']);
 Route::get('/api/admin/produtos/edit/{id}',[\App\Http\Controllers\AppController::class, 'editProduct']);
-
+Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::class, 'upload']);
 
 
 //Route::post('/user/profile',[UserProfileController::class, 'show']);
