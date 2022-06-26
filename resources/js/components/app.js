@@ -6,6 +6,10 @@ import ProdutoCadastrar from "../../pages/admin/produtoCadastrar";
 import ProdutoListar from "../../pages/admin/produtoListar";
 import Funcionarios from "../../pages/admin/funcionarios";
 import FuncionarioCadastro from "../../pages/admin/funcionarioCadastro";
+import Main from "../../pages/public/main";
+
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 
@@ -20,9 +24,14 @@ function App(){
     return (
         
         <Router >
-            <
+            
              <Routes >
-                <Route path="/admin/" element={<AdminLayout />} >
+                <Route path="/" element={<UserLayout />} >
+                  <Route path='/' element={<Main/>}/>
+                    
+                </Route>
+
+                <Route exact path="/admin/" element={<AdminLayout />} >
                     <Route path='/admin/produtos/cadastrar' element={<ProdutoCadastrar/>}/>
                     <Route path='/admin/produtos/listar' element={<ProdutoListar/>}/>
                      <Route path='/admin/funcionarios' exact element={<Funcionarios/>}/>
