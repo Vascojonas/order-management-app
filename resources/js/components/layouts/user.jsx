@@ -1,5 +1,5 @@
 import React from 'react'
-import {Outlet} from 'react-router-dom';
+import {NavLink, Link,Outlet} from 'react-router-dom';
 import {FaGifts} from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill, BsFillPersonFill} from 'react-icons/bs'
@@ -7,12 +7,12 @@ import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill, BsFillPerso
 
 function user() {
   return (
-    <div className='h-8'>
-        <header className='border border-secondary nav-principal'>
+    <div className=''>
+        <header className='border border-secondary nav-principal bg-principal zindex-sticky'>
             <nav className='d-flex justify-content-between navbar navbar-expand-lg navbar-light '>
               
               <div className=''>
-                <h4 className='ml-4 '><span className=''>< FaGifts /></span>  NLH TECH</h4>
+                <h4 className='ml-4 '><span className='text-golden'>< FaGifts /></span>  NLH TECH</h4>
               </div>
              
               <div className=" justify-content-end collapse navbar-collapse" id="navbarNav">
@@ -20,13 +20,13 @@ function user() {
                     <li className="nav-item active">
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#">Encomendas</a>
+                      <NavLink to='/ecomendas' className="nav-link" href="#">Encomendas</NavLink>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#"><BsFillPersonFill /> Minha conta</a>
+                      <NavLink to='/minha_conta' className="nav-link" href="#"><BsFillPersonFill /> Minha conta</NavLink>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link " href="#"> <FontAwesomeIcon icon="fa-solid fa-cart-shopping-fast" />Carinho</a>
+                      <NavLink to='carrinho' className="nav-link " href="#"> <FontAwesomeIcon icon="fa-solid fa-cart-shopping-fast" />Carinho</NavLink>
                     </li>
                   </ul>
               </div>
@@ -48,15 +48,15 @@ function user() {
                   </div>
                   <div className='box-rodape col-2  '>
                       <h5> Apoio ao cliente</h5>
-                      <ul class="nav flex-column  p-0">
-                          <li class="nav-item p-0 m-0  ">
-                            <a class="nav-link text-secondary p-0 m-0" href="#">Minha Conta</a>
+                      <ul className="nav flex-column  p-0">
+                          <li className="nav-item p-0 m-0  ">
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Minha Conta</Link>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-secondary p-0 m-0" href="#">Histórico de encomendas</a>
+                          <li className="nav-item">
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Histórico de encomendas</Link>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-secondary p-0 m-0" href="#">Solicitar devolução</a>
+                          <li className="nav-item">
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Solicitar devolução</Link>
                           </li>
             
                         </ul>
@@ -64,21 +64,21 @@ function user() {
                   </div>
                   <div className='box-rodape  col-2'>
                     <h5> Apoio ao cliente</h5>
-                    <ul class="nav flex-column  p-0">
-                          <li class="nav-item p-0 m-0  ">
-                            <a class="nav-link text-secondary p-0 m-0" href="#">Sobre Nós</a>
+                    <ul className="nav flex-column  p-0">
+                          <li className="nav-item p-0 m-0  ">
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Sobre Nós</Link>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-secondary p-0 m-0" href="#">Informações de Entrega</a>
+                          <li className="nav-item">
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Informações de Entrega</Link>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link text-secondary p-0 m-0" href="#">Métodos de pagamento</a>
+                          <li className="nav-item">
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Métodos de pagamento</Link>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link  text-secondary p-0 m-0 " href="#">Termos e condições</a>
+                          <li className="nav-item">
+                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " href="#">Termos e condições</Link>
                           </li>
-                          <li class="nav-item">
-                            <a class="nav-link  text-secondary p-0 m-0 " href="#">Entre em contacto</a>
+                          <li className="nav-item">
+                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " href="#">Entre em contacto</Link>
                           </li>
                         </ul>
                   </div>
@@ -87,12 +87,12 @@ function user() {
                     <h5> Entre em Contacto</h5>
 
                     <div className='mt-5 d-flex justify-content-center'>
-                        <a href='# ' className='btn btn-outline-dark' title='Istagram'><BsInstagram size={30} /></a>
-                        <a href='# ' className='btn btn-outline-dark' title='Twitter'><BsTwitter size={30} /></a>
-                        <a href='# ' className='btn btn-outline-dark' title='Whatsapp'><BsWhatsapp size={30} /></a>
+                        <Link to='#' className='btn btn-outline-dark' title='Istagram'><BsInstagram size={30} /></Link>
+                        <Link to='#' className='btn btn-outline-dark' title='Twitter'><BsTwitter size={30} /></Link>
+                        <Link to='#' className='btn btn-outline-dark' title='Whatsapp'><BsWhatsapp size={30} /></Link>
                    </div>
                    <div className='text-center'>
-                    <a href='# ' className='btn btn-outline-dark' title='Telefone'><BsTelephoneOutboundFill size={30}/> 843235673</a>
+                     <Link to='#' className='btn btn-outline-dark' title='Telefone'><BsTelephoneOutboundFill size={30}/> 843235673</Link>
 
                    </div>
                   </div>

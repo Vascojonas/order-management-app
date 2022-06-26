@@ -170,6 +170,7 @@ body{
   .box-rodape h5{
     color: black;
   }
+  
 
   .nav-header{
     
@@ -177,10 +178,45 @@ body{
 
  .nav-header li a{
     border-left: 1px solid gray;
+  
   }
 
   .banner{
     width: 100%;
     height: 300px ;
     background-color: #f4c430;
+  }
+
+  .banner img{
+    width: 300px;
+    height: 300px; 
+  }
+  
+  .artigo{
+    width: 270px;
+    height: 220px;
+    border-radius: 10px;
+    padding: 5px;
+  
+  }
+
+
+
+
+  .artigo-imagem{
+    width: 100%;
+    height: 78%;
+  
+  }
+
+  .artigo-conteudo{
+    padding: 5px;
+  }
+
+  .text-golden{
+    color: #f4c430;
+  }
+
+  .serach{
+    z-index: 3;
   }
