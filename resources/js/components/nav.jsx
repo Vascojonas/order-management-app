@@ -14,7 +14,7 @@ function nav() {
 
        <nav className='mt-5 '>
 
-          <ul className='navbar-nav p-0 m-0 bg-sinza'>
+          <ul className='navbar-nav p-0 m-0 '>
             <li className='nav-item border-inferior'>
               <NavLink to='/admin/produtos/cadastrar' className='btn btn-block text-left'><BsPlusSquareFill/> Cadastrar produto</NavLink>
             </li> 

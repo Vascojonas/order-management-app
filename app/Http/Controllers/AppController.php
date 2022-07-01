@@ -67,6 +67,7 @@ class AppController extends Controller
 
     function allProducts(){
         $products = Produto::all();
+
         return response()->json([
             'status'=> 200,
             'products'=>$products,

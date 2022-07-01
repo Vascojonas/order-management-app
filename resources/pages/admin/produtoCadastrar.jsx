@@ -113,12 +113,13 @@ const savePrduct = (e) => {
           <div className='col-6'>
              
                 <div className='form-group row ml-2'>
-                    <label htmlFor="categoria" className="col-md-4 col-form-label bg-sinza">Tipo de artigo</label>
+                    <label htmlFor="categoria" className="col-md-4 col-form-label ">Tipo de artigo</label>
                     <div className="col-md-8">
-                      <select className="form-control border border-secondary " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
+                      <select className="form-control border-golden " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>
                               <option value={"quadros"} >Quadros</option>
                               <option value={"copos"}>Copos</option>
+                              <option value={"chaveiros"}>Chaveiros</option>
                          </select>
                     <span className="text-danger">{productInput.error_list.categoria}</span>
 
@@ -126,18 +127,18 @@ const savePrduct = (e) => {
                 </div>
 
                 <div className='form-group row ml-2'>
-                    <label htmlFor="nome" className="col-md-4 col-form-label bg-sinza">Nome</label>
+                    <label htmlFor="nome" className="col-md-4 col-form-label ">Nome</label>
                     <div className="col-md-8">
-                     <input className="form-control border border-secondary " type="text" id="nome" name="nome" onChange={handleInput} value={productInput.nome} 
+                     <input className="form-control border-golden " type="text" id="nome" name="nome" onChange={handleInput} value={productInput.nome} 
                       placeholder="Digite o nome do brinde" />
                     <span className="text-danger">{productInput.error_list.nome}</span>
                     </div>
                 </div>
 
                 <div className='form-group row ml-2'>
-                    <label htmlFor="descricao" className="col-md-4 col-form-label bg-sinza">Descrição</label>
+                    <label htmlFor="descricao" className="col-md-4 col-form-label ">Descrição</label>
                     <div className="col-md-8">
-                     <textarea className="form-control border border-secondary " name='descricao' id='descricao' onChange={handleInput} value={productInput.descricao}>
+                     <textarea className="form-control border-golden " name='descricao' id='descricao' onChange={handleInput} value={productInput.descricao}>
 
                      </textarea>
                     <span className="text-danger">{productInput.error_list.descricao}</span>
@@ -145,9 +146,9 @@ const savePrduct = (e) => {
                      </div>
                 </div>
                 <div className='form-group row  ml-2'>
-                    <label htmlFor="preco" className="col-md-4 col-form-label bg-sinza">Quantidade</label>
+                    <label htmlFor="preco" className="col-md-4 col-form-label ">Quantidade</label>
                     <div className="col-md-8">
-                     <input className="form-control border border-secondary " type="number" id="quantidade" name="quantidade" onChange={handleInput} value={productInput.quantidade}
+                     <input className="form-control border-golden " type="number" id="quantidade" name="quantidade" onChange={handleInput} value={productInput.quantidade}
                       placeholder="Digite a quantidade" />
                     <span className="text-danger">{productInput.error_list.quantidade}</span>
 
@@ -155,9 +156,9 @@ const savePrduct = (e) => {
                 </div>
 
                 <div className='form-group row  ml-2'>
-                    <label htmlFor="preco" className="col-md-4 col-form-label bg-sinza">Preço</label>
+                    <label htmlFor="preco" className="col-md-4 col-form-label ">Preço</label>
                     <div className="col-md-8">
-                     <input className="form-control border border-secondary " type="number" id="preco" name="preco" onChange={handleInput} value={productInput.preco}
+                     <input className="form-control border-golden " type="number" id="preco" name="preco" onChange={handleInput} value={productInput.preco}
                       placeholder="Digite o preço do brinde(Mts)" />
                     <span className="text-danger">{productInput.error_list.preco}</span>
 
@@ -170,7 +171,7 @@ const savePrduct = (e) => {
 
             <div className='col-6 '>
               
-                  <div className={`border border-secondary box-upload ${selectedImage && 'box-upload-image'}  ml-auto mr-3  text-center`} >
+                  <div className={`border-golden box-upload ${selectedImage && 'box-upload-image'}  ml-auto mr-3  text-center`} >
                       {selectedImage?(
                           <div className=''>
                                <img  className='box-upload-image'  src={URL.createObjectURL(selectedImage)} alt="imagem do brinde" />

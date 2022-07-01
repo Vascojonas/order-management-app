@@ -2,6 +2,9 @@ import React,{useState, useEffect}  from 'react'
 import { Link } from 'react-router-dom';
 import {IoSearch} from 'react-icons/io5';
 import { get } from 'lodash';
+import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
+    BsFillPersonFill, BsPlusCircle,BsCart3, BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
+ 
 
 
 function main() {
@@ -84,7 +87,7 @@ function main() {
                 </ol>
                 <div className="carousel-inner">
                     <div className="carousel-item active">
-                    <img className="d-block w-100" id='banner1' src="..." alt=""/>
+                    <img className="d-block  w-100" id='banner1' src="..." alt=""/>
                     </div>
                     <div className="carousel-item">
                     <img className="d-block w-100" id='banner2' src="..." alt=""/>
@@ -107,15 +110,16 @@ function main() {
       <div className='d-flex justify-content-between  artigos mt-4'>
         <div>
             <div className=" artigo border-golden " >
-            <img className='artigo-imagem' src='..' id="artigo8" >
-
+                <img className='artigo-imagem' src='..' id="artigo8" > 
+                
                 </img>
-                <div className=" artigo-conteudo">
+                <div className="artigo-conteudo">
                     <div id="descricao8">
                         <small>Copo de pega com fundo branco</small>
                     </div>
-                    <div>
+                    <div className='d-flex justify-content-between' >
                         <small id="preco8">250 MT</small>
+                        <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
                     </div>
                 </div>
             </div>
@@ -131,7 +135,10 @@ function main() {
                         <small>Copo de pega com fundo branco</small>
                     </div>
                     <div>
-                        <small id="preco1">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco1">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -147,7 +154,10 @@ function main() {
                         <small>Copo de pega com fundo branco</small>
                     </div>
                     <div>
-                        <small id="preco2">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco2">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -163,7 +173,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco3">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco3">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -184,7 +197,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco4">250 MT</small>
+                         <div className='d-flex justify-content-between' >
+                            <small id="preco4">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -200,8 +216,12 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco5">250 MT</small>
+                    <div className='d-flex justify-content-between' >
+                            <small id="preco5">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
+                
             </div>
             </div>
         </div>
@@ -216,7 +236,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco6">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco6">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -232,14 +255,20 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco7">250 MT</small>
+                     <div className='d-flex justify-content-between' >
+                            <small id="preco7">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
+              
             </div>
             </div>
         </div>
        
       </div>
-       
+      <div className='d-flex justify-content-end mt-2'>
+           <button className='btn bg bg-principal'>Ver mais...</button>
+      </div>
         
        <div className='copos mt-5'> 
             <h4>Copos</h4>
@@ -254,7 +283,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco-c1">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco-c1">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -270,7 +302,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco-c2">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco-c2">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -287,7 +322,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco-c3">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco-c3">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
 
@@ -304,7 +342,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco-c4">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco-c4">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -314,6 +355,9 @@ function main() {
         
       </div>
        </div>
+       <div className='d-flex justify-content-end mt-2'>
+           <button className='btn bg bg-principal'>Ver mais...</button>
+      </div>
 
        <div className='quadros mt-5'> 
             <h4>Quadros</h4>
@@ -328,7 +372,10 @@ function main() {
                         <small>Copo de pega com fundo branco</small>
                     </div>
                     <div>
-                        <small id="preco-q1">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco-q1">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                     </div>
                 </div>
                 </div>
@@ -344,7 +391,10 @@ function main() {
                         <small>Copo de pega com fundo branco</small>
                     </div>
                     <div>
-                        <small id="preco-q2">250 MT</small>
+                    <div className='d-flex justify-content-between' >
+                            <small id="preco-q2">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                     </div>
                 </div>
                 </div>
@@ -360,7 +410,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco-q3">250 MT</small>
+                      <div className='d-flex justify-content-between' >
+                            <small id="preco-q3">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -376,7 +429,10 @@ function main() {
                     <small>Copo de pega com fundo branco</small>
                 </div>
                 <div>
-                    <small id="preco-q4">250 MT</small>
+                        <div className='d-flex justify-content-between' >
+                            <small id="preco-q4">250 MT</small>
+                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                         </div>
                 </div>
             </div>
             </div>
@@ -386,6 +442,10 @@ function main() {
         
       </div>
        </div>
+      
+        <div className='d-flex justify-content-end mt-2'>
+           <button className='btn bg bg-principal'>Ver mais...</button>
+      </div>
     </div>
   )
 }

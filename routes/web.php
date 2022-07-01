@@ -46,3 +46,13 @@ Route::get('/admin/funcionarios/cadastrar', function () {
 });
 
 
+Route::get('/encomendas/personalizar', function () {
+    return view('welcome');
+});
+
+Route::get('/encomendas/carinho', function () {
+    return view('welcome');
+});
+
+
+

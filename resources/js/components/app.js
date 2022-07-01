@@ -7,6 +7,9 @@ import ProdutoListar from "../../pages/admin/produtoListar";
 import Funcionarios from "../../pages/admin/funcionarios";
 import FuncionarioCadastro from "../../pages/admin/funcionarioCadastro";
 import Main from "../../pages/public/main";
+import Personalizar from "../../pages/public/personalizarEncomenda";
+import Carinho from "../../pages/public/carinho";
+
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,7 +31,8 @@ function App(){
              <Routes >
                 <Route path="/" element={<UserLayout />} >
                   <Route path='/' element={<Main/>}/>
-                    
+                  <Route path='/encomendas/personalizar' element={<Personalizar/>}/>
+                  <Route path='/encomendas/carinho' element={<Carinho/>}/>
                 </Route>
 
                 <Route exact path="/admin/" element={<AdminLayout />} >

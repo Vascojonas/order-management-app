@@ -2,31 +2,36 @@ import React from 'react'
 import {NavLink, Link,Outlet} from 'react-router-dom';
 import {FaGifts} from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill, BsFillPersonFill} from 'react-icons/bs'
+import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
+   BsFillPersonFill, BsPlusCircle,BsCart3, BsFillHouseDoorFill ,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
 
 
 function user() {
   return (
-    <div className=''>
-        <header className='border border-secondary nav-principal bg-principal zindex-sticky'>
-            <nav className='d-flex justify-content-between navbar navbar-expand-lg navbar-light '>
+    <div className='h-full '>
+        <header className='border-golden  nav-principal bg-principal pr-4 zindex-sticky'>
+            <nav className='d-flex justify-content-between navbar navbar-expand-lg navbar-light -mr-3 p-0 '>
               
               <div className=''>
-                <h4 className='ml-4 '><span className='text-golden'>< FaGifts /></span>  NLH TECH</h4>
+                <h4 className='ml-4 '><span className='text-golden'>< FaGifts /></span> Tsakissa</h4>
               </div>
              
-              <div className=" justify-content-end collapse navbar-collapse" id="navbarNav">
-                  <ul className="navbar-nav nav-header">
-                    <li className="nav-item active">
+              <div className=" justify-content-end collapse navbar-collapse" id="navbarNav ">
+                  <ul className="navbar-nav nav-header ">
+                    <li className="nav-item">
+                      <NavLink to='/' className="nav-link text-dark" ><BsFillHouseDoorFill size={15}/> Home</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink to='/ecomendas' className="nav-link" href="#">Encomendas</NavLink>
+                      <NavLink to='/encomendas/personalizar' className="nav-link text-dark" >Minha encomenda <BsPlusCircle size={15}/></NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink to='/minha_conta' className="nav-link" href="#"><BsFillPersonFill /> Minha conta</NavLink>
+                      <NavLink to='/conta' className="nav-link text-dark " >
+                            <BsFillPersonFill /> 
+                            Minha conta
+                      </NavLink>
                     </li>
-                    <li className="nav-item">
-                      <NavLink to='carrinho' className="nav-link " href="#"> <FontAwesomeIcon icon="fa-solid fa-cart-shopping-fast" />Carinho</NavLink>
+                    <li className="nav-item m">
+                          <NavLink to='/encomendas/carinho' className="nav-link  text-dark" > <BsCart3 size={25}/>   <span className='float-right number-box text-dark mt-0'>5</span> </NavLink>
                     </li>
                   </ul>
               </div>
@@ -44,19 +49,21 @@ function user() {
                       orem Ipsum is simply dummy text of the printing and typesetting 
                       industry. Lorem Ipsum has been the industry's standard dummy text ever 
                       since the 1500s.
+
+
                     </p>
                   </div>
                   <div className='box-rodape col-2  '>
                       <h5> Apoio ao cliente</h5>
                       <ul className="nav flex-column  p-0">
                           <li className="nav-item p-0 m-0  ">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Minha Conta</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Minha Conta</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Histórico de encomendas</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Histórico de encomendas</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Solicitar devolução</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Solicitar devolução</Link>
                           </li>
             
                         </ul>
@@ -66,19 +73,19 @@ function user() {
                     <h5> Apoio ao cliente</h5>
                     <ul className="nav flex-column  p-0">
                           <li className="nav-item p-0 m-0  ">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Sobre Nós</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Sobre Nós</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Informações de Entrega</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Informações de Entrega</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" href="#">Métodos de pagamento</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Métodos de pagamento</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " href="#">Termos e condições</Link>
+                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " >Termos e condições</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " href="#">Entre em contacto</Link>
+                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " >Entre em contacto</Link>
                           </li>
                         </ul>
                   </div>
@@ -93,7 +100,9 @@ function user() {
                    </div>
                    <div className='text-center'>
                      <Link to='#' className='btn btn-outline-dark' title='Telefone'><BsTelephoneOutboundFill size={30}/> 843235673</Link>
-
+                   </div>
+                   <div className='text-end'>
+                     <Link to='admin/produtos/cadastrar' className='nav-link text-dark' >.</Link>
                    </div>
                   </div>
             
