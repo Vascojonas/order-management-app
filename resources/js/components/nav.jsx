@@ -46,7 +46,11 @@ function nav() {
 
         <ul className='navbar-nav p-0 m-0  mt-5'>
             
-            <li className='nav-item border-inferior btn btn-danger text-left mt-3'><BiLogOutCircle/> Sair</li> 
+            <li className='nav-item border-inferior'>
+              <NavLink  to='/' className='btn btn-block btn-danger text-left'>
+                  <BiLogOutCircle/> Sair
+              </NavLink>
+              </li> 
            
           </ul>
 

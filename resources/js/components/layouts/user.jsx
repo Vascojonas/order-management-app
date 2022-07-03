@@ -1,4 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
+import EncomendasData from './data/encomendasData';
+
 import {NavLink, Link,Outlet} from 'react-router-dom';
 import {FaGifts} from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,6 +9,7 @@ import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
 
 
 function user() {
+  const [encomendas, setEncomendas]=useState(EncomendasData);
   return (
     <div className='h-full '>
         <header className='border-golden  nav-principal bg-principal pr-4 zindex-sticky'>
@@ -25,20 +28,30 @@ function user() {
                       <NavLink to='/encomendas/personalizar' className="nav-link text-dark" >Minha encomenda <BsPlusCircle size={15}/></NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink to='/conta' className="nav-link text-dark " >
-                            <BsFillPersonFill /> 
-                            Minha conta
-                      </NavLink>
+                  
+                            
+                            <div className="dropdown">
+                              <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 <BsFillPersonFill /> Minha conta
+                              </button>
+                              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <NavLink exact to='clientes/cadastrar' className="dropdown-item" >Cadastrar-se</NavLink>
+                                <NavLink exact to='/login' className="dropdown-item" >Acessar</NavLink>
+                              </div>
+                            </div>
+                
                     </li>
                     <li className="nav-item m">
-                          <NavLink to='/encomendas/carinho' className="nav-link  text-dark" > <BsCart3 size={25}/>   <span className='float-right number-box text-dark mt-0'>5</span> </NavLink>
+                          <NavLink to='/encomendas/carinho' className="nav-link  text-dark" >
+                             <BsCart3 size={25}/><span className='float-right number-box text-dark mt-0'>{encomendas.length}</span> 
+                          </NavLink>
                     </li>
                   </ul>
               </div>
             </nav>
         </header>
         <div className='container  h-100'>
-             <Outlet />
+             <Outlet context={[encomendas, setEncomendas]} />
         </div>  
 
         <footer className=' bg-principal'>
@@ -94,12 +107,12 @@ function user() {
                     <h5> Entre em Contacto</h5>
 
                     <div className='mt-5 d-flex justify-content-center'>
-                        <Link to='#' className='btn btn-outline-dark' title='Istagram'><BsInstagram size={30} /></Link>
-                        <Link to='#' className='btn btn-outline-dark' title='Twitter'><BsTwitter size={30} /></Link>
-                        <Link to='#' className='btn btn-outline-dark' title='Whatsapp'><BsWhatsapp size={30} /></Link>
+                        <Link to='#' className='btn btn-outline-dark b-rounded' title='Istagram'><BsInstagram size={30} /></Link>
+                        <Link to='#' className='btn btn-outline-dark b-rounded' title='Twitter'><BsTwitter size={30} /></Link>
+                        <Link to='#' className='btn btn-outline-dark b-rounded' title='Whatsapp'><BsWhatsapp size={30} /></Link>
                    </div>
                    <div className='text-center'>
-                     <Link to='#' className='btn btn-outline-dark' title='Telefone'><BsTelephoneOutboundFill size={30}/> 843235673</Link>
+                     <Link to='#' className='btn btn-outline-dark b-rounded' title='Telefone'><BsTelephoneOutboundFill size={30}/> 843235673</Link>
                    </div>
                    <div className='text-end'>
                      <Link to='admin/produtos/cadastrar' className='nav-link text-dark' >.</Link>
@@ -112,5 +125,7 @@ function user() {
     </div>
   )
 }
+
+
 
 export default user

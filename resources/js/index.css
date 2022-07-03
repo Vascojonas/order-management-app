@@ -100,7 +100,6 @@ body{
     margin-left: 0px;
     margin-top: 2px;
     color: white;
-    
     z-index: 1;
 }
 
@@ -167,6 +166,7 @@ body{
     position: sticky;
     top: 0;
     background-color: white;
+    z-index: 1;
   }
 
   .box-rodape{
@@ -224,6 +224,32 @@ body{
     color: #f4c430;
   }
 
-  .serach{
-    z-index: 3;
+  .btn-carrinho{
+    display: none;
   }
+
+  .artigo-imagem:hover + .artigo-conteudo > .d-flex > .btn-carrinho{
+    display: block;
+  }
+
+.artigo-conteudo:hover > .d-flex > .btn-carrinho{
+    display: block;
+  }
+  
+.d-flex:hover > .btn-carrinho{
+    display: block;
+  }
+ 
+
+  .b-rounded{
+    border-radius: 20px;;
+  }
+
+  button > * {
+  pointer-events: none;
+}
+
+.vazia{
+ 
+  height: 390px;
+}

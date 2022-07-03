@@ -1,5 +1,5 @@
 import React,{useState, useEffect}  from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import {IoSearch} from 'react-icons/io5';
 import { get } from 'lodash';
 import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
@@ -8,7 +8,33 @@ import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
 
 
 function main() {
+    const [encomendas, setEncomendas] = useOutletContext();
+    let novaEncomenda;
     const [products, setproducts] = useState([]);
+
+    const handleCompras =(e)=>{
+       
+        console.log("Comprar")
+        console.log(e.target.value);
+    }
+
+    const handleCarinho =(e)=>{
+
+        const result = encomendas.find((item) => item.id == e.target.value);
+       
+
+        if(result){
+            //console.log("Encontrado")
+        }else{
+            novaEncomenda = [...encomendas];
+            const nova = (products.filter((item)=> item.id == e.target.value))[0];
+            nova.quantidade=1;
+            novaEncomenda.push(nova);
+            setEncomendas(novaEncomenda)
+        }
+
+
+    }
 
     useEffect(() => {
 
@@ -19,14 +45,12 @@ function main() {
                 let content=1;
                 let copos=1;
                 let quadros=1;
-                console.log(res.data.products)
+            
                 res.data.products.map((item)=>{
-                    console.log(item);
-                    console.log(i);
+                
 
                     if(i<=3){
                         document.getElementById(`banner${i}`).src=item.imagem
-
                         i++
                     }
 
@@ -34,6 +58,8 @@ function main() {
                         document.getElementById(`artigo${content}`).src=item.imagem
                         document.getElementById(`descricao${content}`).innerHTML=item.descricao
                         document.getElementById(`preco${content}`).innerHTML=item.preco + ' MT'
+                        document.getElementById(`comprar${content}`).value=item.id;
+                        document.getElementById(`adcionar${content}`).value=item.id;
                         content++;
                     }
 
@@ -41,6 +67,9 @@ function main() {
                         document.getElementById(`copo${copos}`).src=item.imagem
                         document.getElementById(`descricao-c${copos}`).innerHTML=item.descricao
                         document.getElementById(`preco-c${copos}`).innerHTML=item.preco + ' MT'
+                        document.getElementById(`comprar-c${copos}`).value=item.id
+                        document.getElementById(`adcionar-c${copos}`).value=item.id
+
                         copos++;
                     }
 
@@ -48,6 +77,8 @@ function main() {
                         document.getElementById(`quadro${quadros}`).src=item.imagem
                         document.getElementById(`descricao-q${quadros}`).innerHTML=item.descricao
                         document.getElementById(`preco-q${quadros}`).innerHTML=item.preco + ' MT'
+                        document.getElementById(`comprar-q${quadros}`).value= item.id
+                        document.getElementById(`adcionar-q${quadros}`).value= item.id
                         quadros++;
                     }
 
@@ -119,7 +150,8 @@ function main() {
                     </div>
                     <div className='d-flex justify-content-between' >
                         <small id="preco8">250 MT</small>
-                        <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                        <button onClick={handleCompras}  id="comprar8" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                        <button onClick={handleCarinho} id="adcionar8" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/> </button>
                     </div>
                 </div>
             </div>
@@ -134,12 +166,13 @@ function main() {
                     <div id="descricao1">
                         <small>Copo de pega com fundo branco</small>
                     </div>
-                    <div>
-                        <div className='d-flex justify-content-between' >
-                            <small id="preco1">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
-                         </div>
-                    </div>
+                   
+                    <div className='d-flex justify-content-between' >
+                        <small id="preco1">250 MT</small>
+                            <button onClick={handleCompras}  id="comprar1" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar1" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
+                     </div>
+                 
                 </div>
             </div>
         </div>
@@ -153,12 +186,13 @@ function main() {
                     <div id="descricao2">
                         <small>Copo de pega com fundo branco</small>
                     </div>
-                    <div>
+                    
                         <div className='d-flex justify-content-between' >
                             <small id="preco2">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar2" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar2" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -172,12 +206,13 @@ function main() {
                 <div id="descricao3">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                         <div className='d-flex justify-content-between' >
                             <small id="preco3">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar3" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar3" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+            
             </div>
             </div>
         </div>
@@ -196,12 +231,13 @@ function main() {
                 <div id="descricao4">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                          <div className='d-flex justify-content-between' >
                             <small id="preco4">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button onClick={handleCompras}  id="comprar4" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar4" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
         </div>
@@ -215,12 +251,13 @@ function main() {
                 <div id="descricao5">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                     <div className='d-flex justify-content-between' >
                             <small id="preco5">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar5" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar5" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
                 
             </div>
             </div>
@@ -235,12 +272,13 @@ function main() {
                 <div id="descricao6">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                         <div className='d-flex justify-content-between' >
                             <small id="preco6">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar6" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar6" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
         </div>
@@ -254,12 +292,13 @@ function main() {
                 <div id="descricao7">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                      <div className='d-flex justify-content-between' >
                             <small id="preco7">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar7" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar7" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
               
             </div>
             </div>
@@ -282,12 +321,13 @@ function main() {
                 <div id="descricao-c1">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+            
                         <div className='d-flex justify-content-between' >
                             <small id="preco-c1">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-c1" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-c1" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
         </div>
@@ -301,12 +341,13 @@ function main() {
                 <div id="descricao-c2">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                         <div className='d-flex justify-content-between' >
                             <small id="preco-c2">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-c2" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-c2" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
             
@@ -321,12 +362,13 @@ function main() {
                 <div id="descricao-c3">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                         <div className='d-flex justify-content-between' >
                             <small id="preco-c3">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-c3" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-c3" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
 
             </div>
@@ -341,12 +383,13 @@ function main() {
                 <div id="descricao-c4">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                         <div className='d-flex justify-content-between' >
                             <small id="preco-c4">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-c4" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-c4" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
         </div>
@@ -371,12 +414,13 @@ function main() {
                     <div id="descricao-q1">
                         <small>Copo de pega com fundo branco</small>
                     </div>
-                    <div>
+                    
                         <div className='d-flex justify-content-between' >
                             <small id="preco-q1">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-q1" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-q1" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                    </div>
+                    
                 </div>
                 </div>
         </div>
@@ -390,12 +434,13 @@ function main() {
                     <div id="descricao-q2">
                         <small>Copo de pega com fundo branco</small>
                     </div>
-                    <div>
+                    
                     <div className='d-flex justify-content-between' >
                             <small id="preco-q2">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-q2" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-q2" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                    </div>
+                
                 </div>
                 </div>
         </div>
@@ -409,12 +454,13 @@ function main() {
                 <div id="descricao-q3">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+            
                       <div className='d-flex justify-content-between' >
                             <small id="preco-q3">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-q3" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-q3" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
         </div>
@@ -428,12 +474,13 @@ function main() {
                 <div id="descricao-q4">
                     <small>Copo de pega com fundo branco</small>
                 </div>
-                <div>
+                
                         <div className='d-flex justify-content-between' >
                             <small id="preco-q4">250 MT</small>
-                            <button className='btn bg-principal btn-sm'> <BsCartPlus/></button>
+                            <button value=""onClick={handleCompras}  id="comprar-q4" className='btn bg-principal btn-sm  btn-carrinho ml-auto mr-1'> Comprar</button>
+                            <button onClick={handleCarinho} id="adcionar-q4" className='btn bg-principal btn-sm  btn-carrinho'> <BsCartPlus/></button>
                          </div>
-                </div>
+                
             </div>
             </div>
         </div>
