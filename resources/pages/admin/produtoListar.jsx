@@ -57,16 +57,16 @@ function produtoListar() {
           <div className=''>
               <div className='row input-group col-12'>
                   <div className=' col-6 p-0' >
-                    <input readOnly className='form-control border border-secondary text-black' type="search" name="pesquisar" id="pesquisar"
+                    <input readOnly className='form-control border border-golden text-black' type="search" name="pesquisar" id="pesquisar"
                     placeholder="Pesquisar..."/>
                   </div>
                   <button disabled className='btn btn btn-outline-golden'><IoSearch/></button>
 
-                  <button className='btn btn-outline-golden col-2 ml-auto'>Novo brinde</button>
+                  <Link to='/admin/produtos/cadastrar' className='btn bg-principal col-2 ml-auto'>Novo brinde</Link>
             </div>
           </div>
 
-          <div className='bg-sinza text-center mt-3 h-100 ' >
+          <div className=' text-center mt-3 h-100 ' >
               <div className='d-flex  align-items-center h-100 text-center'>
                  <div className='w-100'>SEM DADOS</div>
               </div>
@@ -81,10 +81,10 @@ function produtoListar() {
   else
   {
     
-    var student_HTMLTABLE = "";
+    var FUNCIONARIO_HTMLTABLE = "";
 
     
-    student_HTMLTABLE = products.map( (item, key) => {
+    FUNCIONARIO_HTMLTABLE = products.map( (item, key) => {
           return (
             <tr key={key} className=''>
                 <th scope="row" className=' list-img p-0'>
@@ -95,8 +95,8 @@ function produtoListar() {
                 <td>{item.preco},00MT</td>
                 <td width="155">
                 <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i class="fa fa-eye"></i></a>
-                <Link to={`/admin/produtos/cadastrar/${item.id}`} class="btn btn-sm btn-circle btn-outline-secondary ml-1 mr-1" title="Edit"><i class="fa fa-edit"></i></Link>
-                <button class="btn btn-sm btn-circle btn-outline-danger"  onClick={(e) => deleteProduct(e, item.id)} title="Deletar"><i class="fa fa-times"></i></button>
+                <Link to='#' class="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Edit"><i class="fa fa-edit"></i></Link>
+                <button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.user_id)} title="Deletar"><i class="fa fa-times"></i></button>
                 </td>
              </tr>
           );
@@ -129,12 +129,12 @@ function produtoListar() {
        <div className=''>
            <div className='row input-group col-12'>
               <div className=' col-6 p-0' >
-                <input className='form-control border border-secondary text-black' type="text" name="pesquisar" id="pesquisar"
+                <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
                 placeholder="Pesquisar..."/>
               </div>
-               <button className='btn btn btn-outline-secondary'><IoSearch/></button>
+               <button className='btn btn bg-principal'><IoSearch/></button>
 
-               <button className='btn btn-outline-secondary col-2 ml-auto'>Novo brinde</button>
+               <Link to='/admin/produtos/cadastrar' className='btn btn-outline-secondary col-2 ml-auto'>Novo brinde</Link>
          </div>
        </div>
 
@@ -151,7 +151,7 @@ function produtoListar() {
             <tbody>
 
 
-                {student_HTMLTABLE}
+                {FUNCIONARIO_HTMLTABLE}
 
 
             </tbody>

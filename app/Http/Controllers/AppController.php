@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Illuminate\Support\Facades\DB;
 use App\Models\Produto;
 use App\Models\User;
 use App\Models\Role;
@@ -15,6 +16,52 @@ use Illuminate\Support\Facades\Storage;
 
 class AppController extends Controller
 {
+
+public function deleteUser($id){
+    $user = User::find($id);
+        if($user)
+        {   
+        
+            $user->delete();
+
+            return response()->json([
+                'status'=> 200,
+                'message'=>'Usuário eliminado com sucesso!',
+            ]);
+        }
+        else
+        {
+            return response()->json([
+                'status'=> 404,
+                'message' => 'Nenhum usuário encontrado com esse ID',
+            ]);
+        }   
+}
+
+
+public function todosFuncionarios(){
+
+    try {
+        //code...
+        
+        $fucionarios = DB::table('funcionarios')
+        ->join('users', 'users.id', '=', 'funcionarios.user_id')
+        ->join('roles', 'users.id', '=', 'roles.user_id')
+        ->select('funcionarios.*', 'roles.nome as perfil')
+        ->get();
+
+    return response()->json([
+        'status'=> 200,
+        'fucionarios'=>$fucionarios,
+    ]);
+    } catch (Exception $e) {
+        return response()->json([
+            'status'=> 422,
+            'fucionarios'=>$e,
+        ]);
+        
+    }
+}
 
 
 public function cadastrarFuncionario(Request $request){

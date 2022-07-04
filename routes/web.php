@@ -25,6 +25,9 @@ Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::c
 
 //--funcionario
 Route::post('/api/admin/funcionario/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarFuncionario']);
+Route::get('//api/admin/funcionarios/listar',[\App\Http\Controllers\AppController::class, 'todosFuncionarios']);
+Route::delete('/api/admin/funcionarios/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteFuncionario']);
+
 
 //Cliente API
 Route::post('/clientes/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarCliente']);
@@ -74,8 +77,5 @@ Route::get('/clientes/cadastrar', function () {
 Route::get('/login', function () {
     return view('welcome');
 });
-
-
-
 
 

@@ -22,7 +22,7 @@
        
     </head>
     <body class="antialiased">
-        <div id="root" class="h-100"></div>
+        <div id="root" class="h"></div>
         <script src="{{mix('js/app.js')}}"></script>
     </body>
 </html>
