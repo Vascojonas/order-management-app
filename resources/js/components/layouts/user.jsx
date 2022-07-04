@@ -35,8 +35,8 @@ function user() {
                                  <BsFillPersonFill /> Minha conta
                               </button>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <NavLink exact to='clientes/cadastrar' className="dropdown-item" >Cadastrar-se</NavLink>
-                                <NavLink exact to='/login' className="dropdown-item" >Acessar</NavLink>
+                                <NavLink exact to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>
+                                <NavLink exact to='/login' className="dropdown-item " >Acessar</NavLink>
                               </div>
                             </div>
                 

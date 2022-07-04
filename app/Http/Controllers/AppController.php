@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Produto;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Cliente;
+use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +17,94 @@ class AppController extends Controller
 {
 
 
+
+public function cadastrarCliente(Request $request){
+    $validator = Validator::make($request->all(),[
+        'nome'=>'required|min:3',
+        'apelido'=>'required|min:3',
+        'telefone'=>'required|min:9',
+        'email'=>'required|email',
+        'username'=>'required|min:3',
+        'password'=>'required|min:8'
+    ]);
+
+    if($validator->fails())
+        {
+            return response()->json([
+                'status'=> 422,
+                'validate_err'=> $validator->errors(),
+            ]);
+        }
+     else
+        {   
+
+            $u = User::where('name',$request->input('username'))->first();
+           
+            if($u){
+                
+                $userExist=['username'=>"Este username já existe"];
+                return response()->json([
+                    'status'=> 422,
+                    'validate_err'=>  $userExist
+                ]);
+
+            }else{
+
+                $u = User::where('email',$request->input('email'))->first();
+                if($u){
+                
+                    $userExist=['email'=>"Já existe um usuário com este email"];
+                    return response()->json([
+                        'status'=> 422,
+                        'validate_err'=>  $userExist
+                    ]);
+
+                } else{
+
+                    try {
+                        $user=[
+                            'name'=>$request->input('username'),
+                            'password'=> bcrypt($request->input('password')),
+                            'email'=>$request->input('email'),
+                        ];
+    
+                        $u= User::create($user);
+                    
+                        $role = new Role(['nome'=>'user']);
+                        $r=$u->role()->save($role);
+                        
+    
+                        $c =[
+                            'nome' => $request->input('nome'),
+                            'apelido'=>$request->input('apelido'),
+                            'telefone' =>$request->input('telefone'),
+                            'email'=>$request->input('email'),
+                        ];
+                        
+                        $cliente= new Cliente($c);
+    
+                        $rc = $u->cliente()->save($cliente); 
+    
+                        return response()->json([
+                            'status'=> 200,
+                            'message'=>'O seu registro foi efectuado com sucesso!',
+                        ]);
+    
+    
+                    } catch (Exception $e) {
+                        return response()->json([
+                            'status'=> 200,
+                            'data'=>$e
+                        ]);
+                    }
+
+                }
+
+            }
+
+
+        }
+}
 
 
 
@@ -138,7 +230,7 @@ class AppController extends Controller
 
             return response()->json([
                 'status'=> 200,
-                'message'=>'produto Added Successfully',
+                'message'=>'produto adcionado com sucesso!',
             ]);
         }
     

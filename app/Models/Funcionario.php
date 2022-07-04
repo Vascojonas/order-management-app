@@ -23,5 +23,11 @@ class Funcionario extends Model
         'dataNascimento',
         'user_id'
     ];
+
+   
+    public function user()
+    {
+        return $this->belongsTo(User::class) ;
+    }
             
 }

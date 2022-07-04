@@ -21,6 +21,10 @@ Route::get('/api/admin/produtos/edit/{id}',[\App\Http\Controllers\AppController:
 Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::class, 'upload']);
 
 
+Route::post('/clientes/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarCliente']);
+
+
+
 //Route::post('/user/profile',[UserProfileController::class, 'show']);
 
 Route::get('/', function () {

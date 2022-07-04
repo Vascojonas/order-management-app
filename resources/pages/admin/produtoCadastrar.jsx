@@ -89,12 +89,12 @@ const savePrduct = (e) => {
           console.log("Fails", res.data.validate_err);
           setProduct({...productInput, error_list: res.data.validate_err });
         }
-    });
-      
-      })
-    .catch(function (err) {
-       console.log(err);
-    });
+      });
+        
+        })
+      .catch(function (err) {
+        console.log(err);
+      });
 }
 
 

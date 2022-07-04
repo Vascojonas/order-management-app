@@ -14,6 +14,7 @@ function carinho() {
         let oldPrice;
         let newPrice;
         let newTotal;
+       
         encomendas.map((item)=>{
             if(item.id==id){
                 if(e.target.value===0){
@@ -25,7 +26,9 @@ function carinho() {
             }
         })
 
+
         total = total - oldPrice + newPrice;
+        document.getElementById('pt-'+id).innerHTML=newPrice +',00MT' 
         document.getElementById('total').innerHTML=total +',00MT' 
         console.log(total);
 
@@ -61,7 +64,7 @@ function carinho() {
                       </td>
                       <td>{item.preco}</td>
                      
-                    <td>
+                    <td id={`pt-${item.id}`}>
                         {item.preco*item.quantidade},00MT
                     </td>
                      <td width="">
