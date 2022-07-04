@@ -23,6 +23,9 @@ return new class extends Migration
             $table->string('quarteirao');
             $table->string('casa');
             $table->string('sexo');
+            $table->string('tel1');
+            $table->string('tel2')->nullable();
+            $table->string('email');
             $table->date('dataNascimento');
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

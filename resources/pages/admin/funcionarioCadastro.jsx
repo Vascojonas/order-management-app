@@ -3,8 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 
 function funcionarioCadastro() {
-	const {btnDisabled, setBtnDisabled}=useState(true);
-	const [funcionarioInput, setFuncionarioInput] = useState({
+	const [btnDisabled, setBtnDisabled]= useState(true)
+    const [message, setMessage]= useState(null)
+
+	const [funcionarioInput, setFuncionario] = useState({
  
 		nome          :'',
 		apelido       :'',
@@ -15,19 +17,101 @@ function funcionarioCadastro() {
 		casa		  :'',
 		sexo		  :'',
 		dataNascimento:'',
-		user_id		  :'',
 		perfil		   :'',
 		username:'',
+		email:'',
 		password:'',
-	    passwordConfirm:'',
-		dataEntrada:'',
-		dataSaida:'',
-		telf1:'',
-		telf2:'',
+		tel1:'',
+		tel2:'',
 
 		error_list: [],
 	});
 
+	const cadastrarFuncionario = (e) => {
+
+        e.preventDefault();
+        
+        const data = {
+            nome:funcionarioInput.nome,
+            apelido:funcionarioInput.apelido,
+            bi:funcionarioInput.bi,
+            cidade:funcionarioInput.cidade,
+            bairro:funcionarioInput.bairro,
+            quarteirao:funcionarioInput.quarteirao,
+            casa:funcionarioInput.casa,
+            sexo:funcionarioInput.sexo,
+            dataNascimento:funcionarioInput.dataNascimento,
+            perfil:funcionarioInput.perfil,  
+            tel1:funcionarioInput.tel1,
+            tel2:funcionarioInput.tel2,
+            email:funcionarioInput.email,
+            username:funcionarioInput.username,
+            password:funcionarioInput.password
+     }
+	 
+        
+         axios.post('/api/admin/funcionario/salvar', data).then(res => {
+      
+          
+          if(res.data.status === 200)
+          {
+                console.log(res.data.data);
+                
+      
+              swal("Success!",res.data.message,"success");
+
+              setFuncionario({
+				nome          :'',
+				apelido       :'',
+				bi            :'',
+				cidade        :'',
+				bairro        :'',
+				quarteirao    :'',
+				casa		  :'',
+				sexo		  :'',
+				dataNascimento:'',
+				perfil		   :'',
+				username:'',
+				email:'',
+				password:'',
+				tel1:'',
+				tel2:'',
+		
+				error_list: [],
+                });
+
+                
+            }
+            else if(res.data.status === 422)
+            {
+              console.log("Fails", res.data.validate_err);
+              setFuncionario({...funcionarioInput, error_list: res.data.validate_err });
+            }
+          });
+        
+    }
+
+
+	const handleInput = (e) => {
+        e.persist();
+        setFuncionario({...funcionarioInput, [e.target.name]: e.target.value })
+	}
+
+
+    const confirmPassword=(e)=>{
+        let password = document.getElementById('password').value
+        
+        if(e.target.value !=password){
+           setMessage("password inválido")
+            setBtnDisabled(true);
+        }else if(password==''|| e.target.value==''){
+            setBtnDisabled(true);
+            
+        }else{
+            setBtnDisabled(false);
+            setMessage(null)
+        }
+    }
 
   return (
     <div className='m-3 row'>
@@ -50,65 +134,97 @@ function funcionarioCadastro() {
 	        
 	            <div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text form-control">Nome</span>
+	                    <small className="input-group-text form-control">Nome</small>
 	                </div>
-	                <input className="form-control" type="text" placeholder="Digite o nome"  />
+	                <input name='nome' className="form-control" type="text" placeholder="Digite o nome" 
+					onChange={handleInput} value={funcionarioInput.nome} />
+		
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Apelido</span>
+	                    <small className="input-group-text">Apelido</small>
 	                </div>
-	                <input className="form-control" type="text" placeholder="Digite o apelido"  />
+	                <input name='apelido' className="form-control" type="text" placeholder="Digite o apelido" 
+					onChange={handleInput} value={funcionarioInput.apelido} />
 	            </div>
-	            
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.nome}</small>
+					<small className="text-danger ml-auto"> {funcionarioInput.error_list.apelido}</small>
+				</div>
 	            <div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Nº BI</span>
+	                    <small className="input-group-text">Nº BI</small>
 	                </div>
-	                <input className="form-control" type="text" placeholder="Bilhete de identidade (BI)"  />
+	                <input name='bi' className="form-control" type="text" placeholder="Bilhete de identidade (BI)"
+					onChange={handleInput} value={funcionarioInput.bi}  />
 	            </div>
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.bi}</small>
+				</div>
+				
 	            
 	          
 	            <div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Cidade</span>
+	                    <small className="input-group-text">Cidade</small>
 	                </div>
-	                <input className="form-control" type="text" placeholder="Digite a cidade" />
+	                <input name='cidade' className="form-control" type="text" placeholder="Digite a cidade" 
+					onChange={handleInput} value={funcionarioInput.cidade}/>
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Bairro</span>
+	                    <small className="input-group-text">Bairro</small>
 	                </div>
-	                <input className="form-control" type="text" placeholder="Digite o bairro"   />
+	                <input name='bairro' className="form-control" type="text" placeholder="Digite o bairro" 
+					onChange={handleInput} value={funcionarioInput.bairro}  />
 	            </div>
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.cidade}</small>
+					<small className="text-danger ml-auto"> {funcionarioInput.error_list.bairro}</small>
+				</div>
 	            
+
 	             <div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Quarteirão</span>
+	                    <small className="input-group-text">Quarteirão</small>
 	                </div>
-	                <input className="form-control" type="Number" placeholder="Numero do quarteirão" />
+	                <input name='quarteirao' className="form-control" type="Number" placeholder="Numero do quarteirão" 
+					onChange={handleInput} value={funcionarioInput.quarteirao}/>
 	                
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Casa</span>
+	                    <small className="input-group-text">Casa</small>
 	                </div>
-	                <input className="form-control" type="number" placeholder="Numero da casa"  />
+	                <input name='casa' className="form-control" type="number" placeholder="Numero da casa"  
+					onChange={handleInput} value={funcionarioInput.casa}/>
 	            </div>
+
+				<div  className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.quarteirao}</small>
+					<small className="text-danger ml-auto"> {funcionarioInput.error_list.casa}</small>
+				</div>
 	            
 	           
 	             <div className="input-group m-3"> 
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Sexo</span>
+	                    <small className="input-group-text">Sexo</small>
 	                </div>
-	                <select id="sexo"  className="form-control" >
+	                <select name='sexo' id="sexo"  className="form-control"
+					onChange={handleInput} value={funcionarioInput.sexo} >
 	                	<option value="">Selecione o sexo</option>
 	                	<option value="M">Masculino</option>
 	                	<option value="F">Femenino</option>
 	                </select>
 	            </div>
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.sexo}</small>
+				</div>
 	           
 	            <div className="input-group m-3"> 
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Data de Nascimento</span>
+	                    <small className="input-group-text">Data de Nascimento</small>
 	                </div>
-	                <input className="form-control" type="date" />
+	                <input name='dataNascimento' className="form-control" type="date" 
+					onChange={handleInput} value={funcionarioInput.dataNascimento}/>
 	            </div>
-	            
+	            <div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.dataNascimento}</small>
+				</div>
 	            
 	        </div> 
 	
@@ -116,59 +232,74 @@ function funcionarioCadastro() {
 
 				<div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Perfil</span>
+	                    <small className="input-group-text">Perfil</small>
 	                </div>
-	                <select className='form-control'>
+	                <select name='perfil' className='form-control' onChange={handleInput} value={funcionarioInput.perfil}>
 						<option>Selecione o perfil</option>
-						<option>Editor</option>
-						<option>Administrador</option>
+						<option value='editor' >Editor</option>
+						<option value='admin'>Administrador</option>
 					</select>
 	            </div>
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.perfil}</small>
+				</div>
 	  
 	            <div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Username</span>
+	                    <small className="input-group-text">Username</small>
 	                </div>
-	                <input className="form-control" type="text" placeholder="Digite o username"  />
+	                <input name='username' className="form-control" type="text" placeholder="Digite o username" 
+					onChange={handleInput} value={funcionarioInput.username} />
 	            </div>
-	            
-	
-	   
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.username}</small>
+				</div>
 
 				<div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Password</span>
+	                    <small className="input-group-text">Email</small>
 	                </div>
-	                <input className="form-control" type="text" id="password" placeholder="Password"  />
-	                <input className="form-control" type="text"  id="confirmar" placeholder="Confimar password"/>
+	                <input name='email' className="form-control" type="text" placeholder="Digite o email" 
+					onChange={handleInput} value={funcionarioInput.email} />
 	            </div>
+	            <div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.email}</small>
+				</div>
+	
+	   
+
+				<div className="input-group m-3 mb-0">
+	                <div className="input-group-prepend">
+	                    <small className="input-group-text">Password</small>
+	                </div>
+	                <input name='password'  className="form-control" type="password" id="password" placeholder="Password" 
+					onChange={handleInput} value={funcionarioInput.password} />
+	                <input name='confirm'  onChange={confirmPassword} className="form-control" type="password"  
+					id="confirm" placeholder="Confimar password"/>
+					
+	            </div>
+				{message && <div className='text-danger ml-3 text-right'>{message}</div>}
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.password}</small>
+				</div>
 	      
-	            <div className="input-group m-3">
-	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Data de entrada</span>
-	                </div>
-	                <input className="form-control" type="date" />
-	            </div>
-	            
-	            <div className="input-group m-3">
-	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Data de saída</span>
-	                </div>
-	                <input className="form-control" type="date" />
-	            </div>
-	            
 	            
 	       		
 	       		<div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <span className="input-group-text">Telefone</span>
+	                    <small className="input-group-text">Telefone</small>
 	                </div>
-	                <input className="form-control " type="number" placeholder="Telefone prinipal"  />
-	                <input className="form-control" type="number" placeholder="Telefone opcional"  />
+	                <input  name='tel1'  className="form-control " type="number" placeholder="Telefone prinipal" 
+					onChange={handleInput} value={funcionarioInput.tel1} />
+	                <input  name='tel2'  className="form-control" type="number" placeholder="Telefone opcional"  
+					onChange={handleInput} value={funcionarioInput.tel2}/>
 	            </div>
+				<div className='m-3'>
+					<small className="text-danger">{funcionarioInput.error_list.tel1}</small>
+				</div>
 	            
 	            <div className="input-group m-3">
-	                <button type="submit"  className={`btn bg-principal col-4  ml-auto mr-4  ${!btnDisabled&&'disabled'}`} >cadastrar</button>
+	                <button disabled={btnDisabled} onClick={cadastrarFuncionario} type="submit"  className={`btn bg-principal col-4  ml-auto mr-4`} >cadastrar</button>
 	            </div>
 	        	
 	        </div> 

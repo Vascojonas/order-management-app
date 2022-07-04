@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        SmoDav\Mpesa\Laravel\ServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -210,6 +211,10 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'STK'       => SmoDav\Mpesa\Laravel\Facades\STK::class,
+        'Simulate'  => SmoDav\Mpesa\Laravel\Facades\Simulate::class,
+        'Registrar' => SmoDav\Mpesa\Laravel\Facades\Registrar::class,
+        'Identity'  => SmoDav\Mpesa\Laravel\Facades\Identity::class,
     ])->toArray(),
 
 ];

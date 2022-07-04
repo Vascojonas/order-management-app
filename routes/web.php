@@ -14,14 +14,23 @@ use App\Http\Controllers\AppController;
 |
 */
 
+//ADMIN AND USER API
+
+//--produtos
 Route::post('/api/admin/produtos/salvar',[\App\Http\Controllers\AppController::class,'cadastrarProduto']);
 Route::get('/api/admin/produtos',[\App\Http\Controllers\AppController::class, 'allProducts']);
 Route::delete('/api/admin/produtos/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteProduct']);
 Route::get('/api/admin/produtos/edit/{id}',[\App\Http\Controllers\AppController::class, 'editProduct']);
 Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::class, 'upload']);
 
+//--funcionario
+Route::post('/api/admin/funcionario/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarFuncionario']);
 
+//Cliente API
 Route::post('/clientes/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarCliente']);
+
+//M-pesa service
+Route::post('/pagamentos/mpesa/acess/tokes',[\App\Http\Controllers\MpesaController::class,'generateAcessToken']);
 
 
 

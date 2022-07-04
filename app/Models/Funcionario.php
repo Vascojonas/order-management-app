@@ -20,6 +20,9 @@ class Funcionario extends Model
         'quarteirao',
         'casa',
         'sexo',
+        'tel1',
+        'tel2',
+        'email',
         'dataNascimento',
         'user_id'
     ];

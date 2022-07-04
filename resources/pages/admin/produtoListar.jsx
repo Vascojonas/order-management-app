@@ -84,9 +84,9 @@ function produtoListar() {
     var student_HTMLTABLE = "";
 
     
-    student_HTMLTABLE = products.map( (item) => {
+    student_HTMLTABLE = products.map( (item, key) => {
           return (
-            <tr className=''>
+            <tr key={key} className=''>
                 <th scope="row" className=' list-img p-0'>
                 <img className='list-img' src={`${item.imagem}`} />
                 </th>

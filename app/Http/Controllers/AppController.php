@@ -17,6 +17,120 @@ class AppController extends Controller
 {
 
 
+public function cadastrarFuncionario(Request $request){
+    $validator = Validator::make($request->all(),[
+        'nome'=>'required|min:3',
+        'apelido'=>'required|min:3',
+        'cidade'=>'required|min:3',
+        'bi'=>'required|min:3',
+        'bairro'=>'required|min:3',
+        'quarteirao'=>'required',
+        'casa'=>'required',
+        'sexo'=>'required',
+        'dataNascimento'=>'required',
+        'perfil'=>'required',
+        'tel1'=>'required|min:9',
+        'email'=>'required|email',
+        'username'=>'required|min:3',
+        'password'=>'required|min:8'
+    ]);
+
+   if($validator->fails())
+    {
+        return response()->json([
+            'status'=> 422,
+            'validate_err'=> $validator->errors(),
+        ]);
+    }
+ else
+    {   
+
+        $u = User::where('name',$request->input('username'))->first();
+       
+        if($u){
+            
+            $userExist=['username'=>"Este username já existe"];
+            return response()->json([
+                'status'=> 422,
+                'validate_err'=>  $userExist
+            ]);
+
+        }else{
+
+            $u = User::where('email',$request->input('email'))->first();
+            if($u){
+            
+                $userExist=['email'=>"Já existe um usuário com este email"];
+                return response()->json([
+                    'status'=> 422,
+                    'validate_err'=>  $userExist
+                ]);
+
+            } else{
+
+                try {
+                    $user=[
+                        'name'=>$request->input('username'),
+                        'password'=> bcrypt($request->input('password')),
+                        'email'=>$request->input('email'),
+                    ];
+
+                    $u= User::create($user);
+                    
+                    
+                    if($request->input('perfil')==='admin'){
+                        $role = new Role(['nome'=>'admin']);
+
+                    }else{
+                        $role = new Role(['nome'=>'editor']);
+                    }
+
+                    $r=$u->role()->save($role);
+                    
+
+                    $f =[
+                        'nome' => $request->input('nome'),
+                        'apelido'=>$request->input('apelido'),
+                        'bi' =>$request->input('bi'),
+                        'cidade'=>$request->input('cidade'),
+                        'bairro'=>$request->input('bairro'),
+                        'quarteirao'=>$request->input('quarteirao'),
+                        'casa'=>$request->input('casa'),
+                        'sexo' =>$request->input('sexo'),
+                        'dataNascimento'=>$request->input('dataNascimento'),
+                        'tel1' =>$request->input('tel1'),
+                        'tel2' =>$request->input('tel1'),
+                        'email'=>$request->input('email'),
+                    ];
+
+
+                    
+                    $funcionario= new Funcionario($f);
+
+                    $rc = $u->funcionario()->save($funcionario); 
+
+                    return response()->json([
+                        'status'=> 200,
+                        'message'=>'Usuário cadastrado com sucesso!',
+                    ]);
+
+
+                } catch (Exception $e) {
+                    return response()->json([
+                        'status'=> 200,
+                        'data'=>$e
+                    ]);
+                }
+
+            }
+
+        }
+
+
+    }
+
+}
+
 
 public function cadastrarCliente(Request $request){
     $validator = Validator::make($request->all(),[
