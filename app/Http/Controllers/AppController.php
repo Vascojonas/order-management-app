@@ -17,6 +17,21 @@ use Illuminate\Support\Facades\Storage;
 class AppController extends Controller
 {
 
+
+public function getRole($id){
+    $user= User::find($id);
+   
+    if($user){
+
+        $role =$user->role()->first();
+        return response()->json([
+            'status'=> 200,
+            'role'=> $role,
+        ]);
+
+    }
+}
+
 public function deleteUser($id){
     $user = User::find($id);
         if($user)

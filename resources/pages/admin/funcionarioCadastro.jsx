@@ -134,7 +134,7 @@ function funcionarioCadastro() {
 	        
 	            <div className="input-group m-3">
 	                <div className="input-group-prepend">
-	                    <small className="input-group-text form-control">Nome</small>
+	                    <small className="input-group-text ">Nome</small>
 	                </div>
 	                <input name='nome' className="form-control" type="text" placeholder="Digite o nome" 
 					onChange={handleInput} value={funcionarioInput.nome} />

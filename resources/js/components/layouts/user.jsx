@@ -10,6 +10,7 @@ import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
 
 function user() {
   const [encomendas, setEncomendas]=useState(EncomendasData);
+  const [footer, setfooter]=useState(true);
   return (
     <div className='h-full '>
         <header className='border-golden  nav-principal bg-principal pr-4 zindex-sticky'>
@@ -35,8 +36,8 @@ function user() {
                                  <BsFillPersonFill /> Minha conta
                               </button>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <NavLink exact to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>
-                                <NavLink exact to='/login' className="dropdown-item " >Acessar</NavLink>
+                                <NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>
+                                <NavLink  to='/login' className="dropdown-item " >Acessar</NavLink>
                               </div>
                             </div>
                 
@@ -51,9 +52,10 @@ function user() {
             </nav>
         </header>
         <div className='container  h-100'>
-             <Outlet context={[encomendas, setEncomendas]} />
+             <Outlet context={[encomendas, setEncomendas, footer, setfooter]} />
         </div>  
-
+      
+      {footer?( 
         <footer className=' bg-principal'>
               <div className='d-flex m-3 mt-5'>
                   <div className='box-rodape col-4 '>
@@ -121,7 +123,10 @@ function user() {
             
               
             </div>
-        </footer>
+        </footer> 
+        ):
+        ''}
+
     </div>
   )
 }

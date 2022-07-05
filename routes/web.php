@@ -25,8 +25,11 @@ Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::c
 
 //--funcionario
 Route::post('/api/admin/funcionario/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarFuncionario']);
-Route::get('//api/admin/funcionarios/listar',[\App\Http\Controllers\AppController::class, 'todosFuncionarios']);
+Route::get('/api/admin/funcionarios/listar',[\App\Http\Controllers\AppController::class, 'todosFuncionarios']);
 Route::delete('/api/admin/funcionarios/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteFuncionario']);
+
+//rolle
+Route::get('/user/role/{id}',[\App\Http\Controllers\AppController::class, 'getRole']);
 
 
 //Cliente API
