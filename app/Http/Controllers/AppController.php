@@ -3,22 +3,48 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Support\Facades\DB;
-use App\Models\Produto;
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
+use App\Models\idade;
 use App\Models\Cliente;
+use App\Models\Produto;
 use App\Models\Funcionario;
+use App\Models\Publicidade;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 
 class AppController extends Controller
 {
 
+     function todosClientes(){
 
-public function getRole($id){
+        try {
+            //code...
+            
+            $clientes = DB::table('clientes')
+            ->join('users', 'users.id', '=', 'clientes.user_id')
+            ->join('roles', 'users.id', '=', 'roles.user_id')
+            ->select('clientes.*', 'roles.nome as perfil')
+            ->get();
+    
+        return response()->json([
+            'status'=> 200,
+            'clientes'=>$clientes,
+        ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status'=> 422,
+                'clientes'=>$e,
+            ]);
+            
+        }
+    }
+
+
+ function getRole($id){
     $user= User::find($id);
    
     if($user){
@@ -32,13 +58,12 @@ public function getRole($id){
     }
 }
 
-public function deleteUser($id){
+ function deleteUser($id){
     $user = User::find($id);
+    
         if($user)
         {   
-        
             $user->delete();
-
             return response()->json([
                 'status'=> 200,
                 'message'=>'Usuário eliminado com sucesso!',
@@ -54,7 +79,7 @@ public function deleteUser($id){
 }
 
 
-public function todosFuncionarios(){
+ function todosFuncionarios(){
 
     try {
         //code...
@@ -79,7 +104,10 @@ public function todosFuncionarios(){
 }
 
 
-public function cadastrarFuncionario(Request $request){
+
+
+
+ function cadastrarFuncionario(Request $request){
     $validator = Validator::make($request->all(),[
         'nome'=>'required|min:3',
         'apelido'=>'required|min:3',
@@ -194,7 +222,7 @@ public function cadastrarFuncionario(Request $request){
 }
 
 
-public function cadastrarCliente(Request $request){
+ function cadastrarCliente(Request $request){
     $validator = Validator::make($request->all(),[
         'nome'=>'required|min:3',
         'apelido'=>'required|min:3',
@@ -284,7 +312,7 @@ public function cadastrarCliente(Request $request){
 
 
 
-  public function editProduct($id)
+    function editProduct($id)
     {
         $produto = Produto::find($id);
         if($produto)
@@ -304,11 +332,11 @@ public function cadastrarCliente(Request $request){
 
     }
 
-    public function deleteImage($nome){
+    function deleteImage($nome){
         Storage::delete($nome);
     }
 
-    public function deleteProduct($id){
+    function deleteProduct($id){
        
         $produto = Produto::find($id);
         if($produto)
@@ -342,7 +370,16 @@ public function cadastrarCliente(Request $request){
         ]);
     }
 
-    public function upload(Request $request){
+    function allBanners(){
+        $publicidades = Publicidade::all();
+
+        return response()->json([
+            'status'=> 200,
+            'publicidades'=>$publicidades,
+        ]);
+    }
+
+    function upload(Request $request){
             
         $request->validate([
            'file' => 'required|mimes:jpg,jpeg,png|max:2048'
@@ -411,4 +448,51 @@ public function cadastrarCliente(Request $request){
         }
     
     }
+
+
+    function  cadastrarBanner(Request $request){
+
+        $validator = Validator::make($request->all(),[
+             'imagem'=>'required'
+         ]);
+ 
+     
+        
+         if($validator->fails())
+         {
+             return response()->json([
+                 'status'=> 422,
+                 'validate_err'=> $validator->errors(),
+             ]);
+         }
+         else
+         {
+ 
+             $data =[
+                 'titulo' => $request->input('titulo'),
+                 'descricao' =>$request->input('descricao'),
+                 'imagem'=>$request->input('imagem')
+             ];
+             
+ 
+             try{
+                 Publicidade::create($data);
+                 return response()->json([
+                     'status'=> 200,
+                     'message'=>'Publicidade adcionada com sucesso!',
+                 ]);
+             }catch(Exception $e){
+                 $erro = $e;
+
+                 return response()->json([
+                    'status'=> 422,
+                    'validate_err'=>$erro,
+                ]);
+             }
+ 
+         }
+     
+     }
 }
+
+

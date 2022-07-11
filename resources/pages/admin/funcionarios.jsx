@@ -30,12 +30,12 @@ const deleteUser = (e, id) => {
     axios.delete(`/api/admin/funcionarios/delete/${id}`).then(res=>{
         if(res.data.status === 200)
         {
-            swal("Deleted!",res.data.message,"success");
+            swal("Eliminado!",res.data.message,"Sucesso");
             thisClicked.closest("tr").remove()   
         }
         else if(res.data.status === 404)
         {
-            swal("Error",res.data.message,"error");
+            swal("Error",res.data.message,"Falha");
             thisClicked.innerText = "Delete";
         }
 

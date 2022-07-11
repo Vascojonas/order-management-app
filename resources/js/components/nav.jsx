@@ -1,11 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import {FaGifts,FaListUl,FaUsers, FaMoneyCheckAlt} from 'react-icons/fa';
 import {BsFillEyeFill, BsCalendarPlusFill,BsPlusSquareFill} from 'react-icons/bs';
 import {BiLogOutCircle} from 'react-icons/bi';
 
+import AuthUser from './AuthUser';
 
 function nav() {
+const {getUser, logOut} = AuthUser();
+
+const [user, setUser]=useState(getUser());
+
+const logout =()=>{
+    if(user!=undefined){
+      logOut();
+    }
+}
   return (
     <div className='border-right col-2 m-0 p-0 '>
        <div className='row p-3  bg-principal cabecalho'>
@@ -32,24 +42,23 @@ function nav() {
               <NavLink to='/admin/clientes' className='btn btn-block text-left'>< FaUsers/> Clientes</NavLink>   
             </li> 
 
-            <li className='nav-item border-inferior  '> 
-              <NavLink to='/admin/pagamentos' className='btn btn-block text-left'>< FaMoneyCheckAlt/> Pagamentos</NavLink>   
-            </li>
-
-            <li className='nav-item border-inferior' >
+           {(user.role==='admin')&&( <li className='nav-item border-inferior' >
               <NavLink to='/admin/funcionarios' className='btn btn-block text-left'><FaUsers/> Funcionários</NavLink>
-            </li>  
+            </li> )} 
           </ul>
 
        </nav>
         
 
-        <ul className='navbar-nav p-0 m-0  mt-5'>
-            
+        <ul className='navbar-nav p-0 m-0  mt-5 '>
+            <li className='nav-item border-inferior mb-2  '> 
+              <NavLink to='/' className='btn btn-block btn bg-principal text-left'> Ir para página</NavLink>   
+            </li> 
+
             <li className='nav-item border-inferior'>
-              <NavLink  to='/' className='btn btn-block btn-danger text-left'>
+              <button onClick={logout} className='btn btn-block btn-danger text-left'>
                   <BiLogOutCircle/> Sair
-              </NavLink>
+              </button>
               </li> 
            
           </ul>

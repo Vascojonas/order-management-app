@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {useState} from 'react'
-import { useNavigate, Navigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 
 
@@ -22,6 +22,21 @@ function AuthUser() {
     return user_details;
   }
 
+  const logOut=()=>{
+
+    let userRole =  (getUser()).role;
+    sessionStorage.clear()
+
+    if(userRole==='user'){
+      navigate('/login');
+       window.location.reload(false);
+    }else{
+      navigate('/login');
+       window.location.reload(false);
+
+    }
+  }
+
   
   const saveToken = (user,token)=>{
     console.log(user)
@@ -35,8 +50,10 @@ function AuthUser() {
     if(role=='admin'||role=='editor'){
       
        navigate('/admin/produtos/cadastrar');
+        window.location.reload(false);
     }else if (role=='user'){
       navigate('/');
+       window.location.reload(false);
     }    
   }
   const http = axios.create(
@@ -52,6 +69,7 @@ function AuthUser() {
     setToken:saveToken,
     token,
     getUser,
+    logOut,
     getToken,
     http
   }

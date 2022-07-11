@@ -23,4 +23,19 @@ class Cliente extends Model
     {
         return $this->belongsTo(User::class) ;
     }
+
+    public function carrinho()
+    {
+        return $this->hasOne(Carrinho::class);
+    }
+
+    public function wish()
+    {
+        return $this->hasOne(Wish::class);
+    }
+
+    public function encomenda()
+    {
+        return $this->hasOne(Encomenda::class);
+    }
 }

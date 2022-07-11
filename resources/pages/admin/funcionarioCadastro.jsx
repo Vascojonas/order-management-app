@@ -58,7 +58,7 @@ function funcionarioCadastro() {
                 console.log(res.data.data);
                 
       
-              swal("Success!",res.data.message,"success");
+              swal("Sucesso!",res.data.message,"Sucesso");
 
               setFuncionario({
 				nome          :'',

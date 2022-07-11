@@ -69,7 +69,7 @@ const savePrduct = (e) => {
           //console.log(res.data.imagem);
             console.log("Working");
   
-          swal("Success!",res.data.message,"success");
+          swal("Successo!",res.data.message,"Sucesso");
           setProduct({
               categoria: '',
               nome: '',
@@ -117,9 +117,10 @@ const savePrduct = (e) => {
                     <div className="col-md-8">
                       <select className="form-control border-golden " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>
-                              <option value={"quadros"} >Quadros</option>
-                              <option value={"copos"}>Copos</option>
-                              <option value={"chaveiros"}>Chaveiros</option>
+                              <option value={"quadros"} >Quadro de pedra</option>
+                              <option value={"copos"}>Chávena</option>
+                              <option value={"chaveiros"}>Chaveiro</option>
+                              <option value={"popups"}></option>
                          </select>
                     <span className="text-danger">{productInput.error_list.categoria}</span>
 

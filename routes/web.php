@@ -23,20 +23,43 @@ Route::delete('/api/admin/produtos/delete/{id}',[\App\Http\Controllers\AppContro
 Route::get('/api/admin/produtos/edit/{id}',[\App\Http\Controllers\AppController::class, 'editProduct']);
 Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::class, 'upload']);
 
+//Banner
+Route::post('/api/admin/banner/salvar',[\App\Http\Controllers\AppController::class,'cadastrarBanner']);
+Route::get('/api/admin/banners',[\App\Http\Controllers\AppController::class, 'allBanners']);
+
+
 //--funcionario
 Route::post('/api/admin/funcionario/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarFuncionario']);
 Route::get('/api/admin/funcionarios/listar',[\App\Http\Controllers\AppController::class, 'todosFuncionarios']);
-Route::delete('/api/admin/funcionarios/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteFuncionario']);
+Route::delete('/api/admin/funcionarios/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteUser']);
+
+// Clientes
+Route::post('/clientes/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarCliente']);
+Route::get('/api/admin/clientes/listar',[\App\Http\Controllers\AppController::class, 'todosClientes']);
+Route::delete('/api/admin/clientes/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteUser']);
+Route::get('/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'getProductById']);
+
 
 //rolle
 Route::get('/user/role/{id}',[\App\Http\Controllers\AppController::class, 'getRole']);
 
+//Encomendas
+Route::get('/clientes/carrinho/{id}',[\App\Http\Controllers\ClienteController::class, 'getUserCarrinho']);
+Route::post('/carrinho/produtos/salvar',[\App\Http\Controllers\ClienteController::class,'produtoCarrinhoSave']);
+Route::get('/carrinho/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'carrinhoProdutos']);
+Route::delete('/carrinho/produtos/delete/{code}',[\App\Http\Controllers\ClienteController::class, 'carrinhoProdutoRemove']);
+Route::get('/clientes/encomenda/{id}',[\App\Http\Controllers\ClienteController::class, 'getUserEncomenda']);
+Route::post('/encomenda/detalhes/salvar',[\App\Http\Controllers\ClienteController::class, 'encomendaDetalhesSave']);
 
-//Cliente API
-Route::post('/clientes/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarCliente']);
+Route::get('/clientes/encomenda/itens/{id}',[\App\Http\Controllers\ClienteController::class, 'getEncomendasItens']);
+Route::post('/encomenda/itemSalvar/salvar',[\App\Http\Controllers\ClienteController::class, 'itemSave']);
+
+
+
+
 
 //M-pesa service
-Route::post('/pagamentos/mpesa/acess/tokes',[\App\Http\Controllers\MpesaController::class,'generateAcessToken']);
+Route::post('/carrinho/encomendar',[\App\Http\Controllers\MpesaController::class,'receiveMoney']);
 
 
 
@@ -65,11 +88,11 @@ Route::get('/admin/funcionarios/cadastrar', function () {
 });
 
 
-Route::get('/encomendas/personalizar', function () {
+Route::get('/encomendas/personalizar/{id}', function () {
     return view('welcome');
 });
 
-Route::get('/encomendas/carinho', function () {
+Route::get('/cliente/carinho', function () {
     return view('welcome');
 });
 
@@ -82,3 +105,6 @@ Route::get('/login', function () {
 });
 
 
+Route::get('/admin/clientes', function () {
+    return view('welcome');
+});

@@ -36,7 +36,7 @@ function produtoListar() {
       axios.delete(`/api/admin/produtos/delete/${id}`).then(res=>{
           if(res.data.status === 200)
           {
-              swal("Deleted!",res.data.message,"success");
+              swal("Delete!",res.data.message,"success");
               thisClicked.closest("tr").remove()   
           }
           else if(res.data.status === 404)
@@ -88,15 +88,15 @@ function produtoListar() {
           return (
             <tr key={key} className=''>
                 <th scope="row" className=' list-img p-0'>
-                <img className='list-img' src={`${item.imagem}`} />
+                <img className='list-img' src={item.imagem} />
                 </th>
+                <td>{item.nome}</td>
                 <td>{item.descricao}</td>
-                <td>{item.quantidade}</td>
                 <td>{item.preco},00MT</td>
                 <td width="155">
-                <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i class="fa fa-eye"></i></a>
-                <Link to='#' class="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Edit"><i class="fa fa-edit"></i></Link>
-                <button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.user_id)} title="Deletar"><i class="fa fa-times"></i></button>
+                <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i className="fa fa-eye"></i></a>
+                <Link to='#' className="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Edit"><i className="fa fa-edit"></i></Link>
+                <button className="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteProduct(e, item.id)} title="Deletar"><i className="fa fa-times"></i></button>
                 </td>
              </tr>
           );
@@ -139,14 +139,16 @@ function produtoListar() {
        </div>
 
        <div className='mt-3'>
-            <table class="table table-striped">
-              <tr>
-                    <th>Imagem</th>
-                    <th>Descrição</th>
-                    <th>Quantidade</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
-              </tr>
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                      <th>Imagem</th>
+                      <th>Nome</th>
+                      <th>Descrição</th>
+                      <th>Preço</th>
+                      <th>Ações</th>
+                </tr>
+               </thead>
 
             <tbody>
 
@@ -160,15 +162,15 @@ function produtoListar() {
 
        {/* <div className='mb-5 '>
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabIndex="-1">Anterior</a>
+            <ul className="pagination justify-content-center">
+              <li className="page-item disabled">
+                <a className="page-link" href="#" tabIndex="-1">Anterior</a>
               </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#">Próximo</a>
+              <li className="page-item"><a className="page-link" href="#">1</a></li>
+              <li className="page-item"><a className="page-link" href="#">2</a></li>
+              <li className="page-item"><a className="page-link" href="#">3</a></li>
+              <li className="page-item">
+                <a className="page-link" href="#">Próximo</a>
               </li>
             </ul>
           </nav>

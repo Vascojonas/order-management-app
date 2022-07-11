@@ -1,8 +1,10 @@
 import React, {useState} from 'react'
+import { useNavigate} from "react-router-dom";
 import swal from 'sweetalert';
 
 
 function clienteCadastro() {
+    const navigate = useNavigate();
     const [btnDisabled, setBtnDisabled]= useState(true)
     
     const [clienteInput, setCliente] = useState({
@@ -57,7 +59,7 @@ function clienteCadastro() {
                   error_list: [],
                 });
 
-                
+                navigate('/login');                
             }
             else if(res.data.status === 422)
             {
@@ -175,7 +177,7 @@ function clienteCadastro() {
                 <div className='form-group row ml-2 '>
                     <label htmlFor="passwordConfirm" className="col-md-4 col-form-label ">Confirmar Password</label>
                     <div className="col-md-8">
-	                <input name='confirm' onChange={confirmPassword} className="form-control " type="password" placeholder="Digita  novamente o seu password"  />
+	                <input name='confirm' onChange={confirmPassword} className="form-control }" type="password" placeholder="Digita  novamente o seu password"  />
                         {message && <div className='text-danger'>{message}</div>}
                     </div>
                 </div>

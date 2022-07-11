@@ -1,16 +1,53 @@
-import React, {useState} from 'react'
-import EncomendasData from './data/encomendasData';
+import React, {useState, useEffect} from 'react'
+import AuthUser from '../AuthUser';
 
 import {NavLink, Link,Outlet} from 'react-router-dom';
 import {FaGifts} from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
-   BsFillPersonFill, BsPlusCircle,BsCart3, BsFillHouseDoorFill ,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
+   BsFillPersonFill, BsFillHeartFill ,BsCart3, BsFillHouseDoorFill ,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
 
 
 function user() {
-  const [encomendas, setEncomendas]=useState(EncomendasData);
+  const {logOut, getUser,getToken} = AuthUser();
+  const [user, setUser] = useState(()=>{
+    if(getUser()){
+      return getUser();
+    }else{
+      return {role : '', id:''}
+    }
+  });
+
+  const [carrinho,setCarrinho]=useState([]);
   const [footer, setfooter]=useState(true);
+
+  const logout =()=>{
+      if(getToken() != undefined){
+        logOut();
+      }
+  }
+
+  useEffect(() => {
+
+    let data={user_id: user.id}
+    console.log(data);
+    axios.get('/carrinho/produtos/'+user.id).then(res=>{
+        
+      if(res.status === 200)
+        {
+          console.log(res.data.data)
+          
+          setCarrinho(res.data.data)
+          
+        }
+    });
+
+}, []);
+
+
+
+
+
   return (
     <div className='h-full '>
         <header className='border-golden  nav-principal bg-principal pr-4 zindex-sticky'>
@@ -25,9 +62,7 @@ function user() {
                     <li className="nav-item">
                       <NavLink to='/' className="nav-link text-dark" ><BsFillHouseDoorFill size={15}/> Home</NavLink>
                     </li>
-                    <li className="nav-item">
-                      <NavLink to='/encomendas/personalizar' className="nav-link text-dark" >Minha encomenda <BsPlusCircle size={15}/></NavLink>
-                    </li>
+                    
                     <li className="nav-item">
                   
                             
@@ -37,14 +72,21 @@ function user() {
                               </button>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>
-                                <NavLink  to='/login' className="dropdown-item " >Acessar</NavLink>
+                                
+                               {(user.role!=='')?( <button onClick={logout}  className="dropdown-item " >Sair</button>):
+                               (<NavLink  to='/login' className="dropdown-item " >Acessar</NavLink>)}
                               </div>
                             </div>
                 
                     </li>
+                   {/* <li className="nav-item m">
+                          <NavLink to='/cliente/whish' className="nav-link  text-danger" >
+                             <BsFillHeartFill size={25}/><span className='float-right number-box text-dark mt-0'>{carrinho.length}</span> 
+                          </NavLink>
+                    </li>*/}
                     <li className="nav-item m">
-                          <NavLink to='/encomendas/carinho' className="nav-link  text-dark" >
-                             <BsCart3 size={25}/><span className='float-right number-box text-dark mt-0'>{encomendas.length}</span> 
+                          <NavLink to='/cliente/carinho' className="nav-link  text-dark" >
+                             <BsCart3 size={25}/><span className='float-right number-box text-dark mt-0'>{carrinho.length}</span> 
                           </NavLink>
                     </li>
                   </ul>
@@ -52,7 +94,7 @@ function user() {
             </nav>
         </header>
         <div className='container  h-100'>
-             <Outlet context={[encomendas, setEncomendas, footer, setfooter]} />
+             <Outlet  context={[carrinho, setCarrinho]} />
         </div>  
       
       {footer?( 
@@ -61,11 +103,7 @@ function user() {
                   <div className='box-rodape col-4 '>
                     <h5> Quem somos Nós </h5>
                     <p className='text-secondary'>
-                      orem Ipsum is simply dummy text of the printing and typesetting 
-                      industry. Lorem Ipsum has been the industry's standard dummy text ever 
-                      since the 1500s.
-
-
+                    
                     </p>
                   </div>
                   <div className='box-rodape col-2  '>
@@ -75,7 +113,7 @@ function user() {
                             <Link to='#' className="nav-link text-secondary p-0 m-0" >Minha Conta</Link>
                           </li>
                           <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Histórico de encomendas</Link>
+                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Histórico de carrinho</Link>
                           </li>
                           <li className="nav-item">
                             <Link to='#' className="nav-link text-secondary p-0 m-0" >Solicitar devolução</Link>
@@ -109,12 +147,12 @@ function user() {
                     <h5> Entre em Contacto</h5>
 
                     <div className='mt-5 d-flex justify-content-center'>
-                        <Link to='#' className='btn btn-outline-dark b-rounded' title='Istagram'><BsInstagram size={30} /></Link>
-                        <Link to='#' className='btn btn-outline-dark b-rounded' title='Twitter'><BsTwitter size={30} /></Link>
-                        <Link to='#' className='btn btn-outline-dark b-rounded' title='Whatsapp'><BsWhatsapp size={30} /></Link>
+                    
+                        <a target='blanked' to='https://instagram.com/tsakissamz?r=nametag' className='btn btn-outline-dark b-rounded' title='Istagram'><BsInstagram size={30} /></a>
+                        <a target='blanked' to='https://bit.ly/3rABIyv' className='btn btn-outline-dark b-rounded' title='Whatsapp'><BsWhatsapp size={30} /></a>
                    </div>
                    <div className='text-center'>
-                     <Link to='#' className='btn btn-outline-dark b-rounded' title='Telefone'><BsTelephoneOutboundFill size={30}/> 843235673</Link>
+                     <Link to='#' className='btn btn-outline-dark b-rounded' title='Telefone'><BsTelephoneOutboundFill size={30}/>843195364</Link>
                    </div>
                    <div className='text-end'>
                      <Link to='admin/produtos/cadastrar' className='nav-link text-dark' >.</Link>

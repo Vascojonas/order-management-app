@@ -7,9 +7,9 @@ import {IoCalendar,IoSearch} from 'react-icons/io5';
 function Header() {
   return (
     <header>
-       <div className="row bg-principal cabecalho">
+        <div className="row bg-principal cabecalho">
 
-            <div className='ml-auto '>
+           {/*<div className='ml-auto '>
               <div className=' box '>
                 <span className='number-box'>1</span>
                 <a className='btn-icon'> <IoIosNotifications size={25}/> </a>
@@ -23,7 +23,7 @@ function Header() {
                 <a className='btn-icon'> <IoCalendar size={25}/> </a>
               </div>
              
-            </div>
+            </div> */}
         </div>
     </header>
   )

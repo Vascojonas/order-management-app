@@ -11,7 +11,9 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
+        "paymentsds/mpesa": "^1.0",
         "smodav/mpesa": "^6.1",
+        "spatie/crypto": "^2.0",
         "tomfordrumm/jwt-auth": "dev-develop"
     },
     "require-dev": {

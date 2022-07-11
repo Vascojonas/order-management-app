@@ -18,4 +18,24 @@ class Produto extends Model
         'quantidade',
         'imagem',
     ];
+
+    public function carrinhos()
+    {
+        return $this->belongsToMany(Carrinho::class);
+    }
+
+    public function whishes()
+    {
+        return $this->belongsToMany(Whish::class);
+    }
+
+    public function encomendas()
+    {
+        return $this->belongsToMany(Encomenda::class);
+    }
+
+    public function encomendasitens()
+    {
+        return $this->belongsTo(encomendasitens::class);
+    }
 }
