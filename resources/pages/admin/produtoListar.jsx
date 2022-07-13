@@ -36,13 +36,13 @@ function produtoListar() {
       axios.delete(`/api/admin/produtos/delete/${id}`).then(res=>{
           if(res.data.status === 200)
           {
-              swal("Delete!",res.data.message,"success");
+              swal("Eliminado!",res.data.message,"success");
               thisClicked.closest("tr").remove()   
           }
           else if(res.data.status === 404)
           {
-              swal("Error",res.data.message,"error");
-              thisClicked.innerText = "Delete";
+              swal("Ops",res.data.message,"error");
+              thisClicked.innerText = "Eliminar";
           }
 
       });
@@ -93,10 +93,11 @@ function produtoListar() {
                 <td>{item.nome}</td>
                 <td>{item.descricao}</td>
                 <td>{item.preco},00MT</td>
-                <td width="155">
-                <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i className="fa fa-eye"></i></a>
-                <Link to='#' className="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Edit"><i className="fa fa-edit"></i></Link>
+                <td width="160">
+                <button href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i className="fa fa-eye"></i></button>
+                <Link to={`/admin/produtos/cadastrar/${item.id}`} className="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i className="fa fa-edit"></i></Link>
                 <button className="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteProduct(e, item.id)} title="Deletar"><i className="fa fa-times"></i></button>
+            
                 </td>
              </tr>
           );

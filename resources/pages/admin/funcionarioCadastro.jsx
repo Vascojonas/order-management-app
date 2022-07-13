@@ -1,10 +1,12 @@
 import React,{ useState } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 
 function funcionarioCadastro() {
+	const {id} = useParams()
 	const [btnDisabled, setBtnDisabled]= useState(true)
     const [message, setMessage]= useState(null)
+	const [edit, setEdit]= useState(false);
 
 	const [funcionarioInput, setFuncionario] = useState({
  
@@ -48,6 +50,9 @@ function funcionarioCadastro() {
             username:funcionarioInput.username,
             password:funcionarioInput.password
      }
+
+
+	 console.log(id)
 	 
         
          axios.post('/api/admin/funcionario/salvar', data).then(res => {
@@ -58,7 +63,7 @@ function funcionarioCadastro() {
                 console.log(res.data.data);
                 
       
-              swal("Sucesso!",res.data.message,"Sucesso");
+              swal("Sucesso!",res.data.message,"success");
 
               setFuncionario({
 				nome          :'',

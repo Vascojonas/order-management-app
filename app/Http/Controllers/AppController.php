@@ -18,6 +18,68 @@ use Illuminate\Support\Facades\Validator;
 
 class AppController extends Controller
 {
+    function updateProduct(Request $request){
+        $validator = Validator::make($request->all(),[
+           
+            'nome'=>'required|min:3',
+            'categoria'=>'required|min:3',
+            'descricao'=>'required',
+            'preco'=>'required',
+        ]);
+
+    
+       
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=> 422,
+                'validate_err'=> $validator->errors(),
+            ]);
+        }
+        else
+        {
+            $produto= Produto::find($request->input('id'));
+
+            if($produto){
+                $produto->nome=$request->input('nome');
+                 $produto->categoria=$request->input('categoria');
+                 $produto->descricao=$request->input('descricao');
+                 $produto->preco=$request->input('preco');
+
+
+                 $resp = $produto->update();
+
+
+                 return response()->json([
+                     'status'=> 200,
+                     'message'=> "Produto actualizado com sucesso!",
+                 ]);
+            }else{
+                return response()->json([
+                    'status'=> 404,
+                    'message'=> 'Erro ao tentar actualizar',
+                ]);
+            }
+            
+        }
+    }
+
+    function getProductById($id){
+        
+        $produto = Produto::find($id);
+
+        if($produto){
+            return response()->json([
+                'status'=> 200,
+                'data'=>$produto,
+            ]);
+        }else{
+            return response()->json([
+                'status'=> 404,
+                'data'=>"Not found",
+            ]);
+        }
+    }
 
      function todosClientes(){
 
@@ -408,7 +470,6 @@ class AppController extends Controller
             'nome'=>'required|min:3',
             'categoria'=>'required|min:3',
             'descricao'=>'required',
-            'quantidade'=>'required',
             'preco'=>'required',
             'imagem'=>'required'
         ]);
@@ -429,7 +490,6 @@ class AppController extends Controller
                 'nome' => $request->input('nome'),
                 'categoria'=>$request->input('categoria'),
                 'descricao' =>$request->input('descricao'),
-                'quantidade'=>$request->input('quantidade'),
                 'preco'=>$request->input('preco'),
                 'imagem'=>$request->input('imagem')
             ];

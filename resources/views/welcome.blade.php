@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>NLH-TECH</title>
-
+        <title>Tsakissa</title>
+        <link rel="icon" type="image/png" href="{{ asset('logo.jpg') }}">
          <link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel = "stylesheet">
 
         <!-- Fonts -->
@@ -21,7 +21,7 @@
         <link href="{{ asset('css/index.css') }}" rel="stylesheet" />
        
     </head>
-    <body class="antialiased">
+    <body class=" antialiased">
         <div id="root" class="h"></div>
         <script src="{{mix('js/app.js')}}"></script>
     </body>

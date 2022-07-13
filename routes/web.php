@@ -20,8 +20,11 @@ use App\Http\Controllers\AppController;
 Route::post('/api/admin/produtos/salvar',[\App\Http\Controllers\AppController::class,'cadastrarProduto']);
 Route::get('/api/admin/produtos',[\App\Http\Controllers\AppController::class, 'allProducts']);
 Route::delete('/api/admin/produtos/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteProduct']);
-Route::get('/api/admin/produtos/edit/{id}',[\App\Http\Controllers\AppController::class, 'editProduct']);
+Route::get('/api/admin/produtos/{id}',[\App\Http\Controllers\AppController::class, 'getProductById']);
 Route::post('/api/admin/produtos/upload',[\App\Http\Controllers\AppController::class, 'upload']);
+Route::put('/api/admin/produtos/update',[\App\Http\Controllers\AppController::class, 'updateProduct']);
+
+
 
 //Banner
 Route::post('/api/admin/banner/salvar',[\App\Http\Controllers\AppController::class,'cadastrarBanner']);
@@ -51,8 +54,17 @@ Route::delete('/carrinho/produtos/delete/{code}',[\App\Http\Controllers\ClienteC
 Route::get('/clientes/encomenda/{id}',[\App\Http\Controllers\ClienteController::class, 'getUserEncomenda']);
 Route::post('/encomenda/detalhes/salvar',[\App\Http\Controllers\ClienteController::class, 'encomendaDetalhesSave']);
 
+
+
 Route::get('/clientes/encomenda/itens/{id}',[\App\Http\Controllers\ClienteController::class, 'getEncomendasItens']);
 Route::post('/encomenda/itemSalvar/salvar',[\App\Http\Controllers\ClienteController::class, 'itemSave']);
+Route::put('/encomenda/item/update',[\App\Http\Controllers\ClienteController::class, 'itemUpdate']);
+Route::put('/encomenda/finalizar/compra',[\App\Http\Controllers\ClienteController::class, 'finalizarCompra']);
+Route::get('/api/admin/encomendas/listar',[\App\Http\Controllers\ClienteController::class, 'todasEncomendas']);
+
+
+
+
 
 
 
@@ -108,3 +120,13 @@ Route::get('/login', function () {
 Route::get('/admin/clientes', function () {
     return view('welcome');
 });
+
+Route::get('/admin/produtos/cadastrar/{id}', function () {
+    return view('welcome');
+});
+
+Route::get('/admin/produtos/encomendas', function () {
+    return view('welcome');
+});
+
+

@@ -1,3 +1,8 @@
+.logo{
+  width: 45px;
+  height: 45px;
+}
+
 body{
     background-color: white;
 }
@@ -440,7 +445,7 @@ body{
 
 
 .list-img{
-    width: 100px;
+    width: 80px;
     height: auto;
 }
 
@@ -546,10 +551,12 @@ body{
 
   
   .artigo{
-    width: 270px;
-    height: 270px;
+    min-width: 255px;
+    max-width: 255px;
+    height: 255px;
     border-radius: 10px;
     padding: 5px;
+    position: static;
   
   }
 
@@ -574,16 +581,35 @@ body{
     display: none;
   }
 
+  .artigo-action{
+    position: relative ;
+    top: 0;
+    right: 0;
+  }
+
   .artigo-imagem:hover + .artigo-conteudo > .d-flex > .btn-carrinho{
     display: block;
+  }
+
+  .artigo-imagem:hover + .artigo-conteudo > .artigo-textos {
+    display: none;
   }
 
 .artigo-conteudo:hover > .d-flex > .btn-carrinho{
     display: block;
   }
+
+  .artigo-conteudo:hover > .artigo-textos{
+    display: none;
+  }
+  
   
 .d-flex:hover > .btn-carrinho{
     display: block;
+  }
+
+  .d-flex:hover >  .artigo-textos{
+    display: none;
   }
  
 

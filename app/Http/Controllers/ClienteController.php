@@ -21,6 +21,128 @@ use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
+    function todasEncomendas(){
+        $data = DB::table('encomendas_itens')
+        ->leftJoin('clientes', 'clientes.user_id','=', 'encomendas_itens.user_id')
+        ->leftJoin('produtos', 'produtos.id', '=','encomendas_itens.produto_id')
+        ->select('clientes.*','produtos.nome as pnome', 'produtos.imagem as imagem' , 'encomendas_itens.*')
+        ->get();
+
+        if($data){
+            return response()->json([
+                'status'=> 200,
+                'data'=> $data,
+            ]);
+        }else{
+            return response()->json([
+                'status'=> 404,
+                'data'=> "Sem encomendas",
+            ]); 
+        }
+    }
+
+    function finalizarCompra(Request $request){
+        $validator = Validator::make($request->all(),[
+            'id'=>'required',
+            'valor'=>'required',
+            'quantidade'=>'required',
+            'status'=>'required',
+            'user_id'=>'required'
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=> 422,
+                'validate_err'=> $validator->errors(),
+            ]);
+        }
+        else
+        {   
+            $item =  encomendasItens::where('user_id','=',$request->input('user_id'))
+            ->where('produto_id', '=', $request->input('id'))->first();
+            
+            if($item){
+        
+                    $item->valor=$request->input('valor');
+                    $item->quantidade=$request->input('quantidade');
+                    $item->status=$request->input('status');
+                    $item->prazo=$todaydate = date("Y-m-d", time()+48*60*60);
+                    $item->update();
+            
+                    return response()->json([
+                        'status'=> 200,
+                        'data'=> $item,
+                        'message'=>"Detalhes actualizados com sucesso!"
+                    ]);
+
+            }else{
+
+                return response()->json([
+                    'status'=> 404,
+                    'data'=> $item,
+                    'message'=>"Produto não encontrado!"
+                ]);
+
+            }
+        }
+    }
+
+    function itemUpdate(Request $request){
+        $validator = Validator::make($request->all(),[
+            'id'=>'required',
+            'descricao'=>'required',
+            'produto_id'=>'required',
+            'user_id'=>'required'
+        ]);
+       
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=> 422,
+                'validate_err'=> $validator->errors(),
+            ]);
+        }
+        else
+        {   
+
+            
+            $item =  encomendasItens::find($request->input('id'));
+            
+            if($item){
+        
+                    $item->descricao=$request->input('descricao');
+                    $item ->imagem_ass=$request->input('imagem');
+
+                    $item->update();
+            
+                    return response()->json([
+                        'status'=> 200,
+                        'data'=> $item,
+                        'message'=>"Detalhes actualizados com sucesso!"
+                    ]);
+
+            }else{
+
+                return response()->json([
+                    'status'=> 404,
+                    'data'=> $item,
+                    'message'=>"Produto não encontrado!"
+                ]);
+
+            }
+            
+            
+            
+            
+           
+
+
+
+        }
+
+    }
+
     function itemSave(Request $request){
         $validator = Validator::make($request->all(),[
             'descricao'=>'required',
@@ -52,7 +174,8 @@ class ClienteController extends Controller
            
             return response()->json([
                 'status'=> 200,
-                'data'=> $item
+                'data'=> $item,
+                'message'=>"Detalhes adcionados com sucesso!"
             ]);
 
 
@@ -257,8 +380,20 @@ class ClienteController extends Controller
 
         if($cliente){
             
+           {/* $result = DB::table('produtos')
+                    ->rightJoin('carrinho_produto','produtos.id','=', 'carrinho_produto.produto_id')
+                    ->leftJoin('carrinhos', 'carrinhos.id','=', 'carrinho_produto.carrinho_id')
+                    ->leftJoin('clientes','clientes.id','=', 'carrinhos.cliente_id')
+                    ->leftJoin('encomendas_itens', 'clientes.user_id','=','encomendas_itens.user_id')
+                    ->select('produtos.*','encomendas_itens.id as statusId','encomendas_itens.status')
+                    ->where('clientes.user_id', $id)
+                    ->where('produtos.id','<>', null)
+                    ->orderBy('produtos.id', 'desc')
+                    ->get();
+           */}
+
             $carrinho = $cliente->carrinho;
-            $produtos= $carrinho->produtos;
+            //$produtos= $carrinho->produtos;
             
             if($carrinho){
     

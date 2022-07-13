@@ -30,12 +30,12 @@ const deleteUser = (e, id) => {
     axios.delete(`/api/admin/funcionarios/delete/${id}`).then(res=>{
         if(res.data.status === 200)
         {
-            swal("Eliminado!",res.data.message,"Sucesso");
+            swal("Eliminado!",res.data.message,"success");
             thisClicked.closest("tr").remove()   
         }
         else if(res.data.status === 404)
         {
-            swal("Error",res.data.message,"Falha");
+            swal("Ops",res.data.message,"error");
             thisClicked.innerText = "Delete";
         }
 
@@ -105,7 +105,7 @@ const deleteUser = (e, id) => {
                         <td >
                             {item.perfil}
                         </td>
-                        <td width="155">
+                        <td width="160">
                             <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i class="fa fa-eye"></i></a>
                             <Link to={`/admin/produtos/cadastrar/${item.id}`} class="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i class="fa fa-edit"></i></Link>
                             <button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.id)} title="Deletar"><i class="fa fa-times"></i></button>

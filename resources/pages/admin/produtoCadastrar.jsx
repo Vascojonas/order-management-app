@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { NavLink, useParams } from 'react-router-dom';
+
 import axios from 'axios';
 import swal from 'sweetalert';
 
 
 
 function produtoCadastrar() {
-
-  const[editProduct, setEditProduct]= useState(false);
+  const {id } = useParams();
+  const[edit, setEdit]= useState(false);
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -16,17 +18,39 @@ function produtoCadastrar() {
       categoria: '',
       nome: '',
       descricao: '',
-      quantidade: '',
       preco: '',
       imagem: '',
       error_list: [],
   });
 
-  if(editProduct){
-    
-  }
 
   
+
+useEffect(()=>{
+
+  if(id){
+    axios.get('/api/admin/produtos/'+id)
+    .then((res) =>{
+      if(res.data.status===200){
+        
+        let data=res.data.data
+        console.log(data);
+        setProduct({...productInput, nome: data.nome, preco: data.preco ,
+          categoria: data.categoria, descricao: data.descricao, imagem: data.imagem, id: data.id });
+          setEdit(true);
+       
+      }else if( res.data.status===404){
+        console.log(res.data.data)
+        setEdit(false);
+
+      }
+      
+    })
+  }
+}, []);
+
+
+
 
 const handleInput = (e) => {
   e.persist();
@@ -55,7 +79,6 @@ const savePrduct = (e) => {
         nome:productInput.nome,
         categoria:productInput.categoria,
         descricao:productInput.descricao,
-        quantidade:productInput.quantidade,
         preco:productInput.preco,
         imagem: res.data.path
     }
@@ -69,12 +92,11 @@ const savePrduct = (e) => {
           //console.log(res.data.imagem);
             console.log("Working");
   
-          swal("Successo!",res.data.message,"Sucesso");
+          swal("Successo!",res.data.message,"success");
           setProduct({
               categoria: '',
               nome: '',
               descricao: '',
-              quantidade: '',
               preco: '',
               imagem: '',
               error_list: [],
@@ -88,6 +110,7 @@ const savePrduct = (e) => {
         {
           console.log("Fails", res.data.validate_err);
           setProduct({...productInput, error_list: res.data.validate_err });
+          
         }
       });
         
@@ -97,6 +120,41 @@ const savePrduct = (e) => {
       });
 }
 
+const updateProduct = (e)=>{
+  e.preventDefault();
+
+    const data = {
+      id:productInput.id,
+      nome:productInput.nome,
+      categoria:productInput.categoria,
+      descricao:productInput.descricao,
+      preco:productInput.preco,
+   }
+
+
+   axios.put('/api/admin/produtos/update', data).then(res => {
+    if(res.data.status === 200)
+    {
+      //console.log(res.data.data)
+      swal("Successo!",res.data.message,"success");
+     
+      setTimeout(()=>{
+        window.location.reload(false);
+      }, 1500)
+     
+    }
+    else if(res.data.status === 422)
+    {
+      console.log(res.data.data)
+
+    }
+    else if(res.data.status === 404)
+    {
+      console.log(res.data.data)
+
+    }
+  });
+}
 
 
 
@@ -117,10 +175,11 @@ const savePrduct = (e) => {
                     <div className="col-md-8">
                       <select className="form-control border-golden " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>
-                              <option value={"quadros"} >Quadro de pedra</option>
-                              <option value={"copos"}>Chávena</option>
-                              <option value={"chaveiros"}>Chaveiro</option>
-                              <option value={"popups"}></option>
+                              <option value={"quadro"} >Quadro de pedra</option>
+                              <option value={"chavena"}>Chávena</option>
+                              <option value={"chaveiro"}>Chaveiro</option>
+                              <option value={"bebedouro"}>Bebedouro</option>
+                              <option value={"popsocket"}>Popsocket</option>
                          </select>
                     <span className="text-danger">{productInput.error_list.categoria}</span>
 
@@ -146,7 +205,7 @@ const savePrduct = (e) => {
 
                      </div>
                 </div>
-                <div className='form-group row  ml-2'>
+               {/* <div className='form-group row  ml-2'>
                     <label htmlFor="preco" className="col-md-4 col-form-label ">Quantidade</label>
                     <div className="col-md-8">
                      <input className="form-control border-golden " type="number" id="quantidade" name="quantidade" onChange={handleInput} value={productInput.quantidade}
@@ -154,7 +213,7 @@ const savePrduct = (e) => {
                     <span className="text-danger">{productInput.error_list.quantidade}</span>
 
                     </div>
-                </div>
+                </div>*/}
 
                 <div className='form-group row  ml-2'>
                     <label htmlFor="preco" className="col-md-4 col-form-label ">Preço</label>
@@ -172,35 +231,48 @@ const savePrduct = (e) => {
 
             <div className='col-6 '>
               
-                  <div className={`border-golden box-upload ${selectedImage && 'box-upload-image'}  ml-auto mr-3  text-center`} >
+                 {(!edit)?( <div className={`border-golden box-upload ${selectedImage && 'box-upload-image'}  ml-auto mr-3  text-center`} >
                       {selectedImage?(
                           <div className=''>
                                <img  className='box-upload-image'  src={URL.createObjectURL(selectedImage)} alt="imagem do brinde" />
                           </div>
                         ): (<div className='box-upload-text'>Nenhuma imagem selecionada</div>)}
-                  </div>
-              
+                  </div>):
 
-                  <div className=' mt-3'>
+                  (<div className={`border-golden box-upload  ml-auto mr-3  text-center mb-3`} >
+                      
+                          <div className=''>
+                               <img  className='box-upload-image'  src={productInput.imagem} alt="imagem do brinde" />
+                          </div>
+                        
+                  </div>)}
+                        
+                  
+
+                  {(!edit)&&(<div className=' mt-3'>
                     <label className="button offset-2" htmlFor="imagem">Selecione a imagem</label>
                     <input className='col-6 ml-auto' type="file"  name="imagem" id="imagem" accept="image/*" 
                     onChange={(event)=>{
                       //console.log(event.target.files[0].name);
                       setSelectedImage(event.target.files[0]);
-                      setProduct({...productInput, [event.target.name]: event.target.value })
+        
                       //console.log(productInput.imagem)
   
-                    }}  value={productInput.imagem}/>
-                  </div>
+                    }} />
+                  </div>)}
                     <span className="text-danger  offset-2">{productInput.error_list.imagem}</span>
           
             </div>
 
         </div>
 
-            <div className='row mt-3'>
+            {(!edit)?(<div className='row mt-3'>
                 <button type='submit' className='btn bg-principal col-3  ml-auto mr-4' >Cadastrar</button>
-            </div>
+            </div>):
+
+            (<div className='row mt-5'>
+                <button onClick={updateProduct} className='btn bg-principal col-3  ml-auto mr-4' >Actualizar</button>
+            </div>)}
         </form>
         
     </div>

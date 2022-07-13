@@ -5,6 +5,8 @@ import {BsFillEyeFill, BsCalendarPlusFill,BsPlusSquareFill} from 'react-icons/bs
 import {BiLogOutCircle} from 'react-icons/bi';
 
 import AuthUser from './AuthUser';
+import Logo from './layouts/logo.jpg';
+
 
 function nav() {
 const {getUser, logOut} = AuthUser();
@@ -19,7 +21,7 @@ const logout =()=>{
   return (
     <div className='border-right col-2 m-0 p-0 '>
        <div className='row p-3  bg-principal cabecalho'>
-             <h4 className='ml-4 text-white'><span className='text-white'>< FaGifts /></span>  NLH TECH</h4>
+            <h4 className='ml-4 mb-4'><span className='text-golden'><img className='logo' src={Logo} /></span> Tsakissa</h4>
        </div>
 
        <nav className='mt-5 '>

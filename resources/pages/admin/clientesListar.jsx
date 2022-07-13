@@ -36,12 +36,12 @@ const deleteUser = (e, id) => {
     axios.delete('/api/admin/clientes/delete/'+userId).then(res=>{
         if(res.data.status === 200)
         {
-            swal("Eliminadao!",res.data.message,"Sucesso!");
+            swal("Eliminadao!",res.data.message,"success");
             thisClicked.closest("tr").remove()   
         }
         else if(res.data.status === 404)
         {
-            swal("Error",res.data.message,"error");
+            swal("Ops!",res.data.message,"error");
             thisClicked.innerText = "Eliminar";
         }
 
@@ -99,7 +99,7 @@ const deleteUser = (e, id) => {
                             {item.apelido}
                           </td>
                           <td>{item.email}</td>
-                          <td>{item.tel1}</td>
+                          <td>{item.telefone}</td>
                           
                         <td >
                             {item.perfil}

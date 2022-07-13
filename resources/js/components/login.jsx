@@ -4,6 +4,8 @@ import AuthUser from './AuthUser';
 import axios from 'axios';
 import {NavLink, Link} from 'react-router-dom';
 
+import Logo from './layouts/logo.jpg';
+
 
 import {FaGifts, FaTransgender} from 'react-icons/fa';
 import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
@@ -65,7 +67,7 @@ function login() {
             <nav className='d-flex justify-content-between navbar navbar-expand-lg navbar-light -mr-3 p-0 '>
               
               <div className=''>
-                <h4 className='ml-4 '><span className='text-golden'>< FaGifts /></span> Tsakissa</h4>
+                <h4 className='ml-4 '><span className='text-golden'><img className='logo' src={Logo} /></span> Tsakissa</h4>
               </div>
              
               <div className=" justify-content-end collapse navbar-collapse" id="navbarNav ">

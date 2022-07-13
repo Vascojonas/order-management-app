@@ -11,6 +11,7 @@ import Personalizar from "../../pages/client/personalizarEncomenda";
 import Carinho from "../../pages/client/carinho";
 import ClienteCadastro from '../../pages/client/clienteCadastro';
 import Login from './login';
+import Encomendas from '../../pages/admin/encomendas';
 
 import ClientesListar from '../../pages/admin/clientesListar';
 import AuthUser from './AuthUser';
@@ -61,9 +62,12 @@ function App(){
             <Route  element={<AdminLayout />} >
             <Route path='/admin/clientes' element={<ClientesListar/>}/>
               <Route path='/admin/produtos/cadastrar' element={<ProdutoCadastrar/>}/>
+              <Route path='/admin/produtos/cadastrar/:id' element={<ProdutoCadastrar/>}/>
               <Route path='/admin/produtos/listar' element={<ProdutoListar/>}/>
                <Route path='/admin/funcionarios' exact element={<Funcionarios/>}/>
               <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
+              <Route path='/admin/produtos/encomendas'  element={<Encomendas/>}/>
+
             </Route>
          </Routes>
   
@@ -84,9 +88,12 @@ function App(){
 
                <Route path='/login' element={<Login/>}/>
                 <Route path='/admin/produtos/cadastrar' element={<Login/>}/>
+                <Route path='/admin/produtos/cadastrar/:id' element={<Login/>}/>
                 <Route path='/admin/produtos/listar' element={<Login/>}/>
                 <Route path='/admin/funcionarios' exact element={<Login/>}/>
                 <Route path='/admin/funcionarios/cadastrar'  element={<Login/>}/>
+              <Route path='/admin/produtos/encomendas'  element={<Login/>}/>
+
       
         </Routes>
     )
@@ -104,9 +111,13 @@ function App(){
               <Route path='/login' element={<Login/>}/>
               <Route path='/encomendas/personalizar/:id' element={<Login/>}/>
               <Route path='/admin/produtos/cadastrar' element={<Login/>}/>
+              <Route path='/admin/produtos/cadastrar/:id' element={<Login/>}/>
               <Route path='/admin/produtos/listar' element={<Login/>}/>
               <Route path='/admin/funcionarios' exact element={<Login/>}/>
               <Route path='/admin/funcionarios/cadastrar'  element={<Login/>}/>
+              <Route path='/admin/produtos/encomendas'  element={<Login/>}/>
+
+            
          
       </Routes>
     )

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
    BsFillPersonFill, BsFillHeartFill ,BsCart3, BsFillHouseDoorFill ,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
 
+import Logo from './logo.jpg';
 
 function user() {
   const {logOut, getUser,getToken} = AuthUser();
@@ -50,17 +51,17 @@ function user() {
 
   return (
     <div className='h-full '>
-        <header className='border-golden  nav-principal bg-principal pr-4 zindex-sticky'>
-            <nav className='d-flex justify-content-between navbar navbar-expand-lg navbar-light -mr-3 p-0 '>
+        <header className='border-golden  nav-principal bg-principal p-0 pr-4 zindex-sticky'>
+            <nav className='d-flex justify-content-between navbar navbar-expand-lg navbar-light m-0 mr-3 p-0  '>
               
               <div className=''>
-                <h4 className='ml-4 '><span className='text-golden'>< FaGifts /></span> Tsakissa</h4>
+                <h4 className='ml-4 '><span className='text-golden'><img className='logo' src={Logo} /></span> Tsakissa</h4>
               </div>
              
               <div className=" justify-content-end collapse navbar-collapse" id="navbarNav ">
                   <ul className="navbar-nav nav-header ">
                     <li className="nav-item">
-                      <NavLink to='/' className="nav-link text-dark" ><BsFillHouseDoorFill size={15}/> Home</NavLink>
+                      <NavLink to='/' className="nav-link text-dark" >< BsFillHouseDoorFill size={15}/> Home</NavLink>
                     </li>
                     
                     <li className="nav-item">
