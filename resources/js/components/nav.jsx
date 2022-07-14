@@ -37,7 +37,7 @@ const logout =()=>{
               <NavLink to='/admin/produtos/agenda' className='btn btn-block text-left'><BsCalendarPlusFill/> Consultar Agenda</NavLink>
             </li>            
             <li className='nav-item border-inferior  '> 
-              <NavLink to='/admin/produtos/encomendas' className='btn btn-block text-left'>< FaListUl/> Encomendas</NavLink>   
+              <NavLink to='/admin/produtos/encomendas/pendentes' className='btn btn-block text-left'>< FaListUl/> Encomendas</NavLink>   
             </li> 
 
             <li className='nav-item border-inferior  '> 

@@ -125,7 +125,19 @@ Route::get('/admin/produtos/cadastrar/{id}', function () {
     return view('welcome');
 });
 
-Route::get('/admin/produtos/encomendas', function () {
+Route::get('/admin/produtos/encomendas/pendentes', function () {
+    return view('welcome');
+});
+
+Route::get('/admin/produtos/encomendas/finalizadas', function () {
+    return view('welcome');
+});
+
+Route::get('/admin/produtos/encomendas/entregues', function () {
+    return view('welcome');
+});
+
+Route::get('/admin/encomenda/details/{id}', function () {
     return view('welcome');
 });
 

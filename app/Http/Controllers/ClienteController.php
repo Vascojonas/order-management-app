@@ -25,7 +25,7 @@ class ClienteController extends Controller
         $data = DB::table('encomendas_itens')
         ->leftJoin('clientes', 'clientes.user_id','=', 'encomendas_itens.user_id')
         ->leftJoin('produtos', 'produtos.id', '=','encomendas_itens.produto_id')
-        ->select('clientes.*','produtos.nome as pnome', 'produtos.imagem as imagem' , 'encomendas_itens.*')
+        ->select('clientes.*','produtos.nome as pnome', 'produtos.imagem as imagem' , 'encomendas_itens.*', 'encomendas_itens.id as encomendaId')
         ->get();
 
         if($data){

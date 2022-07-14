@@ -11,7 +11,11 @@ import Personalizar from "../../pages/client/personalizarEncomenda";
 import Carinho from "../../pages/client/carinho";
 import ClienteCadastro from '../../pages/client/clienteCadastro';
 import Login from './login';
-import Encomendas from '../../pages/admin/encomendas';
+import EncomendasPendentes from '../../pages/admin/encomendasPendentes';
+import EncomendasFinalizadas from '../../pages/admin/encomendasFinalizadas';
+import EncomendasEntregues from '../../pages/admin/encomendasEntregues';
+
+import EncomendaDetalhes from '../../pages/admin/encomendaDetalhes';
 
 import ClientesListar from '../../pages/admin/clientesListar';
 import AuthUser from './AuthUser';
@@ -66,7 +70,14 @@ function App(){
               <Route path='/admin/produtos/listar' element={<ProdutoListar/>}/>
                <Route path='/admin/funcionarios' exact element={<Funcionarios/>}/>
               <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
-              <Route path='/admin/produtos/encomendas'  element={<Encomendas/>}/>
+              <Route path='/admin/produtos/encomendas/pendentes'  element={<EncomendasPendentes/>}/>
+              <Route path='/admin/produtos/encomendas/finalizadas'  element={<EncomendasFinalizadas/>}/>
+              <Route path='/admin/produtos/encomendas/entregues'  element={<EncomendasEntregues/>}/>
+
+
+              <Route path='/admin/encomenda/details/:id'  element={<EncomendaDetalhes/>}/>
+
+              
 
             </Route>
          </Routes>
