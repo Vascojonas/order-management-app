@@ -36,28 +36,7 @@ function admin() {
     );
 
 
-    const agendaEncomendas =()=>{
-
-        let result = new Array();
-        let title;
-        let  date; 
-        encomendas.map((item)=>{
-            if(item.status==1||item.status==2){
-                title = item.nome +" "+item.apelido
-                date = (item.prazo.split(" "))[0];
-
-                let data ={
-                    title:title,
-                    date:date
-                }
-                result.push(data);
-            }
-        })
-        return result;
-    }
-
-
-    const agenda = agendaEncomendas();
+   
 
 
 
@@ -66,7 +45,7 @@ function admin() {
       <Nav  />
       <div className="col-10 ">
           <Header  pendentes={pendentes.length} hoje={forToday.length}  />
-          <Outlet context={[encomendas, setEncomendas], agenda}   />
+          <Outlet context={[encomendas,setEncomendas]}  />
       </div>
    </div>
   )

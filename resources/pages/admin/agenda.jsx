@@ -5,9 +5,34 @@ import dayGridPlugin from '@fullcalendar/daygrid' // a plugin!
 
 function agenda() {
 
-  const agenda= useOutletContext();
+  const [encomendas,setEncomendas]= useOutletContext();
 
-  console.log(agenda)
+
+  const agendaEncomendas =()=>{
+
+    let result = new Array();
+    let title;
+    let  date; 
+
+    encomendas.map((item)=>{
+        if(item.status==1||item.status==2){
+            title = item.nome +" "+item.apelido
+            date = (item.prazo.split(" "))[0];
+
+            let data ={
+                title:title,
+                date:date
+            }
+            result.push(data);
+        }
+    })
+    return result;
+}
+
+
+const agenda = agendaEncomendas();
+
+  console.log()
   return (
 
     <div className="container mt-3" style={{height:"460px"}}>
