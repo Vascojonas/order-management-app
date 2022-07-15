@@ -3,30 +3,79 @@ import { button, Link, useParams, useOutletContext } from 'react-router-dom';
 
 function encomendaDetalhes() {
 
-
 const {id} = useParams();
-const [encomendas, setEncomendas] = useOutletContext();
+const [encomendas, setEncomendas]= useOutletContext();
+const [encomenda, setEncomenda]= useState({
+    nome: '',
+    apelido: '',
+    telefone: '',
+    email: '',
+    imagem: '',
+    imagem_ass: '',
+    descricao: '',
+    status: ''
+})
+
+useEffect(()=>{
+
+    axios.get(`/api/admin/encomendas/iten/`+id).then(res=>{
+        if(res.status === 200)
+        {
+            console.log(res.data.data)
+           setEncomenda(...res.data.data)  
+        }else{
+            console.log(res.data.data)
+            
+        }
+    });
+
+},[])
 
 
+const finalizarEncomenda=(e,status)=>{
+    e.persist();
+    let data={
+        id: id,
+        status:status
+    }
 
-let encomenda= encomendas.filter((item)=>
-item.encomendaId==id
-)
+    axios.put(`/api/admin/encomendas/update/status`, data).then(res=>{
+        if(res.status === 200)
+        {
+            console.log(res.data.data)
+            encomendas.map((item)=>{
+                if(item.encomendaId==id){
+                    item.status=2;
+                }
+            })
+            if(status==2){
+                swal("Sucesso!",res.data.message,"success");
+            }else if(status==3){
+                swal("Sucesso!","Encomenda entregue com sucesso!","success");
+            }
 
-
-
+        }else{
+            console.log(res.data.data)
+            swal("Ops!",res.data.message,"error");
+        }
+    });
+}
 
 
 
   return (
     <div>
     <div className='m-3 row'>
-        < h4>Encomenda detalhes</h4>
+        <h4>Detalhes da encomenda</h4>
 
         
             <ul className='nav justify-content-center ml-auto'>
                 <li className='nav-item'>
-                    <Link  to="/admin/produtos/encomendas" className='nav-link btn btn-outline-secondary mr-2'  >Voltar</Link>
+                   {(encomenda.status===1)&&(<Link  to="/admin/produtos/encomendas/pendentes" className='nav-link btn btn-outline-secondary mr-2'  >Voltar</Link>)}
+                   {(encomenda.status===2)&&(<Link  to="/admin/produtos/encomendas/finalizadas" className='nav-link btn btn-outline-secondary mr-2'  >Voltar</Link>)}
+                   {(encomenda.status===3)&&(<Link  to="/admin/produtos/encomendas/entregues" className='nav-link btn btn-outline-secondary mr-2'  >Voltar</Link>)}
+
+                    
                 </li>
             </ul>
     </div>
@@ -47,7 +96,7 @@ item.encomendaId==id
 
                        <div className='form-group row ml-2'>
                             <div className=''>
-                                <img  className='box-upload-image' src="/storage/uploads/1657707574_kit-3-quadros-decorativos-leao-colorido-kit-quadros-decorativos.jpg" alt="imagem do brinde" />
+                                <img  className='box-upload-image' src={encomenda.imagem} alt="imagem do brinde" />
                             </div>
                         </div>
                        
@@ -60,20 +109,23 @@ item.encomendaId==id
                        </div>
 
                        <div className='form-group row ml-2 mt-3'>
-                            <h6>Descrição</h6>
-                            <p>
-                                
-                            </p> 
+                            <div className="">
+                                <h5>Descrição</h5>
+                                <p>
+                                    {encomenda.descricao}
+                                </p> 
+
+                            </div>
                         </div>
 
-                        <div className='form-group row ml-2 mt-1 '>
+                        {(encomenda.imagem_ass!='...')&&(<div className='form-group row ml-2 mt-1 '>
                             
                             <div className={`box-upload   text-center `} >
                                     <div className=''>
-                                        <img   src='...'  />
+                                        <img  className='box-upload-image'  src={encomenda.imagem_ass}  />
                                     </div>
                             </div>
-                        </div>
+                        </div>)}
 
 
                          
@@ -87,11 +139,12 @@ item.encomendaId==id
                 <h5>Dados do Cliente</h5>
 
                 <strong>Nome :</strong> {encomenda.nome +" "+encomenda.apelido} <br/>
-                <strong>Telefone :</strong> Vasco Jonas Mabui <br/>
-                <strong>Email :</strong> Vasco Jonas Mabui <br/>
+                <strong>Telefone :</strong> {encomenda.telefone} <br/>
+                <strong>Email :</strong>  {encomenda.email}<br/>
 
                 <div className="d-flex justify-content-end">
-                    <button className='btn bg-principal col-3'>Finalizar</button>
+                   {(encomenda.status===1)&&(<button onClick={ (e) =>finalizarEncomenda(e,2)} className='btn bg-principal col-3'>Finalizar</button>)}
+                   {(encomenda.status===2)&&(<button onClick={ (e)=> finalizarEncomenda(e,3)} className='btn bg-principal col-3'>Entregar</button>)}
                 </div>
             </div>
 

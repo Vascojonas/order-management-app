@@ -1,3 +1,4 @@
+import { result } from 'lodash';
 import React ,{useState,  useEffect}  from 'react'
 import {Outlet} from 'react-router-dom'; 
 
@@ -14,7 +15,7 @@ function admin() {
         if(res.status === 200)
         {
             setEncomendas(res.data.data)
-             console.log(res.data.data)
+            // console.log(res.data.data)
              if(res.data.data){
             }   
         }
@@ -22,7 +23,7 @@ function admin() {
 
     }, []);
 
-    
+        
     const pendentes = encomendas.filter((item)=>
     item.status==1
     ); 
@@ -33,14 +34,39 @@ function admin() {
     const forToday =encomendas.filter((item)=>
            (item.prazo.split(" ")[0])==date && (item.status==1||item.status==2)
     );
-    console.log("Para Hoje")
-    console.log(forToday)
+
+
+    const agendaEncomendas =()=>{
+
+        let result = new Array();
+        let title;
+        let  date; 
+        encomendas.map((item)=>{
+            if(item.status==1||item.status==2){
+                title = item.nome +" "+item.apelido
+                date = (item.prazo.split(" "))[0];
+
+                let data ={
+                    title:title,
+                    date:date
+                }
+                result.push(data);
+            }
+        })
+        return result;
+    }
+
+
+    const agenda = agendaEncomendas();
+
+
+
   return (
   <div className="d-flex h" exact="/admin">
       <Nav  />
       <div className="col-10 ">
-          <Header  pendentes={pendentes.length} hoje={forToday.length} />
-          <Outlet context={[encomendas, setEncomendas]} />
+          <Header  pendentes={pendentes.length} hoje={forToday.length}  />
+          <Outlet context={[encomendas, setEncomendas], agenda}   />
       </div>
    </div>
   )

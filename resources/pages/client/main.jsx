@@ -73,7 +73,7 @@ function main() {
           axios.post('/api/admin/banner/salvar', data).then(res => {
             if(res.data.status === 200)
             {
-                swal("Successo!",res.data.message,"success");
+                swal("Sucesso!",res.data.message,"success");
                 setPublicidade({
                     titulo: '',
                      descricao: '',
@@ -163,7 +163,7 @@ function main() {
                                 {
                                     //console.log(presp.data.message);
 
-                                    swal("Successo!",presp.data.message,"success")
+                                    swal("Sucesso!",presp.data.message,"success")
 
                                 }
                                 else if(presp.data.status === 405)

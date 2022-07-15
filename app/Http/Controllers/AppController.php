@@ -10,6 +10,7 @@ use App\Models\Cliente;
 use App\Models\Produto;
 use App\Models\Funcionario;
 use App\Models\Publicidade;
+use App\Models\encomendasItens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -18,6 +19,66 @@ use Illuminate\Support\Facades\Validator;
 
 class AppController extends Controller
 {
+    function updateItemStatus(Request $request){
+        $validator = Validator::make($request->all(),[
+            'id'=>'required',
+            'status'=>'required',
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json([
+                'status'=> 422,
+                'validate_err'=> $validator->errors(),
+            ]);
+        }
+        else
+        {
+
+            $data = encomendasItens::find($request->input('id'));
+
+            if($data){
+                $data->status= $request->input('status');
+                $data->update();
+                return response()->json([
+                    'status'=> 200,
+                    'data'=> $data,
+                     'message'=>"Encomenda foi finalizada com suceeso!"
+                ]);
+            }else{
+
+                return response()->json([
+                    'status'=> 404,
+                    'data'=> $data,
+                     'message'=>"Encomenda não encontrada!"
+                ]);
+
+            }
+
+        }
+    }
+
+    function getEncomendaIten($id){
+        $data = DB::table('encomendas_itens')
+        ->leftJoin('clientes', 'clientes.user_id','=', 'encomendas_itens.user_id')
+        ->leftJoin('produtos', 'produtos.id', '=','encomendas_itens.produto_id')
+        ->where('encomendas_itens.id', $id)
+        ->select('clientes.*','produtos.nome as pnome', 'produtos.imagem as imagem' , 'encomendas_itens.*', 'encomendas_itens.id as encomendaId')
+        ->get();
+
+        if($data){
+            return response()->json([
+                'status'=> 200,
+                'data'=> $data,
+            ]);
+        }else{
+            return response()->json([
+                'status'=> 404,
+                'data'=> "Sem encomendas",
+            ]); 
+        }
+    }
+
     function updateProduct(Request $request){
         $validator = Validator::make($request->all(),[
            
@@ -444,7 +505,7 @@ class AppController extends Controller
     function upload(Request $request){
             
         $request->validate([
-           'file' => 'required|mimes:jpg,jpeg,png|max:2048'
+           'file' => 'required|mimes:jpg,jpeg,png'
         ]);
 
         if($request->file()) {

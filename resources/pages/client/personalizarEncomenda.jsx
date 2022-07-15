@@ -62,40 +62,10 @@ function personalizarEncomenda() {
 
 
 
-           /* axios.get(`/clientes/encomenda/`+user.id).then(res=>{
-                if(res.status === 200)
-                {
-                   // console.log(res.data.data)
-
-                   console.log(id);
-                   console.log(res.data.data);
-                   if(res.data.data){
-                     let  myp= res.data.data.filter((item)=>
-                                item.id === id       
-                             )
-
-                    console.log("rresposta");
-                       console.log(myp)
-                       //setProduct(res.data.data)  
-                   }
-                }else if(res.status === 200)
-                {
-                    console.log(res.data.data)   
-                    
-                }
-            })*/
+           
         }
        
-           /* axios.get(`/produtos/`+id).then(res=>{
-            if(res.status === 200)
-            {
-                console.log(res.data.data)   
-            }else if(res.status === 200)
-            {
-                console.log(res.data.data)   
-                
-            }
-        });*/
+           
   
     }, []);
     
@@ -126,9 +96,11 @@ function personalizarEncomenda() {
                 axios.post('/encomenda/itemSalvar/salvar', data).then(res => {
                     if(res.data.status==200){
                       //console.log(res.data.data)
-                      swal("Successo!",res.data.message,"success");
+                      swal("Sucesso!",res.data.message,"success");
                     }if(res.data.status==402){
                       console.log(res.data.data)
+                    }if(res.data.status==422){
+                      console.log(res.data.avalidate_err)
                     }
                 })
   
@@ -150,7 +122,7 @@ function personalizarEncomenda() {
             axios.post('/encomenda/itemSalvar/salvar', data).then(res => {
                 if(res.data.status==200){
                   //console.log(res.data.data)
-                  swal("Successo!",res.data.message,"success");
+                  swal("Sucesso!",res.data.message,"success");
                 }if(res.data.status==402){
                   console.log(res.data.data)
                 }
@@ -187,7 +159,7 @@ function personalizarEncomenda() {
               axios.put('/encomenda/item/update', data).then(res => {
                   if(res.data.status==200){
                     console.log(res.data.data)
-                    swal("Successo!",res.data.message,"success");
+                    swal("Sucesso!",res.data.message,"success");
                   }else if(res.data.status==402){
                     swal("Ops!",res.data.message,"error");
                     console.log(res.data.data)
@@ -214,7 +186,7 @@ function personalizarEncomenda() {
         axios.put('/encomenda/item/update', data).then(res => {
             if(res.data.status==200){
               console.log(res.data.data)
-              swal("Successo!",res.data.message,"success");
+              swal("Sucesso!",res.data.message,"success");
             }else if(res.data.status==402){
               swal("Ops!",res.data.message,"error");
               console.log(res.data.data)

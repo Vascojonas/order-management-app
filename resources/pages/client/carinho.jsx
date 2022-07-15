@@ -78,19 +78,21 @@ function carinho() {
 
                          axios.put('/encomenda/finalizar/compra', data).then(res => {
                             if(res.data.status==200){
-                              console.log(res.data.data)
-                              swal("Successo!",res.data.message,"success");
+                              //console.log(res.data.data)
+                              swal("Sucesso!","Encomenda efectuada com sucesso","success");
+                              setComprar(false);
                             }else if(res.data.status==402){
-                              swal("Ops!",res.data.message,"error");
+                              swal("Ops!","O correu um erro durante o pagamento tente novamente!","error");
                               console.log(res.data.data)
                             }else if(res.data.status==404){
-                              swal("Ops!",res.data.message,"error");
+                              swal("Ops!","O correu um erro durante o pagamento tente novamente!","error");
+                              //swal("Ops!",res.data.message,"error");
                             }
                         })
                     })
                 
                 
-                 //swal("Successo!",res.data.message,"success");
+                 //swal("Sucesso!",res.data.message,"success");
 
                   
               }

@@ -168,10 +168,7 @@ class ClienteController extends Controller
             ];
             
             $item =  encomendasItens::create($data);
-            
-            
-            
-           
+          
             return response()->json([
                 'status'=> 200,
                 'data'=> $item,
@@ -192,7 +189,9 @@ class ClienteController extends Controller
             $produto_id =$params[1];
             
             $ecomendaItem = encomendasItens::where('user_id','=',$user_id)
-            ->where('produto_id', '=', $produto_id)->first();
+            ->where('produto_id', '=', $produto_id)
+            ->where('status','=',0)
+            ->first();
 
             if($ecomendaItem){
                 return response()->json([

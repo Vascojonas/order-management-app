@@ -5,8 +5,7 @@ import {IoIosNotifications} from 'react-icons/io';
 import {IoCalendar,IoSearch} from 'react-icons/io5';
 
 function Header({pendentes, hoje}) {
-
-  console.log(pendentes);
+  
   return (
     <header>
         <div className="row bg-principal cabecalho">

@@ -18,6 +18,7 @@ import EncomendasEntregues from '../../pages/admin/encomendasEntregues';
 import EncomendaDetalhes from '../../pages/admin/encomendaDetalhes';
 
 import ClientesListar from '../../pages/admin/clientesListar';
+import Agenda from '../../pages/admin/agenda';
 import AuthUser from './AuthUser';
 
 import axios from 'axios';
@@ -73,9 +74,10 @@ function App(){
               <Route path='/admin/produtos/encomendas/pendentes'  element={<EncomendasPendentes/>}/>
               <Route path='/admin/produtos/encomendas/finalizadas'  element={<EncomendasFinalizadas/>}/>
               <Route path='/admin/produtos/encomendas/entregues'  element={<EncomendasEntregues/>}/>
+              <Route path='/admin/produtos/agenda'  element={<Agenda/>}/>
 
+              
 
-              <Route path='/admin/encomenda/details/:id'  element={<EncomendaDetalhes/>}/>
 
               
 

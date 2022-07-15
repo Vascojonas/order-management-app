@@ -8,6 +8,7 @@ function encomendas() {
 
    const [pendentes, setPedentes]= useState(true);
    const [loading, setLoading] = useState(false);
+   const [agenda, setAgenda]=useState([]);
    const [encomendas, setEncomendas] = useOutletContext();
 
   

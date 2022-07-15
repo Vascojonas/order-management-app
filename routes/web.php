@@ -46,7 +46,12 @@ Route::get('/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'ge
 //rolle
 Route::get('/user/role/{id}',[\App\Http\Controllers\AppController::class, 'getRole']);
 
-//Encomendas
+//Encomendas  
+Route::get('/api/admin/encomendas/iten/{id}',[\App\Http\Controllers\AppController::class, 'getEncomendaIten']);
+Route::put('/api/admin/encomendas/update/status',[\App\Http\Controllers\AppController::class, 'updateItemStatus']);
+
+
+
 Route::get('/clientes/carrinho/{id}',[\App\Http\Controllers\ClienteController::class, 'getUserCarrinho']);
 Route::post('/carrinho/produtos/salvar',[\App\Http\Controllers\ClienteController::class,'produtoCarrinhoSave']);
 Route::get('/carrinho/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'carrinhoProdutos']);
@@ -138,6 +143,10 @@ Route::get('/admin/produtos/encomendas/entregues', function () {
 });
 
 Route::get('/admin/encomenda/details/{id}', function () {
+    return view('welcome');
+});
+
+Route::get('/admin/produtos/agenda', function () {
     return view('welcome');
 });
 

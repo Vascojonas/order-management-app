@@ -1,7 +1,7 @@
 import React, {useState,  useEffect} from 'react'
 import {Link,NavLink, useOutletContext } from 'react-router-dom';
 import {IoSearch} from 'react-icons/io5';
-import {BsArrowRepeat, BsCheckSquareFill} from 'react-icons/bs'
+import {BsArrowRepeat, BsCheck2} from 'react-icons/bs'
  
 
 function encomendas() {
@@ -85,7 +85,7 @@ if(loading){
                             </td>
                             <td width="130">
                                 <Link to={'/admin/encomenda/details/'+item.encomendaId} className="btn btn-sm btn-circle btn-outline-golden mr-1 " title="Visualizar"><i className="fa fa-eye"></i></Link>
-                                <button className="btn btn-sm btn-circle  btn btn-outline-danger"   title="Deletar">< BsArrowRepeat /></button>
+                                <button className="btn btn-sm btn-circle  btn-outline-info"   title="Finalizado">< BsCheck2 /></button>
                             </td>
                          </tr>
                     )               

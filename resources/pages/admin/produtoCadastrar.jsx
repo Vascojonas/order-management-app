@@ -92,7 +92,7 @@ const savePrduct = (e) => {
           //console.log(res.data.imagem);
             console.log("Working");
   
-          swal("Successo!",res.data.message,"success");
+          swal("Sucesso!",res.data.message,"success");
           setProduct({
               categoria: '',
               nome: '',
@@ -136,7 +136,7 @@ const updateProduct = (e)=>{
     if(res.data.status === 200)
     {
       //console.log(res.data.data)
-      swal("Successo!",res.data.message,"success");
+      swal("Sucesso!",res.data.message,"success");
      
       setTimeout(()=>{
         window.location.reload(false);
