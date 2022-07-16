@@ -56,6 +56,14 @@ Route::get('/clientes/carrinho/{id}',[\App\Http\Controllers\ClienteController::c
 Route::post('/carrinho/produtos/salvar',[\App\Http\Controllers\ClienteController::class,'produtoCarrinhoSave']);
 Route::get('/carrinho/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'carrinhoProdutos']);
 Route::delete('/carrinho/produtos/delete/{code}',[\App\Http\Controllers\ClienteController::class, 'carrinhoProdutoRemove']);
+
+Route::get('/clientes/wish/{id}',[\App\Http\Controllers\ClienteController::class, 'getUserWish']);
+Route::post('/wish/produtos/salvar',[\App\Http\Controllers\ClienteController::class,'produtoWishSave']);
+Route::get('/wish/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'WishProdutos']);
+Route::delete('/wish/produtos/delete/{code}',[\App\Http\Controllers\ClienteController::class, 'WishProdutoRemove']);
+
+
+
 Route::get('/clientes/encomenda/{id}',[\App\Http\Controllers\ClienteController::class, 'getUserEncomenda']);
 Route::post('/encomenda/detalhes/salvar',[\App\Http\Controllers\ClienteController::class, 'encomendaDetalhesSave']);
 
@@ -112,6 +120,11 @@ Route::get('/encomendas/personalizar/{id}', function () {
 Route::get('/cliente/carinho', function () {
     return view('welcome');
 });
+
+Route::get('/cliente/whish', function () {
+    return view('welcome');
+});
+
 
 Route::get('/clientes/cadastrar', function () {
     return view('welcome');

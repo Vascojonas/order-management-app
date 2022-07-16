@@ -38,7 +38,7 @@ const agenda = agendaEncomendas();
     <div className="container mt-3" style={{height:"460px"}}>
 
         <FullCalendar
-            plugins={[ dayGridPlugin ]}
+            plugins={[ dayGridPlugin]}
             initialView="dayGridMonth"
             weekends={true}
             events={agenda}

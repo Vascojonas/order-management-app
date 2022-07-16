@@ -24,9 +24,9 @@ class Produto extends Model
         return $this->belongsToMany(Carrinho::class);
     }
 
-    public function whishes()
+    public function wishes()
     {
-        return $this->belongsToMany(Whish::class);
+        return $this->belongsToMany(Wish::class);
     }
 
     public function encomendas()

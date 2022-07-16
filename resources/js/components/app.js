@@ -9,6 +9,7 @@ import FuncionarioCadastro from "../../pages/admin/funcionarioCadastro";
 import Main from "../../pages/client/main";
 import Personalizar from "../../pages/client/personalizarEncomenda";
 import Carinho from "../../pages/client/carinho";
+import Wish from '../../pages/client/wish';
 import ClienteCadastro from '../../pages/client/clienteCadastro';
 import Login from './login';
 import EncomendasPendentes from '../../pages/admin/encomendasPendentes';
@@ -61,6 +62,7 @@ function App(){
                 <Route path='/' element={<Main/>}/>
                 <Route path='/encomendas/personalizar/:id' element={<Personalizar/>}/>
                 <Route path='/cliente/carinho' element={<Carinho/>}/>
+                <Route path='/cliente/whish' element={<Wish/>}/>
                 <Route path='/clientes/cadastrar' element={<ClienteCadastro/>}/>
             </Route>
 
@@ -73,6 +75,7 @@ function App(){
               <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
               <Route path='/admin/produtos/encomendas/pendentes'  element={<EncomendasPendentes/>}/>
               <Route path='/admin/produtos/encomendas/finalizadas'  element={<EncomendasFinalizadas/>}/>
+              <Route path='/admin/encomenda/details/:id'  element={<EncomendaDetalhes/>}/>
               <Route path='/admin/produtos/encomendas/entregues'  element={<EncomendasEntregues/>}/>
               <Route path='/admin/produtos/agenda'  element={<Agenda/>}/>
 
@@ -96,6 +99,7 @@ function App(){
               <Route path='/' element={<Main/>}/>
               <Route path='/encomendas/personalizar/:id' element={<Personalizar/>}/>
               <Route path='/cliente/carinho' element={<Carinho/>}/>
+              <Route path='/cliente/whish' element={<Wish/>}/>
               <Route path='/clientes/cadastrar' element={<ClienteCadastro/>}/>
             </Route>
 
@@ -117,6 +121,7 @@ function App(){
           <Route path="/" element={<UserLayout />} >
             <Route path='/' element={<Main/>}/>
             <Route path='/cliente/carinho' element={<Carinho/>}/>
+            <Route path='/cliente/whish' element={<Wish/>}/>
             <Route path='/clientes/cadastrar' element={<ClienteCadastro/>}/>
           </Route>
 

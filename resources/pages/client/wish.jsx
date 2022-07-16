@@ -8,7 +8,7 @@ import Mpesa from './mpesa.jpg'
 import swal from 'sweetalert';
  
 
-function carinho() {
+function wish() {
     const {getUser,getToken} = AuthUser();
     const [user, setUser] = useState(()=>{
       if(getUser()){
@@ -133,7 +133,7 @@ function carinho() {
 
         let element = document.getElementById('cb-'+id);
 
-        carrinho.map((item)=>{
+        wish.map((item)=>{
 
             if( element.checked ===true){
                
@@ -190,7 +190,7 @@ function carinho() {
 
         setComprar(false);
        
-        carrinho.map((item)=>{
+        wish.map((item)=>{
             
                 if(item.id==id){
                     if(e.target.value===0){
@@ -211,7 +211,8 @@ function carinho() {
 
 
     }
-    const deleteItemCarrinho= (e,id)=>{
+   
+    const deleteItemWish= (e,id)=>{
         e.preventDefault();
         const thisClicked = e.currentTarget;
         thisClicked.innerText = "Deletar";
@@ -226,12 +227,12 @@ function carinho() {
             produto: id
         }
         ////console.log(data);
-        axios.delete('/carrinho/produtos/delete/'+data.user_id+'-'+data.produto).then(res=>{
+        axios.delete('/wish/produtos/delete/'+data.user_id+'-'+data.produto).then(res=>{
             
             if(res.status === 200)
               { 
                 ////console.log(res.data.data);
-                setCarrinho(carrinho.filter((item)=>
+                setWish(wish.filter((item)=>
                     item.id !== id       
                  ))
                  swal("Eliminado!",res.data.message,"success");
@@ -242,7 +243,7 @@ function carinho() {
     }
     
     
-    const carrinho_TABLE = carrinho.map((item, key)=>{
+    const wish_TABLE = wish.map((item, key)=>{
         total += item.quantidade*item.preco;
             return(
 
@@ -263,7 +264,7 @@ function carinho() {
             
                           <input onChange={(e) => handleCompras(e, item.id)}  className=" btn btn-success big-checkbox mr-1" type="checkbox" value="" id={'cb-'+item.id}/>
                           <Link  to={'/encomendas/personalizar/'+item.id}  className="btn btn-sm btn-circle btn-outline-success mr-1"   title="Detalhes"><BsFillPencilFill/></Link>
-                          <button  onClick={(e) => deleteItemCarrinho(e, item.id)} className="btn btn-sm btn-circle btn-outline-danger"   title="Remover"><BsCartX/></button>
+                          <button  onClick={(e) => deleteItemWish(e, item.id)} className="btn btn-sm btn-circle btn-outline-danger"   title="Remover"><BsCartX/></button>
 
                       </td>
                  </tr>
@@ -298,14 +299,14 @@ function carinho() {
     if(carrinho.length==0){
         return(
             <div className='d-flex justify-content-center align-items-center  vazia '>
-                <h4 className=''>Sem carrinho</h4>
+                <h4 className=''>Sem favoritos</h4>
             </div>
         );
     }else{
 
         return (
           <div>
-             <h4>Meu carrinho</h4>
+             <h4>Favoritos</h4>
       
               <div className='conteudo mt-3 border-top'>
                   <div className='col-8 offset-2 mt-3'>
@@ -313,18 +314,18 @@ function carinho() {
                           <table className="table table-striped">
                           <thead>
                               <tr>
-                                  <th>Imagem</th>
-                                  <th>Nome</th>
-                                  <th width=''>Quantidade</th>
-                                  <th width=''>Preço_Unitário</th>
-                                  <th width='155'>Preço_Total</th>
-                                  <th width='300'></th>
+                                      <th>Imagem</th>
+                                      <th>Nome</th>
+                                      <th width=''>Quantidade</th>
+                                      <th width=''>Preço_Unitário</th>
+                                      <th width='155'>Preço_Total</th>
+                                      <th width='300'></th>
                               </tr>
                           </thead>
       
                           <tbody>
       
-                            {carrinho_TABLE}
+                            {wish_TABLE}
                           
       
                           </tbody>
@@ -333,7 +334,7 @@ function carinho() {
                                 <tr className=''>
                                 
                                 <td></td>
-                                <th  colSpan={3}>Total no Carrinho</th>
+                                <th  colSpan={3}>Total nos favoritos</th>
                                 <td id='center' align='' >{total},00MT</td>
                                 {<td className='pr-0'> 
                                     <button onClick={halndleComrar} className='btn  bg-principal btn-block'>Comprar</button>
@@ -408,4 +409,4 @@ function carinho() {
 
 }
 
-export default carinho
+export default wish

@@ -11,6 +11,7 @@ use App\Models\Produto;
 use App\Models\Funcionario;
 use App\Models\Publicidade;
 use App\Models\Carrinho;
+use App\Models\Wish;
 use App\Models\Encomenda;
 use App\Models\EncomendaProduto;
 use App\Models\encomendasItens;
@@ -21,6 +22,172 @@ use Illuminate\Support\Facades\Validator;
 
 class ClienteController extends Controller
 {
+
+
+
+
+    function wishProdutoRemove($request){   
+          
+        $params= explode("-", $request);
+    
+
+        if(count($params)==2){
+
+            $user_id= $params[0];
+            $product_id =$params[1];
+            $cliente=Cliente::where('user_id', $user_id)->first();
+          
+            $wish= $cliente->wish;
+
+            
+            $ip=DB::table('produto_wish')->where('produto_id','=', $product_id)
+            ->where('wish_id','=', $wish->id)->delete();
+    
+            return response()->json([
+                'status'=> 200,
+                'message'=>"Produto removido dos favoritos"
+            ]);
+
+        }else{
+
+            return response()->json([
+               'status'=> 404,
+               'data'=>"Not found!"
+           ]);
+        }
+        
+                
+
+   }
+
+
+
+
+    function getUserWish($id){
+   
+
+        $cliente = Cliente::where('user_id',$id)->first();
+    
+        if($cliente){
+    
+            $wish = $cliente->wish;
+            if($wish){
+    
+                $produtos= $wish->produtos;
+                return response()->json([
+                    'status'=> 200,
+                    'data'=>$wish
+                ]);
+            }else{
+    
+                $c = new Wish();
+                $cliente->wish()->save($c);
+    
+                getUserWish($id);
+    
+            }
+            return response()->json([
+                'status'=> 200,
+                'data'=>$cliente
+            ]);
+    
+        }else{
+            return response()->json([
+                'status'=> 422,
+                'data'=>"Cliente nao exite"
+            ]);
+        }
+    
+       }
+    
+
+    function produtoWishSave(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'produto_id'=>'required',
+            'wish_id'=>'required'
+        ]);
+    
+        
+        $produto=Produto::find($request->input('produto_id'));
+        
+        if($produto){
+            
+                    
+                $wish= Wish::find($request->input('wish_id'));
+                
+                $hasproduto = $wish->produtos()->where('produto_id', $produto->id)->exists();
+                if($hasproduto){
+                    return response()->json([
+                        'status'=> 405,
+                        'message'=>"Este produto já existe nos seus favoritos",
+                    ]);
+                }else{
+                    $res=  $wish->produtos()->save($produto);
+    
+                    return response()->json([
+                        'status'=> 200,
+                        'message'=>"Produto adicionado nos favoritos!",
+                    ]);
+    
+                }
+    
+    
+                return response()->json([
+                    'status'=> 200,
+                    'data'=>$res,
+                   
+                ]);
+            }else{
+                return response()->json([
+                    'status'=> 404,
+                    'data'=>"produto nao exite"
+                ]);
+            }
+       }
+
+    function wishProdutos($id){
+      
+        $cliente = Cliente::where('user_id',$id)->first();
+
+        if($cliente){
+          
+
+            $wish = $cliente->wish;
+            //$produtos= $carrinho->produtos;
+            
+            if($wish){
+    
+                $produtos= $wish->produtos;
+                return response()->json([
+                    'status'=> 200,
+                    'data'=>$produtos
+                ]);
+            }else{
+                return response()->json([
+                    'status'=> 200,
+                    'data'=> []
+                ]);
+            }
+
+        }else{
+            return response()->json([
+                'status'=> 404,
+                'data'=>[]
+            ]);
+
+        }
+
+   }
+
+
+
+
+
+
+
+
+
     function todasEncomendas(){
         $data = DB::table('encomendas_itens')
         ->leftJoin('clientes', 'clientes.user_id','=', 'encomendas_itens.user_id')

@@ -25,7 +25,8 @@ function main() {
     const navigate = useNavigate();
 
     const [mainContent, setMainContent]= useState([]);
-    const [carrinho, setCarrinho] =  useOutletContext();
+    //const [carrinho, setCarrinho] =  useOutletContext();
+    const [wish,setWish, carrinho, setCarrinho] =  useOutletContext();
 
      const [editPage,setEdit]=useState(false);
      const [bannerImage, setBannerImage] = useState(null);
@@ -60,8 +61,8 @@ function main() {
       
           axios.post('/api/admin/produtos/upload', dataImage, config)
           .then(function (res) {
-             //console.log(res.data.success);
-             //console.log(res.data.path);
+             ////console.log(res.data.success);
+             ////console.log(res.data.path);
               
              const data = {
               titulo:publicidadeInput.titulo,
@@ -69,7 +70,7 @@ function main() {
               imagem: res.data.path
              }
           
-            console.log(data);
+            //console.log(data);
           axios.post('/api/admin/banner/salvar', data).then(res => {
             if(res.data.status === 200)
             {
@@ -88,14 +89,14 @@ function main() {
               }
               else if(res.data.status === 422)
               {
-                console.log("Fails", res.data.validate_err);
+                //console.log("Fails", res.data.validate_err);
                 //setPublicidade({...publicidadeInput, error_list: res.data.validate_err });
               }
             });
               
               })
             .catch(function (err) {
-              console.log(err);
+              //console.log(err);
             });
       }
 
@@ -105,26 +106,11 @@ function main() {
 
 
     const handleCompra =(e)=>{
-        novaEncomenda = [];
-        const nova = (products.filter((item)=> item.id == e.target.value))[0];
-        nova.quantidade=1;
-        novaEncomenda.push(nova);
-        setEncomendas(novaEncomenda)
-        navigate('/encomendas/carinho');
-    }
-
-    const handleInput =(e)=>{
-        e.persist();
-        setPublicidade({...publicidadeInput, [e.target.name]: e.target.value })
-    }
-
-    const handleCarinho =(e)=>{
-       
-       const result = carrinho.find((item) => item.id == e.target.value);
+        const result = carrinho.find((item) => item.id == e.target.value);
        
 
         if(result){
-            //console.log("Encontrado")
+            ////console.log("Encontrado")
         }else{
           
             let novoItem = [...carrinho];
@@ -143,12 +129,12 @@ function main() {
             let data ={
                 id:user.id
               }
-                //console.log(data);
+                ////console.log(data);
             axios.get('/clientes/carrinho/'+data.id).then(res=>{
                 if(res.data.status === 200)
                 {     
-                       // console.log("Carrinho encontrado")
-                       //console.log(res.data)
+                       // //console.log("Carrinho encontrado")
+                       ////console.log(res.data)
                         let carrinho=res.data.data;
 
                         if(carrinho){
@@ -157,32 +143,110 @@ function main() {
                                 carrinho_id: carrinho.id
                            }
 
-                           console.log(data);
+                           //console.log(data);
                            axios.post('/carrinho/produtos/salvar',data).then(presp=>{
                                 if(presp.data.status === 200)
                                 {
-                                    //console.log(presp.data.message);
+                                    ////console.log(presp.data.message);
 
-                                    swal("Sucesso!",presp.data.message,"success")
+                                    navigate('/cliente/carinho');
 
                                 }
                                 else if(presp.data.status === 405)
                                 {
-                                    console.log(presp.data.message);
-                                    swal("Ops!",presp.data.message,"error")
+                                    ////console.log(presp.data.message);
+                                    navigate('/cliente/carinho');
 
                                 }
                            })
 
                         }else{
-                            console.log("existe")
+                            //console.log("existe")
 
                         }
                 }
                 else if(res.data.status === 404)
                 {
 
-                    console.log(res.data.data)
+                    //console.log(res.data.data)
+                    
+                }
+        
+            });
+        }
+
+    }
+
+    const handleInput =(e)=>{
+        e.persist();
+        setPublicidade({...publicidadeInput, [e.target.name]: e.target.value })
+    }
+
+    const handleCarinho =(e)=>{
+       
+       const result = carrinho.find((item) => item.id == e.target.value);
+       
+
+        if(result){
+            ////console.log("Encontrado")
+        }else{
+          
+            let novoItem = [...carrinho];
+            let nova = (products.filter((item)=> item.id == e.target.value))[0];
+            novoItem.push(nova);
+            setCarrinho(novoItem)
+        }
+    
+
+       
+
+        if(!user.id){
+            navigate('/login');
+        }else{
+
+            let data ={
+                id:user.id
+              }
+                ////console.log(data);
+            axios.get('/clientes/carrinho/'+data.id).then(res=>{
+                if(res.data.status === 200)
+                {     
+                       // //console.log("Carrinho encontrado")
+                       ////console.log(res.data)
+                        let carrinho=res.data.data;
+
+                        if(carrinho){
+                           let data={
+                                produto_id: e.target.value,
+                                carrinho_id: carrinho.id
+                           }
+
+                           //console.log(data);
+                           axios.post('/carrinho/produtos/salvar',data).then(presp=>{
+                                if(presp.data.status === 200)
+                                {
+                                    ////console.log(presp.data.message);
+
+                                    swal("Sucesso!",presp.data.message,"success")
+
+                                }
+                                else if(presp.data.status === 405)
+                                {
+                                    //console.log(presp.data.message);
+                                    swal("Ops!",presp.data.message,"error")
+
+                                }
+                           })
+
+                        }else{
+                            //console.log("existe")
+
+                        }
+                }
+                else if(res.data.status === 404)
+                {
+
+                    //console.log(res.data.data)
                     
                 }
         
@@ -193,6 +257,83 @@ function main() {
 
 
     }
+
+    const handleWish =(e)=>{
+       
+        const result = wish.find((item) => item.id == e.target.value);
+
+ 
+         if(result){
+             ////console.log("Encontrado")
+         }else{
+           
+             let novoItem = [...wish];
+             let nova = (products.filter((item)=> item.id == e.target.value))[0];
+             novoItem.push(nova);
+             setWish(novoItem)
+         }
+     
+ 
+        
+ 
+         if(!user.id){
+             navigate('/login');
+         }else{
+ 
+             let data ={
+                 id:user.id
+               }
+                 ////console.log(data);
+             axios.get('/clientes/wish/'+data.id).then(res=>{
+                 if(res.data.status === 200)
+                 {     
+                        // //console.log("Whish encontrado")
+                        ////console.log(res.data)
+                         let wish=res.data.data;
+ 
+                         if(wish){
+                            let data={
+                                 produto_id: e.target.value,
+                                 wish_id: wish.id
+                            }
+ 
+                            //console.log(data);
+                            axios.post('/wish/produtos/salvar',data).then(presp=>{
+                                 if(presp.data.status === 200)
+                                 {
+                                     ////console.log(presp.data.message);
+ 
+                                     swal("Sucesso!",presp.data.message,"success")
+ 
+                                 }
+                                 else if(presp.data.status === 405)
+                                 {
+                                     //console.log(presp.data.message);
+                                     swal("Ops!",presp.data.message,"error")
+ 
+                                 }
+                            })
+ 
+                         }else{
+                             //console.log("existe")
+ 
+                         }
+                 }
+                 else if(res.data.status === 404)
+                 {
+ 
+                     //console.log(res.data.data)
+                     
+                 }
+         
+             });
+         }
+ 
+ 
+ 
+ 
+     }
+
 
     useEffect(() => {
 
@@ -217,18 +358,18 @@ function main() {
     }, []);
 
 
-    let content_html =  products.map((item)=>{ 
+    let content_html =  products.map((item, key)=>{ 
         return (
 
-             <div className=" artigo border-golden m-2 " >
+             <div key={key} className=" artigo border-golden m-2 " >
                 <img className='artigo-imagem' src={item.imagem} >
 
                </img>
                <div className=" artigo-conteudo">
                        <div className='artigo-action d-flex col-8 offset-2 ' >
-                           <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                           <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                           <button value={item.id} onClick={handleCompra}   className='btn bg-principal btn-sm  btn-carrinho '> Comprar</button>
+                           <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                           <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                           <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
                         </div>
                    <div className='artigo-textos' >
                        <small><strong>{item.nome}</strong></small><br/>
@@ -243,20 +384,20 @@ function main() {
        )
     })
 
-    let quadros_html =  products.map((item)=>{ 
+    let quadros_html =  products.map((item, key)=>{ 
         if(item.categoria==='quadro'){
 
             return (
     
-                 <div className=" artigo border-golden m-2 " >
+                 <div key={key} className=" artigo border-golden m-2 " >
                     <img className='artigo-imagem' src={item.imagem} >
     
                    </img>
                    <div className=" artigo-conteudo">
                            <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn bg-principal btn-sm  btn-carrinho '> Comprar</button>
+                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
                             </div>
                        <div className='artigo-textos' >
                            <small><strong>{item.nome}</strong></small><br/>
@@ -275,20 +416,20 @@ function main() {
     })
 
 
-    let chavenas_html =  products.map((item)=>{ 
+    let chavenas_html =  products.map((item, key)=>{ 
         if(item.categoria==='chavena'){
 
             return (
     
-                 <div className=" artigo border-golden m-2 " >
+                 <div key={key} className=" artigo border-golden m-2 " >
                     <img className='artigo-imagem' src={item.imagem} >
     
                    </img>
                    <div className=" artigo-conteudo">
                            <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn bg-principal btn-sm  btn-carrinho '> Comprar</button>
+                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
                             </div>
                        <div className='artigo-textos' >
                            <small><strong>{item.nome}</strong></small><br/>
@@ -306,20 +447,20 @@ function main() {
         
     })
 
-    let bebedouros_html =  products.map((item)=>{ 
+    let bebedouros_html =  products.map((item, key)=>{ 
         if(item.categoria==='bebedouro'){
 
             return (
     
-                 <div className=" artigo border-golden m-2 " >
+                 <div key={key} className=" artigo border-golden m-2 " >
                     <img className='artigo-imagem' src={item.imagem} >
     
                    </img>
                    <div className=" artigo-conteudo">
                            <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn bg-principal btn-sm  btn-carrinho '> Comprar</button>
+                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
                             </div>
                        <div className='artigo-textos' >
                            <small><strong>{item.nome}</strong></small><br/>
@@ -337,20 +478,20 @@ function main() {
         
     })
 
-    let chaveiros_html =  products.map((item)=>{ 
+    let chaveiros_html =  products.map((item, key)=>{ 
         if(item.categoria==='chaveiro'){
 
             return (
     
-                 <div className=" artigo border-golden m-2 " >
+                 <div key={key} className=" artigo border-golden m-2 " >
                     <img className='artigo-imagem' src={item.imagem} >
     
                    </img>
                    <div className=" artigo-conteudo">
                            <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn bg-principal btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn bg-principal btn-sm  btn-carrinho '> Comprar</button>
+                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
                             </div>
                        <div className='artigo-textos' >
                            <small><strong>{item.nome}</strong></small><br/>
@@ -508,10 +649,10 @@ function main() {
             <div className="col-md-8">
                 <input className='form-control border border-white' type="file"  name="imagem" id="imagem" accept="image/*" 
                     onChange={(event)=>{
-                    //console.log(event.target.files[0].name);
+                    ////console.log(event.target.files[0].name);
                     setBannerImage(event.target.files[0]);
                     setPublicidade({...publicidadeInput, [event.target.name]: event.target.value })
-                    //console.log(publicidadeInput.imagem)
+                    ////console.log(publicidadeInput.imagem)
 
                     }}  value={publicidadeInput.imagem}/>
                      <span className="text-danger  offset-2">{publicidadeInput.error_list.imagem}</span>

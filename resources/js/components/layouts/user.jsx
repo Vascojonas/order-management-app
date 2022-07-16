@@ -5,7 +5,7 @@ import {NavLink, Link,Outlet} from 'react-router-dom';
 import {FaGifts} from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {BsInstagram, BsTwitter, BsWhatsapp, BsTelephoneOutboundFill,
-   BsFillPersonFill, BsFillHeartFill ,BsCart3, BsFillHouseDoorFill ,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
+   BsFillPersonFill, BsFillHeartFill ,BsCart3, BsFillHouseDoorFill ,BsCartPlus,BsCartX,BsFillEnvelopeFill} from 'react-icons/bs'
 
 import Logo from './logo.jpg';
 
@@ -20,6 +20,8 @@ function user() {
   });
 
   const [carrinho,setCarrinho]=useState([]);
+  const [wish,setWish]=useState([]);
+
   const [footer, setfooter]=useState(true);
 
   const logout =()=>{
@@ -42,6 +44,24 @@ function user() {
           
         }
     });
+
+}, []);
+
+
+useEffect(() => {
+
+  let data={user_id: user.id}
+  console.log(data);
+  axios.get('/wish/produtos/'+user.id).then(res=>{
+      
+    if(res.status === 200)
+      {
+        console.log(res.data.data)
+        
+        setWish(res.data.data)
+        
+      }
+  });
 
 }, []);
 
@@ -80,11 +100,11 @@ function user() {
                             </div>
                 
                     </li>
-                   {/* <li className="nav-item m">
+                    <li className="nav-item m">
                           <NavLink to='/cliente/whish' className="nav-link  text-danger" >
-                             <BsFillHeartFill size={25}/><span className='float-right number-box text-dark mt-0'>{carrinho.length}</span> 
+                             <BsFillHeartFill size={25}/><span className='float-right number-box text-dark mt-0'>{wish.length}</span> 
                           </NavLink>
-                    </li>*/}
+                    </li>
                     <li className="nav-item m">
                           <NavLink to='/cliente/carinho' className="nav-link  text-dark" >
                              <BsCart3 size={25}/><span className='float-right number-box text-dark mt-0'>{carrinho.length}</span> 
@@ -95,65 +115,40 @@ function user() {
             </nav>
         </header>
         <div className='container  h-100'>
-             <Outlet  context={[carrinho, setCarrinho]} />
+             <Outlet  context={[wish,setWish, carrinho, setCarrinho]} />
         </div>  
       
       {footer?( 
         <footer className=' bg-principal'>
               <div className='d-flex m-3 mt-5'>
                   <div className='box-rodape col-4 '>
-                    <h5> Quem somos Nós </h5>
-                    <p className='text-secondary'>
-                    
+                    <h5> SOBRE NÓS </h5>
+                    <p className='text-dark'>
+                     A Tsakissa é uma empresa jovem, dedicada  na produção e venda de artigos personalizados para todas as ocasiões.
                     </p>
-                  </div>
-                  <div className='box-rodape col-2  '>
-                      <h5> Apoio ao cliente</h5>
-                      <ul className="nav flex-column  p-0">
-                          <li className="nav-item p-0 m-0  ">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Minha Conta</Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Histórico de carrinho</Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Solicitar devolução</Link>
-                          </li>
-            
-                        </ul>
-                        
-                  </div>
-                  <div className='box-rodape  col-2'>
-                    <h5> Apoio ao cliente</h5>
-                    <ul className="nav flex-column  p-0">
-                          <li className="nav-item p-0 m-0  ">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Sobre Nós</Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Informações de Entrega</Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to='#' className="nav-link text-secondary p-0 m-0" >Métodos de pagamento</Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " >Termos e condições</Link>
-                          </li>
-                          <li className="nav-item">
-                            <Link to='#' className="nav-link  text-secondary p-0 m-0 " >Entre em contacto</Link>
-                          </li>
-                        </ul>
                   </div>
 
                   <div className='box-rodape col-4 '>
-                    <h5> Entre em Contacto</h5>
+                    <h5> TERMOS E CONDIÇÕES</h5>
+                    <p className='text-dark'>
+                     As encomendas são confirmadas mediante pagamento e levam 24h para estar prontas após a sua confirmação.
+                    </p>
+                  </div>
+            
+                  <div className='box-rodape col-4 '>
+                    <h5> ENTRAR EM CONTACTO</h5>
 
-                    <div className='mt-5 d-flex justify-content-center'>
-                    
-                        <a target='blanked' to='https://instagram.com/tsakissamz?r=nametag' className='btn btn-outline-dark b-rounded' title='Istagram'><BsInstagram size={30} /></a>
-                        <a target='blanked' to='https://bit.ly/3rABIyv' className='btn btn-outline-dark b-rounded' title='Whatsapp'><BsWhatsapp size={30} /></a>
+                   <div className=''>
+                     <Link to='#' className='btn btn-outline-dark b-rounded' title='Telefone'><BsFillEnvelopeFill size={30}/> tsakisaalda@gmail.com</Link>
                    </div>
-                   <div className='text-center'>
-                     <Link to='#' className='btn btn-outline-dark b-rounded' title='Telefone'><BsTelephoneOutboundFill size={30}/>843195364</Link>
+                   <div className=''>
+                    <Link to='#' className='btn btn-outline-dark b-rounded' title='Telefone'><BsTelephoneOutboundFill size={30}/>843195364</Link>
+                   </div>
+                    <div className='d-flex '>
+                        <a target='_blank' href='https://instagram.com/tsakissamz?r=nametag' className='btn btn-outline-dark b-rounded' title='Istagram'><BsInstagram size={30} /></a>
+                    
+                        <a target='_blank' href='https://bit.ly/3rABIyv' className='btn btn-outline-dark b-rounded' title='Whatsapp'><BsWhatsapp size={30} /></a>
+
                    </div>
                    <div className='text-end'>
                      <Link to='admin/produtos/cadastrar' className='nav-link text-dark' >.</Link>

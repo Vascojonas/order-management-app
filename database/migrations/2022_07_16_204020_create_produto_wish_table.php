@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('produto_whish', function (Blueprint $table) {
+        Schema::create('produto_wish', function (Blueprint $table) {
             $table->id();
-            $table->integer('whish_id')->unsigned();
+            $table->integer('wish_id')->unsigned();
             $table->integer('produto_id')->unsigned();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produto_whish');
+        Schema::dropIfExists('produto_wish');
     }
 };

@@ -106,7 +106,11 @@ function login() {
                             <span className="text-danger  d-flex justify-content-center">{userInput.error_list.erro}</span>
                             
                             <div className='form-group row ml-2'>
-                                <button onClick={submitForm} className='btn bg-principal btn-block'>Registrar</button>
+                                <button onClick={submitForm} className='btn bg-principal btn-block'>Entrar</button>
+                            </div>
+
+                            <div className="col-12">
+                                Ainda não tens conta? <Link to='/clientes/cadastrar' className=''>clique aqui!</Link>
                             </div>
                 
                     </div>

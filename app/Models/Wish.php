@@ -9,7 +9,7 @@ class Wish extends Model
 {
     use HasFactory;
 
-    protected $table = 'whishes';
+    protected $table = 'wishes';
     protected $fillable=[
         'cliente_id',
         'produto_id',

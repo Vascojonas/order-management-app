@@ -264,11 +264,11 @@ function personalizarEncomenda() {
             </div>
 
             {(update)?(<div className='d-flex justify-content-end'>
-            <Link to='/cliente/carinho' className='btn mr-1 btn-outline-secondary'>Voltar</Link>
+            {/*<Link to='/cliente/carinho' className='btn mr-1 btn-outline-secondary'>Voltar</Link>*/}
                 <button onClick={updateDetails} className='btn bg-principal'>Actualizar</button>
             </div>):(
               <div className='d-flex justify-content-end'>
-             <Link to='/cliente/carinho' className='btn mr-1 btn-outline-secondary'>Voltar</Link>
+             {/*<Link to='/cliente/carinho' className='btn mr-1 btn-outline-secondary'>Voltar</Link>*/}
 
               <button onClick={saveDetails} className='btn bg-principal'>Salvar</button>
              </div>
