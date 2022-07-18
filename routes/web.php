@@ -36,11 +36,15 @@ Route::post('/api/admin/funcionario/salvar',[\App\Http\Controllers\AppController
 Route::get('/api/admin/funcionarios/listar',[\App\Http\Controllers\AppController::class, 'todosFuncionarios']);
 Route::delete('/api/admin/funcionarios/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteUser']);
 
+Route::delete('/banner/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteBanner']);
+
+
 // Clientes
 Route::post('/clientes/salvar',[\App\Http\Controllers\AppController::class, 'cadastrarCliente']);
 Route::get('/api/admin/clientes/listar',[\App\Http\Controllers\AppController::class, 'todosClientes']);
 Route::delete('/api/admin/clientes/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteUser']);
 Route::get('/produtos/{id}',[\App\Http\Controllers\ClienteController::class, 'getProductById']);
+Route::get('/produtos/pesquisar/{pesquisa}',[\App\Http\Controllers\ClienteController::class, 'produtoPesquisar']);
 
 
 //rolle

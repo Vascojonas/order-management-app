@@ -9,6 +9,7 @@ import swal from 'sweetalert';
 
 import AuthUser from '../../js/components/AuthUser';
 import { FaRegNewspaper } from 'react-icons/fa';
+import axios from 'axios';
 
 
 
@@ -24,8 +25,9 @@ function main() {
 
     const navigate = useNavigate();
 
-    const [mainContent, setMainContent]= useState([]);
-    //const [carrinho, setCarrinho] =  useOutletContext();
+    const [pesquisar, setPesquisar]=useState(false);
+    const [resultadoPesquisa, setResultado]= useState([]);
+    const [encontrado, setEncontrado] = useState(false);
     const [wish,setWish, carrinho, setCarrinho] =  useOutletContext();
 
      const [editPage,setEdit]=useState(false);
@@ -384,6 +386,7 @@ function main() {
        )
     })
 
+
     let quadros_html =  products.map((item, key)=>{ 
         if(item.categoria==='quadro'){
 
@@ -509,204 +512,326 @@ function main() {
         
     })
 
+
+    let vazia_html = ()=>{
+        return(
+            <div className="vazia">
+                <div className="d-flex">
+                    Nenhum resultado foi encontrado
+                </div>
+            </div>
+        )
+    }
+
+    let pesquisa_html =  resultadoPesquisa.map((item, key)=>{ 
+        return (
+
+             <div key={key} className=" artigo border-golden m-2 " >
+                <img className='artigo-imagem' src={item.imagem} >
+
+               </img>
+               <div className=" artigo-conteudo">
+                       <div className='artigo-action d-flex col-8 offset-2 ' >
+                           <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                           <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                           <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
+                        </div>
+                   <div className='artigo-textos' >
+                       <small><strong>{item.nome}</strong></small><br/>
+                       <small>{item.descricao}</small> 
+                       <small > <strong>{item.preco} MT</strong></small>
+
+                   </div>
+    
+               </div>
+              </div>
+             
+       )
+    })
    
 
-    var banners_images =" "
-
-    let first=true;
-    banners_images =
-          banners.map((item, key)=>{
+    let countlist=0
+    const banner_list = banners.map((item)=>{
+        return(
+         <li className={(countlist===0)&&'active'} data-target="#carouselExampleIndicators" data-slide-to={countlist++} ></li>
+        )
+    })
+    
+    let count=0;
+        const banners_images = banners.map((item, key)=>{
+            count++
+            return (
+                <div className={`carousel-item ${(count===1)&&'active'}`}>
+                  <img id='b-'{...count} className="d-block w-100" src={item.imagem} />
+                </div>
+            )
+                     
             
-            return(
-                    <div key={key} className= {`carousel-item ${first&&'active'}`}>
-
-                        <div className='banner-image'>
-                             <img  className='d-block  w-100 banner-image'  src={item.imagem} />
-                        </div> 
-                         
-                     </div>   
-                );  
-                first=false;
-              })
-
-    var banner_list=""
-
-    let i=0;
+         })
     
-    banner_list = banners.map((item, key)=>{
-                    return(
-                    <li key={key} data-target="#carouselExampleIndicators" data-slide-to={i} className="active"></li>
-                   )
-                   i++;
-                })
-           
-
-
-
-  return (
-    <>
     
 
-    <div className=' container-fluid mt-5'>
 
-       <div className='d-flex  input-group col-12 search p-0'>
-            <div className=' col-6 p-0' >
-               <input className='form-control border-golden text-black' type="search" name="pesquisar" id="pesquisar"
-                placeholder="Pesquisar..."/>
-             </div>
-              <button  className='btn bg-principal col-1'><IoSearch/></button>
-        </div>
+    const  handlePesquisa=(e)=>{
+        console.log(e.target.value);
+        let value = e.target.value;
 
-       {(user.role=='admin'||user.role=='editor')&&(
-        <div className=' d-flex justify-content-end mt-3'>
-            <button  onClick={hadleEdit} className="btn btn-sm btn-circle bg-principal  ml-1 mr-1" title="Editar">Banner <i className="fa fa-edit "></i></button>
-        </div>
-      )}
+        if(value!==''){
+            setPesquisar(true);
+            axios.get('produtos/pesquisar/'+value)
+            .then((res)=>{{
+                if(res.data.status==200){
+                    console.log(res.data.data);
+                    setResultado(res.data.data);
+                    setEncontrado(true)
+                }else if(res.data.status==404){
+                    setEncontrado(false)
 
+                }
+            }})
 
-    
-      {(!editPage)&&(
-      <div className='banner  mt-2'>
-              <div id="carouselExampleIndicators" className=" carousel slide" data-ride="carousel">
-                <ol className="carousel-indicators">
-                    {banner_list}
-                </ol>
-                <div className="carousel-inner banner ">
-                  
-                    {banners_images}
-                   
-                </div>
-                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Anterior</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Próximo</span>
-                </a>
-            </div>
-      </div>)}
+        }else{
+            setPesquisar(false);
+        }
+    }
 
-      {(editPage)&&(<div className=' mt-2  '>
+    const deleteBanner =(e, id)=>{
+        e.preventDefault();
+        const thisClicked = e.currentTarget;
+        thisClicked.innerText = "Deletar";
 
-             <div id="carouselExampleIndicators" className=" carousel slide" data-ride="carousel">
-                <ol className="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                </ol>
-                <div className="carousel-inner banner ">
-                    <div className="carousel-item active">
-                            <div className='banner-content'>
-                                <h3 id='p-titulo'  className='text-dark display-5'>{publicidadeInput.titulo}</h3>
-
-                                <p  id='p-descricao' className='text-dark '> 
-                                  {publicidadeInput.descricao}
-                                </p>
-
-                                
-                     </div>
-                        {bannerImage?(
-                            <div className='banner-image'>
-                                <img  className='d-block  w-100 banner-image'  src={URL.createObjectURL(bannerImage)} />
-                            </div>
-                            ): (<img className="d-block w-100 banner-image" id='banner2' src="..." alt=""/>)}
-                        </div>
-                </div>
-                <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Anterior</span>
-                </a>
-                <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Próximo</span>
-                </a>
-            </div>
-
-           
-      </div>)}
-    
-      {(editPage)&&
-      (<div className='row mt-3'>
-        <div className='col-6'>
-            <div className='form-group row  ml-2'>
-                <label htmlFor="preco" className="col-md-4 col-form-label ">Título</label>
-                <div className="col-md-8">
-                <input className="form-control border-golden " type="text" id="titulo" name="titulo" onChange={handleInput} value={publicidadeInput.titulo}
-                    placeholder="Digite a titulo" />
-                <span className="text-danger"></span>
-                </div>
-            </div> 
-            <div className='form-group row ml-2'>
-                <label htmlFor="descricao" className="col-md-4 col-form-label ">Descrição</label>
-                <div className="col-md-8">
-                <textarea className="form-control border-golden " name='descricao' id='descricao' onChange={handleInput} value={publicidadeInput.descricao}>
-                </textarea>
-                <span className="text-danger"></span>
-                </div>
-            </div>
-
-            <div className='form-group row ml-2'>
-            <label className="col-md-4 col-form-label" htmlFor="imagem">Selecione a imagem</label>
-            <div className="col-md-8">
-                <input className='form-control border border-white' type="file"  name="imagem" id="imagem" accept="image/*" 
-                    onChange={(event)=>{
-                    ////console.log(event.target.files[0].name);
-                    setBannerImage(event.target.files[0]);
-                    setPublicidade({...publicidadeInput, [event.target.name]: event.target.value })
-                    ////console.log(publicidadeInput.imagem)
-
-                    }}  value={publicidadeInput.imagem}/>
-                     <span className="text-danger  offset-2">{publicidadeInput.error_list.imagem}</span>
-
-                </div>
-            </div>
-            <div className='d-flex justify-content-end'>
-                   <button disabled={!bannerImage} onClick={saveBanner} className='btn bg-principal'>Salvar</button>
-             </div>
-        </div>
-
-        <div className='col-6 banners-view'>
-
-        </div>
-      </div>
-      )} 
      
+        ////console.log(data);
+        axios.delete('/banner/delete/'+id).then(res=>{
+            
+            if(res.status === 200)
+              { 
+                ////console.log(res.data.data);
+                setBanners(banners.filter((item)=>
+                    item.id !== id       
+                 ))
+                 swal("Eliminado!",res.data.message,"success");
+                 thisClicked.closest("tr").remove()  
+              }
+          });
+  
+    }
 
-      <div className='row p-2 justify-content-between mt-4'>
-          {content_html}
-      </div>
+    const banner_edit = banners.map((item, key)=>{
+            return(
 
-      <div className=' quadros mt-5'> 
-            <h4>Quadros</h4>
-            <div className='row justify-content-start artigos mt-4'>
-            {quadros_html}
-            </div>
-       </div>
-                
-      
-       <div className=' quadros mt-5'> 
-            <h4>Chávenas</h4>
-            <div className='row justify-content-start artigos mt-4'>
-            {chavenas_html}
-            </div>
-       </div>
-       <div className=' quadros mt-5'> 
-            <h4>Bebedouros</h4>
-            <div className='row justify-content-start artigos mt-4'>
-            {bebedouros_html}
-            </div>
-       </div>
-       <div className=' quadros mt-5'> 
-            <h4>Chaveiros</h4>
-            <div className='row justify-content-start artigos mt-4'>
-            {chaveiros_html}
-            </div>
-       </div>
-
+                <tr key={key}>
+                      <th scope="row" className=' list-img p-0'>
+                          <img className='list-img' src={item.imagem} />
+                      </th>
+                      <td>{item.titulo}</td>                     
+                     <td >
+                          <button onClick={(e) => deleteBanner(e, item.id)}  className="btn btn-sm btn-circle btn-outline-danger"   title="Remover">Remover</button>
+                      </td>
+                 </tr>
+            ) 
+            
        
-    </div>
+        })
 
-  </>
-  )
+
+
+    return (
+      <>
+      
+    
+      <div className=' container-fluid mt-5'>
+    
+         <div className='d-flex  input-group col-12 search p-0'>
+              <div className=' col-6 p-0' >
+                 <input className='form-control border-golden text-black' type="search" name="pesquisar" id="pesquisar"
+                  placeholder="Pesquisar..." onChange={handlePesquisa} />
+               </div>
+               
+          </div>
+
+
+         {(pesquisar)?
+              <div className=' container-fluid mt-5'>
+                  <div className='row p-0 justify-content-start mt-4'>
+                    {(encontrado)?
+                        pesquisa_html
+                    :
+                        vazia_html
+                    }
+
+                      
+                  </div>
+              </div>
+         :
+            <>
+            
+                {(user.role=='admin'||user.role=='editor')&&(
+                <div className=' d-flex justify-content-end mt-3'>
+                    <button  onClick={hadleEdit} className="btn btn-sm btn-circle bg-principal  ml-1 mr-1" title="Editar">Banner <i className="fa fa-edit "></i></button>
+                </div>
+                )}
+                  
+                {(!editPage)&&(
+                <div id="carouselExampleIndicators" className="carousel slide banner mt-3" data-ride="carousel">
+                    <ol className="carousel-indicators">
+                        {banner_list}
+                    </ol>
+                    <div className="carousel-inner">
+                        {banners_images}
+                    </div>
+                    <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Anterior</span>
+                    </a>
+                    <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span className="sr-only">Próximo</span>
+                    </a>
+                </div>
+                )}
+            
+                {(editPage)&&(<div className=' mt-2  '>
+            
+                    <div id="carouselExampleIndicators" className=" carousel slide" data-ride="carousel">
+                        <ol className="carousel-indicators">
+                            <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                        </ol>
+                        <div className="carousel-inner banner ">
+                            <div className="carousel-item active">
+                                    <div className='banner-content'>
+                                        <h3 id='p-titulo'  className='text-dark display-5'></h3>
+            
+                                        <p  id='p-descricao' className='text-dark '> 
+                                           
+                                        </p>
+            
+                                        
+                            </div>
+                                {bannerImage?(
+                                    <div className='banner-image'>
+                                        <img  className='d-block  w-100 banner-image'  src={URL.createObjectURL(bannerImage)} />
+                                    </div>
+                                    ): (<img className="d-block w-100 banner-image" id='banner2' src="..." alt=""/>)}
+                                </div>
+                        </div>
+                        <a className="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="sr-only">Anterior</span>
+                        </a>
+                        <a className="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="sr-only">Próximo</span>
+                        </a>
+                    </div>
+            
+                    
+                </div>)}
+            
+                {(editPage)&&
+                (<div className='row mt-3'>
+                <div className='col-6'>
+                    <div className='form-group row  ml-2'>
+                        <label htmlFor="preco" className="col-md-4 col-form-label ">Título</label>
+                        <div className="col-md-8">
+                        <input className="form-control border-golden " type="text" id="titulo" name="titulo" onChange={handleInput} value={publicidadeInput.titulo}
+                            placeholder="Digite a titulo" />
+                        <span className="text-danger"></span>
+                        </div>
+                    </div> 
+                    <div className='form-group row ml-2'>
+                        <label htmlFor="descricao" className="col-md-4 col-form-label ">Descrição</label>
+                        <div className="col-md-8">
+                        <textarea className="form-control border-golden " name='descricao' id='descricao' onChange={handleInput} value={publicidadeInput.descricao}>
+                        </textarea>
+                        <span className="text-danger"></span>
+                        </div>
+                    </div>
+            
+                    <div className='form-group row ml-2'>
+                    <label className="col-md-4 col-form-label" htmlFor="imagem">Selecione a imagem</label>
+                    <div className="col-md-8">
+                        <input className='form-control border border-white' type="file"  name="imagem" id="imagem" accept="image/*" 
+                            onChange={(event)=>{
+                            ////console.log(event.target.files[0].name);
+                            setBannerImage(event.target.files[0]);
+                            setPublicidade({...publicidadeInput, [event.target.name]: event.target.value })
+                            ////console.log(publicidadeInput.imagem)
+            
+                            }}  value={publicidadeInput.imagem}/>
+                            <span className="text-danger  offset-2">{publicidadeInput.error_list.imagem}</span>
+            
+                        </div>
+                    </div>
+                    <div className='d-flex justify-content-end'>
+                            <button disabled={!bannerImage} onClick={saveBanner} className='btn bg-principal'>Salvar</button>
+                    </div>
+                </div>
+            
+                <div className='col-6 banners-view'>
+                <table className="table table-striped">
+                          <thead>
+                              <tr>
+                                  <th>Imagem</th>
+                                  <th>Titulo</th>
+                                  <th ></th>
+                              </tr>
+                          </thead>
+      
+                          <tbody>
+      
+                            {banner_edit}
+                          
+      
+                          </tbody>
+
+                          </table>
+            
+                </div>
+                </div>
+                )} 
+            
+            
+                <div className='row p-2 justify-content-between mt-4'>
+                    {content_html}
+                </div>
+            
+                <div className=' quadros mt-5'> 
+                    <h4>Quadros</h4>
+                    <div className='row justify-content-start artigos mt-4'>
+                    {quadros_html}
+                    </div>
+                </div>
+                        
+                
+                <div className=' quadros mt-5'> 
+                    <h4>Chávenas</h4>
+                    <div className='row justify-content-start artigos mt-4'>
+                    {chavenas_html}
+                    </div>
+                </div>
+                <div className=' quadros mt-5'> 
+                    <h4>Bebedouros</h4>
+                    <div className='row justify-content-start artigos mt-4'>
+                    {bebedouros_html}
+                    </div>
+                </div>
+                <div className=' quadros mt-5'> 
+                    <h4>Chaveiros</h4>
+                    <div className='row justify-content-start artigos mt-4'>
+                    {chaveiros_html}
+                    </div>
+                </div>
+            </>
+         }
+    
+    
+         
+      </div>
+    
+    </>
+    )
+
 }
 
 export default main

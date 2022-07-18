@@ -61,15 +61,15 @@ const deleteUser = (e, id) => {
         
                 <div >
         
-                    <div className=''>
-                    <div className='row input-group col-12'>
-                        <div className=' col-6 p-0' >
-                            <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
-                            placeholder="Pesquisar..."/>
-                        </div>
-                        <button className='btn btn bg-principal'><IoSearch/></button>
+                    {/*<div className=''>
+                <div className='row input-group col-12'>
+                    <div className=' col-6 p-0' >
+                        <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
+                        placeholder="Pesquisar..."/>
                     </div>
-                    </div>
+                   
+                </div>
+                </div>*/}
         
                 </div>
 
@@ -105,7 +105,6 @@ const deleteUser = (e, id) => {
                             {item.perfil}
                         </td>
                         <td width="155">
-                            <a href="#" className="btn btn-sm btn-circle btn-outline-golden mr-2" title="Visualizar"><i class="fa fa-eye"></i></a>
                             <button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.id)} title="Deletar"><i class="fa fa-times"></i></button>
                         </td>
                      </tr>
@@ -121,15 +120,15 @@ const deleteUser = (e, id) => {
     
             <div >
     
-                <div className=''>
+                {/*<div className=''>
                 <div className='row input-group col-12'>
                     <div className=' col-6 p-0' >
-                        <input className='form-control border border-secondary text-black' type="text" name="pesquisar" id="pesquisar"
+                        <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
                         placeholder="Pesquisar..."/>
                     </div>
-                    <button className='btn btn bg-principal'><IoSearch/></button>
+                   
                 </div>
-                </div>
+                </div>*/}
     
                 <div className='mt-3'>
                         <table className="table table-striped">

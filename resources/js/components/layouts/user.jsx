@@ -33,12 +33,12 @@ function user() {
   useEffect(() => {
 
     let data={user_id: user.id}
-    console.log(data);
+    //console.log(data);
     axios.get('/carrinho/produtos/'+user.id).then(res=>{
         
       if(res.status === 200)
         {
-          console.log(res.data.data)
+         // console.log(res.data.data)
           
           setCarrinho(res.data.data)
           
@@ -51,12 +51,12 @@ function user() {
 useEffect(() => {
 
   let data={user_id: user.id}
-  console.log(data);
+  //console.log(data);
   axios.get('/wish/produtos/'+user.id).then(res=>{
       
     if(res.status === 200)
       {
-        console.log(res.data.data)
+        //console.log(res.data.data)
         
         setWish(res.data.data)
         
@@ -131,7 +131,7 @@ useEffect(() => {
                   <div className='box-rodape col-4 '>
                     <h5> TERMOS E CONDIÇÕES</h5>
                     <p className='text-dark'>
-                     As encomendas são confirmadas mediante pagamento e levam 24h para estar prontas após a sua confirmação.
+                     As encomendas são confirmadas mediante pagamento e levam 48h para estar prontas após a sua confirmação.
                     </p>
                   </div>
             

@@ -63,15 +63,15 @@ const deleteUser = (e, id) => {
         
                 <div >
         
-                    <div className=''>
-                    <div className='row input-group col-12'>
-                        <div className=' col-6 p-0' >
-                            <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
-                            placeholder="Pesquisar..."/>
-                        </div>
-                        <button className='btn btn bg-principal'><IoSearch/></button>
+                    {/*<div className=''>
+                <div className='row input-group col-12'>
+                    <div className=' col-6 p-0' >
+                        <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
+                        placeholder="Pesquisar..."/>
                     </div>
-                    </div>
+                   
+                </div>
+                </div>*/}
         
                 </div>
 
@@ -107,7 +107,7 @@ const deleteUser = (e, id) => {
                         </td>
                         <td width="160">
                             <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i class="fa fa-eye"></i></a>
-                            <Link to={`/admin/produtos/cadastrar/${item.id}`} class="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i class="fa fa-edit"></i></Link>
+                            <Link to="#" class="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i class="fa fa-edit"></i></Link>
                             <button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.id)} title="Deletar"><i class="fa fa-times"></i></button>
                         </td>
                      </tr>
@@ -134,15 +134,15 @@ const deleteUser = (e, id) => {
     
             <div >
     
-                <div className=''>
+                {/*<div className=''>
                 <div className='row input-group col-12'>
                     <div className=' col-6 p-0' >
-                        <input className='form-control border border-secondary text-black' type="text" name="pesquisar" id="pesquisar"
+                        <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
                         placeholder="Pesquisar..."/>
                     </div>
-                    <button className='btn btn bg-principal'><IoSearch/></button>
+                   
                 </div>
-                </div>
+                </div>*/}
     
                 <div className='mt-3'>
                         <table className="table table-striped">

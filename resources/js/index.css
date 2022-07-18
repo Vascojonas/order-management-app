@@ -544,7 +544,6 @@ body{
 
   .banners-view{
     height: 300px;
-    background-color: darkgreen;
     overflow-y:scroll;
   }
 
@@ -622,7 +621,7 @@ body{
 }
 
 .vazia{
- 
+
   height: 390px;
 }
 

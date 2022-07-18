@@ -25,6 +25,32 @@ class ClienteController extends Controller
 
 
 
+    function produtoPesquisar($pesquisa){
+
+        $data = DB::table('produtos')
+        ->where('nome', 'like', '%'.$pesquisa.'%')
+        ->orWhere('descricao', 'like', '%'.$pesquisa.'%')
+        ->orWhere('categoria', 'like', '%'.$pesquisa.'%')
+        ->get();
+
+        if($data){
+            return response()->json([
+                'status'=> 200,
+                'message'=>"Resultado",
+                'data'=> $data
+            ]);
+
+        }else{
+            return response()->json([
+                'status'=> 404,
+                'message'=>"Nenhum resultado",
+                'data'=> $data
+            ]);
+        }
+
+    }
+
+
 
     function wishProdutoRemove($request){   
           

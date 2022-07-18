@@ -19,6 +19,27 @@ use Illuminate\Support\Facades\Validator;
 
 class AppController extends Controller
 {
+
+    function deleteBanner($id){
+        $data = Publicidade::find($id);
+
+        if($data){
+            $data->delete();
+            $data->update();
+            return response()->json([
+                'status'=> 200,
+                'data'=> $data,
+                 'message'=>"Banner eliminado com sucesso!"
+            ]);
+        }else{
+            return response()->json([
+                'status'=> 404,
+                'data'=> $data,
+                 'message'=>"Falha!"
+            ]);
+        }
+    }
+
     function updateItemStatus(Request $request){
         $validator = Validator::make($request->all(),[
             'id'=>'required',

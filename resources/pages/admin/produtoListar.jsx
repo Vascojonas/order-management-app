@@ -9,7 +9,8 @@ import {FontAwesomeIcon }from 'react-icons/fa';
 
 function produtoListar() {
 
-
+  const [pesquisar, setPesquisar]=useState(false);
+  const [resultadoPesquisa, setResultado]= useState([]);
   const [loading, setLoading] = useState(true);
   const [products, setproducts] = useState([]);
 
@@ -48,6 +49,30 @@ function produtoListar() {
       });
   }
 
+  const  handlePesquisa=(e)=>{
+    console.log(e.target.value);
+    let value = e.target.value;
+
+    if(value!==''){
+        setPesquisar(true);
+        axios.get('produtos/pesquisar/'+value)
+        .then((res)=>{{
+            if(res.data.status==200){
+                console.log(res.data.data);
+                setResultado(res.data.data);
+               
+            }else if(res.data.status==404){
+                
+            }
+        }})
+
+    }else{
+        setPesquisar(false);
+    }
+}
+
+
+
   if(loading)
   {
       return (
@@ -60,8 +85,7 @@ function produtoListar() {
                     <input readOnly className='form-control border border-golden text-black' type="search" name="pesquisar" id="pesquisar"
                     placeholder="Pesquisar..."/>
                   </div>
-                  <button disabled className='btn btn btn-outline-golden'><IoSearch/></button>
-
+                  
                   <Link to='/admin/produtos/cadastrar' className='btn bg-principal col-2 ml-auto'>Novo brinde</Link>
             </div>
           </div>
@@ -102,6 +126,25 @@ function produtoListar() {
              </tr>
           );
       });
+
+   var pesquisa_html = resultadoPesquisa.map( (item, key) => {
+        return (
+          <tr key={key} className=''>
+              <th scope="row" className=' list-img p-0'>
+              <img className='list-img' src={item.imagem} />
+              </th>
+              <td>{item.nome}</td>
+              <td>{item.descricao}</td>
+              <td>{item.preco},00MT</td>
+              <td width="160">
+              <button href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i className="fa fa-eye"></i></button>
+              <Link to={`/admin/produtos/cadastrar/${item.id}`} className="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i className="fa fa-edit"></i></Link>
+              <button className="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteProduct(e, item.id)} title="Deletar"><i className="fa fa-times"></i></button>
+          
+              </td>
+           </tr>
+        );
+    });
   }
 
 
@@ -131,9 +174,9 @@ function produtoListar() {
            <div className='row input-group col-12'>
               <div className=' col-6 p-0' >
                 <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
-                placeholder="Pesquisar..."/>
+                placeholder="Pesquisar..." onChange={handlePesquisa} />
               </div>
-               <button className='btn btn bg-principal'><IoSearch/></button>
+              
 
                <Link to='/admin/produtos/cadastrar' className='btn btn-outline-secondary col-2 ml-auto'>Novo brinde</Link>
          </div>
@@ -153,8 +196,11 @@ function produtoListar() {
 
             <tbody>
 
-
-                {FUNCIONARIO_HTMLTABLE}
+                {(pesquisar)?
+                  pesquisa_html
+                :
+                   FUNCIONARIO_HTMLTABLE
+                }
 
 
             </tbody>

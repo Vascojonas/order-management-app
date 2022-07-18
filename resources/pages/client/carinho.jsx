@@ -145,14 +145,15 @@ function carinho() {
 
                         if(res.data.data.status===1){
                             element.checked=false;
-                            swal("Ops!", "Esse item já foi pago!","")
+                        
                             
                         }else{
                             let compraItem = [...compras];
                             let nova = (carrinho.filter((item)=> item.id == id))[0];
                             compraItem.push(nova);
                             setCompras(compraItem)
-                           
+                            
+                            conaole.log(compras)
                             ////console.log(compras);
                             count ++;
                            // //console.log(count);
@@ -259,7 +260,8 @@ function carinho() {
                     <td id={`pt-${item.id}`}>
                         {item.preco*item.quantidade},00MT
                     </td>
-                     <td width="160">
+
+                     <td width='350'>
             
                           <input onChange={(e) => handleCompras(e, item.id)}  className=" btn btn-success big-checkbox mr-1" type="checkbox" value="" id={'cb-'+item.id}/>
                           <Link  to={'/encomendas/personalizar/'+item.id}  className="btn btn-sm btn-circle btn-outline-success mr-1"   title="Detalhes"><BsFillPencilFill/></Link>
@@ -273,7 +275,10 @@ function carinho() {
         })
 
     const compras_html = compras.map((item, key)=>{
+        
+        console.log(item.quantidade);
         total_compra += item.quantidade*item.preco;
+
         return(
 
             <tr key={key}>
@@ -317,8 +322,8 @@ function carinho() {
                                   <th>Nome</th>
                                   <th width=''>Quantidade</th>
                                   <th width=''>Preço_Unitário</th>
-                                  <th width='155'>Preço_Total</th>
-                                  <th width='300'></th>
+                                  <th width=''>Preço_Total</th>
+                                  <th width='350'></th>
                               </tr>
                           </thead>
       

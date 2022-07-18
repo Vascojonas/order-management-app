@@ -39,15 +39,15 @@ if(loading){
     
             <div >
     
-                <div className=''>
+                {/*<div className=''>
                 <div className='row input-group col-12'>
                     <div className=' col-6 p-0' >
                         <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
                         placeholder="Pesquisar..."/>
                     </div>
-                    <button className='btn btn bg-principal'><IoSearch/></button>
+                   
                 </div>
-                </div>
+                </div>*/}
     
             </div>
 
@@ -123,15 +123,15 @@ if(loading){
         </div>
         <div >
 
-            <div className=''>
-            <div className='row input-group col-12'>
-                <div className=' col-6 p-0' >
-                    <input className='form-control border border-secondary text-black' type="text" name="pesquisar" id="pesquisar"
-                    placeholder="Pesquisar..."/>
+             {/*<div className=''>
+                <div className='row input-group col-12'>
+                    <div className=' col-6 p-0' >
+                        <input className='form-control border border-golden text-black' type="text" name="pesquisar" id="pesquisar"
+                        placeholder="Pesquisar..."/>
+                    </div>
+                   
                 </div>
-                <button className='btn btn bg-principal'><IoSearch/></button>
-            </div>
-            </div>
+                </div>*/}
 
             <div className='mt-3'>
                     <table className="table table-striped">

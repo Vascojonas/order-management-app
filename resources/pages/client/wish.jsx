@@ -141,8 +141,6 @@ function wish() {
           
                     if(res.data.status===200){
 
-                        console.log(res.data.data)
-
                         if(res.data.data.status===1){
                             element.checked=false;
                             swal("Ops!", "Esse item já foi pago!","")
@@ -274,24 +272,27 @@ function wish() {
         })
 
     const compras_html = compras.map((item, key)=>{
-        total_compra += item.quantidade*item.preco;
-        return(
-
-            <tr key={key}>
-                  <th scope="row" className=' list-img p-0'  >
-                      <img className='list-img' src={item.imagem} style={{width: "60px", height:"60px"}} />
-                  </th>
-                  <td >
-                    <input  readOnly type='number' min={0} className='form-control-file col-8' name='quantidade' value={item.quantidade} />
-                  </td>
-                  <td>{item.preco}</td>
-                 
-                <td id={`pt-${item.id}`}>
-                    {item.preco*item.quantidade},00MT
-                </td>
-                
-             </tr>
-        ) 
+        console.log(compras);
+        if(item){
+            total_compra += item.quantidade*item.preco;
+            return(
+    
+                <tr key={key}>
+                      <th scope="row" className=' list-img p-0'  >
+                          <img className='list-img' src={item.imagem} style={{width: "60px", height:"60px"}} />
+                      </th>
+                      <td >
+                        <input  readOnly type='number' min={0} className='form-control-file col-8' name='quantidade' value={item.quantidade} />
+                      </td>
+                      <td>{item.preco}</td>
+                     
+                    <td id={`pt-${item.id}`}>
+                        {item.preco*item.quantidade},00MT
+                    </td>
+                    
+                 </tr>
+            ) 
+        }
     })
     
 
