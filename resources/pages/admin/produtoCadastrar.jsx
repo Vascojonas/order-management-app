@@ -175,7 +175,8 @@ const updateProduct = (e)=>{
                     <div className="col-md-8">
                       <select className="form-control border-golden " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>
-                              <option value={"quadro"} >Quadro de pedra</option>
+                              <option value={"quadro"} >Quadro</option>
+                              <option value={"combo"} >Combo</option>
                               <option value={"chavena"}>Chávena</option>
                               <option value={"chaveiro"}>Chaveiro</option>
                               <option value={"bebedouro"}>Bebedouro</option>
