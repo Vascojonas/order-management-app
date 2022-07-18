@@ -108,7 +108,7 @@ function App(){
                 <Route path='/admin/produtos/cadastrar/:id' element={<Login/>}/>
                 <Route path='/admin/produtos/listar' element={<Login/>}/>
                 <Route path='/admin/funcionarios' exact element={<Login/>}/>
-                <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
+                <Route path='/admin/funcionarios/cadastrar'  element={<Login/>}/>
               <Route path='/admin/produtos/encomendas'  element={<Login/>}/>
 
       
@@ -132,7 +132,7 @@ function App(){
               <Route path='/admin/produtos/cadastrar/:id' element={<Login/>}/>
               <Route path='/admin/produtos/listar' element={<Login/>}/>
               <Route path='/admin/funcionarios' exact element={<Login/>}/>
-              <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
+              <Route path='/admin/funcionarios/cadastrar'  element={<Login/>}/>
               <Route path='/admin/produtos/encomendas'  element={<Login/>}/>
 
             
