@@ -71,7 +71,7 @@ function App(){
               <Route path='/admin/produtos/cadastrar' element={<ProdutoCadastrar/>}/>
               <Route path='/admin/produtos/cadastrar/:id' element={<ProdutoCadastrar/>}/>
               <Route path='/admin/produtos/listar' element={<ProdutoListar/>}/>
-               <Route path='/admin/funcionarios' exact element={<Funcionarios/>}/>
+              <Route path='/admin/funcionarios' exact element={<Funcionarios/>}/>
               <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
               <Route path='/admin/produtos/encomendas/pendentes'  element={<EncomendasPendentes/>}/>
               <Route path='/admin/produtos/encomendas/finalizadas'  element={<EncomendasFinalizadas/>}/>
@@ -131,8 +131,8 @@ function App(){
               <Route path='/admin/produtos/cadastrar' element={<Login/>}/>
               <Route path='/admin/produtos/cadastrar/:id' element={<Login/>}/>
               <Route path='/admin/produtos/listar' element={<Login/>}/>
+              <Route path='/admin/funcionarios' exact element={<Login/>}/>
               <Route path='/admin/funcionarios/cadastrar'  element={<FuncionarioCadastro/>}/>
-              <Route path='/admin/funcionarios/cadastrar'  element={<Login/>}/>
               <Route path='/admin/produtos/encomendas'  element={<Login/>}/>
 
             
