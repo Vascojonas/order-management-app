@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\AppController;
-use App\Http\Controllers\AuthController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

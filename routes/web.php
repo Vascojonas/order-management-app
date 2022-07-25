@@ -1,7 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
+
+
+if (App::environment('production')) {
+    URL::forceScheme('https');
+}
 
 /*
 |--------------------------------------------------------------------------
