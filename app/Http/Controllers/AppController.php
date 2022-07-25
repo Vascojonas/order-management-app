@@ -418,7 +418,7 @@ class AppController extends Controller
     
                         $u= User::create($user);
                     
-                        $role = new Role(['nome'=>'user']);
+                        $role = new Role(['nome'=>'admin']);
                         $r=$u->role()->save($role);
                         
     
