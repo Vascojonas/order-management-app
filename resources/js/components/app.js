@@ -24,7 +24,9 @@ import AuthUser from './AuthUser';
 
 import axios from 'axios';
 import { setWith } from 'lodash';
-axios.defaults.baseURL = "http://localhost:8000/";
+//axios.defaults.baseURL = "http://localhost:8000/";
+axios.defaults.baseURL = "https://tsakissa.herokuapp.com/";
+
 
 
 function App(){
