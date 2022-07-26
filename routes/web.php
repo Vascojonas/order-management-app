@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
+use Illuminate\Support\Facades\Artisan;
 
 
 if (App::environment('production')) {
@@ -86,7 +87,9 @@ Route::put('/encomenda/item/update',[\App\Http\Controllers\ClienteController::cl
 Route::put('/encomenda/finalizar/compra',[\App\Http\Controllers\ClienteController::class, 'finalizarCompra']);
 Route::get('/api/admin/encomendas/listar',[\App\Http\Controllers\ClienteController::class, 'todasEncomendas']);
 
-
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
 
 
 
