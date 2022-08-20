@@ -303,7 +303,7 @@ function carinho() {
     if(carrinho.length==0){
         return(
             <div className='d-flex justify-content-center align-items-center  vazia '>
-                <h4 className=''>Sem carrinho</h4>
+                <h4 className=''>Carrinho Vazio</h4>
             </div>
         );
     }else{

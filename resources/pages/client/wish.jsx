@@ -300,7 +300,7 @@ function wish() {
     if(carrinho.length==0){
         return(
             <div className='d-flex justify-content-center align-items-center  vazia '>
-                <h4 className=''>Sem favoritos</h4>
+                <h4 className=''>Lista de  favoritos vazia</h4>
             </div>
         );
     }else{

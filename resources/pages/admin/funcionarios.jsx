@@ -108,7 +108,7 @@ const deleteUser = (e, id) => {
                         <td width="160">
                             <a href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i class="fa fa-eye"></i></a>
                             <Link to="#" class="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i class="fa fa-edit"></i></Link>
-                            <button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.id)} title="Deletar"><i class="fa fa-times"></i></button>
+                            {(item.perfil=='user')&&(<button class="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteUser(e, item.id)} title="Deletar"><i class="fa fa-times"></i></button>)}
                         </td>
                      </tr>
                 )               

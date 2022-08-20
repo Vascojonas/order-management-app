@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('publicidades', function (Blueprint $table) {
             $table->id();
             $table->string('titulo')->default(' ');
-            $table->longText('descricao')->default(' ');
+            $table->longText('descricao');
             $table->string('imagem');
             $table->timestamps();
         });
