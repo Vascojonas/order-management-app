@@ -62,10 +62,15 @@ function AuthUser() {
       baseURL:"https://tsakissa.herokuapp.com/api",
 
       headers: {
-        'content-type': 'application/json'
-    }
+        'content-type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': window.csrf_token
+      }
     }
   )
+
+
+
 
   return {
     setToken:saveToken,
