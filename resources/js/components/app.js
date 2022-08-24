@@ -8,8 +8,11 @@ import Funcionarios from "../../pages/admin/funcionarios";
 import FuncionarioCadastro from "../../pages/admin/funcionarioCadastro";
 import Main from "../../pages/client/main";
 import Personalizar from "../../pages/client/personalizarEncomenda";
+
 import Carinho from "../../pages/client/carinho";
 import Wish from '../../pages/client/wish';
+import Encomendas from '../../pages/admin/encomendasPendentes';
+
 import ClienteCadastro from '../../pages/client/clienteCadastro';
 import Login from './login';
 import EncomendasPendentes from '../../pages/admin/encomendasPendentes';
@@ -24,6 +27,8 @@ import AuthUser from './AuthUser';
 
 import axios from 'axios';
 import { setWith } from 'lodash';
+axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token;
+
 //axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.baseURL = "https://tsakissa.herokuapp.com/";
 
@@ -102,6 +107,7 @@ function App(){
               <Route path='/encomendas/personalizar/:id' element={<Personalizar/>}/>
               <Route path='/cliente/carinho' element={<Carinho/>}/>
               <Route path='/cliente/whish' element={<Wish/>}/>
+              <Route path='/cliente/encomendas' element={<Encomendas/>}/>
               <Route path='/clientes/cadastrar' element={<ClienteCadastro/>}/>
             </Route>
 

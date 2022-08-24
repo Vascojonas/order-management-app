@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Tsakissa</title>
         <link rel="icon" type="image/png" href="{{ asset('logo.jpg') }}">
@@ -27,4 +28,8 @@
         <div id="root" class="h"></div>
         <script src="{{mix('js/app.js')}}"></script>
     </body>
+
+    <script> 
+         var csrf_token = '<?php echo csrf_token(); ?>'; 
+      </script>
 </html>

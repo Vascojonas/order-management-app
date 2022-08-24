@@ -47,7 +47,7 @@ function clienteCadastro() {
                 console.log(res.data.data);
                 
       
-              swal("Sucesso!",res.data.message,"success");
+              swal(res.data.message," ","success");
 
               setCliente({
                   nome: '',

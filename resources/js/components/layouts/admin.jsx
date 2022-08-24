@@ -11,18 +11,25 @@ function admin() {
 
   useEffect(() => {
 
-    axios.get(`/api/admin/encomendas/listar`).then(res=>{
-        if(res.status === 200)
-        {
-            setEncomendas(res.data.data)
-            // console.log(res.data.data)
-             if(res.data.data){
-            }   
-        }
-    });
+       const interval = setInterval(() => {
 
+            axios.get(`/api/admin/encomendas/listar`).then(res=>{
+              if(res.status === 200)
+              {
+                  setEncomendas(res.data.data)
+                  //console.log(res.data.data)
+                    
+              }
+            })
+
+
+        }, 1000);
+      
+        return () => clearInterval(interval);
+      
     }, []);
-
+    
+  
         
     const pendentes = encomendas.filter((item)=>
     item.status==1

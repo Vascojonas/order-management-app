@@ -154,7 +154,7 @@ function carinho() {
                             compraItem.push(nova);
                             setCompras(compraItem)
                             
-                            conaole.log(compras)
+                        
                             ////console.log(compras);
                             count ++;
                            // //console.log(count);

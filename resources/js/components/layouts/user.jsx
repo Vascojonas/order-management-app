@@ -92,8 +92,9 @@ useEffect(() => {
                                  <BsFillPersonFill /> Minha conta
                               </button>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                {(user.role==='')&&(<NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>)}
+                              {(user.role==='user')&&(<NavLink  to='/cliente/encomendas' className="dropdown-item btn" >Encomendas</NavLink>)}
                                 
+                                {(user.role==='')&&(<NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>)}
                                {(user.role!=='')?( <button onClick={logout}  className="dropdown-item " >Sair</button>):
                                (<NavLink  to='/login' className="dropdown-item " >Acessar</NavLink>)}
                               </div>

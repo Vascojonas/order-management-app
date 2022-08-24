@@ -176,8 +176,10 @@ Route::get('/admin/encomenda/details/{id}', function () {
     return view('welcome');
 });
 
-Route::get('/admin/produtos/agenda', function () {
+Route::get('/cliente/encomendas', function () {
     return view('welcome');
 });
+
+
 
 
