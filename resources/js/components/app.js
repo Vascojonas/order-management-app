@@ -26,8 +26,11 @@ import Agenda from '../../pages/admin/agenda';
 import AuthUser from './AuthUser';
 
 import axios from 'axios';
-import { setWith } from 'lodash';
-axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf_token;
+
+axios.defaults.headers.common = {
+  'X-Requested-With': 'XMLHttpRequest',
+  'X-CSRF-TOKEN': window.csrf_token
+};
 
 //axios.defaults.baseURL = "http://localhost:8000/";
 axios.defaults.baseURL = "https://tsakissa.herokuapp.com/";

@@ -26,10 +26,12 @@
     </head>
     <body class=" antialiased">
         <div id="root" class="h"></div>
-        <script src="{{mix('js/app.js')}}"></script>
+        <script src="{{mix('js/app.js')}}">
+               
+              window.csrf_token = "{{ csrf_token() }}"
+
+        </script>
     </body>
 
-    <script> 
-         var csrf_token = '<?php echo csrf_token(); ?>'; 
-      </script>
+   
 </html>
