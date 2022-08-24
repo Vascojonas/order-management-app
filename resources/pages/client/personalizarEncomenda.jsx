@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {useParams, Link } from 'react-router-dom';
 
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from '../../js/firebase';
+
 import AuthUser from '../../js/components/AuthUser';
 import swal from 'sweetalert';
-import { set } from 'lodash';
+
 
 
 function personalizarEncomenda() {
@@ -15,7 +18,8 @@ function personalizarEncomenda() {
         return {role : '', id: ''}
       }
     });
-
+  
+    const [progress, setProgress]= useState(0);
     const { id } = useParams();
     const [update, setUpdate] = useState(false);
     const[editProduct, setEditProduct]= useState(false);
@@ -72,23 +76,32 @@ function personalizarEncomenda() {
 
     const saveDetails =(e)=>{
         e.preventDefault();
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-          }
-          let dataImage = new FormData();
-            dataImage.append('file', selectedImage);
+        
         
           if(selectedImage!==null){
 
-            axios.post('/api/admin/produtos/upload', dataImage, config)
-            .then(function (res) {
-               //console.log(res.data.success);
-               //console.log(res.data.path);               
+            const sotrageRef = ref(storage, `anexos/${selectedImage.name}`);
+            const uploadTask = uploadBytesResumable(sotrageRef, selectedImage);
+              
+            let imageUrl;
+              uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                  const prog = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                  );
+                  setProgress(prog);
+
+                  
+                },
+                (error) => console.log(error),
+                () => {
+                  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                      imageUrl=downloadURL;
+                    console.log("File available at", downloadURL);              
                const data = {
                     descricao:productInput.descricao,
-                    imagem: res.data.path,
+                    imagem: imageUrl,
                     produto_id:id,
                     user_id:user.id
                 }
@@ -105,11 +118,9 @@ function personalizarEncomenda() {
                 })
   
   
-  
-                })
-              .catch(function (err) {
-                console.log(err);
               });
+            }
+          );
 
           }else{
             const data = {
@@ -221,7 +232,7 @@ function personalizarEncomenda() {
                     </div>
                 </div>
                     <div className=' border-top '>
-                        <label>Upload do anexo</label>
+                        <label>Anexar imagem</label>
                         <input className='border' type="file"  name="imagem" id="imagem" accept="image/*" 
                         onChange={(event)=>{
                         //console.log(event.target.files[0].name);
@@ -238,7 +249,7 @@ function personalizarEncomenda() {
 
                     <div className='offset-6 '>
 
-                        {(!update)?(<div className={`box-upload ${selectedImage && 'box-upload-image-cliente'}  ml-2 offset-4 p-0 bg-white`} >
+                        {(!update)?(<div className={`box-upload border-white ${selectedImage && 'box-upload-image-cliente'}  ml-2 offset-4 p-0 bg-white`} >
                             {selectedImage?(
                                 <div className=''>
                                     <img  className='box-upload-image-cliente'  src={URL.createObjectURL(selectedImage)}  />

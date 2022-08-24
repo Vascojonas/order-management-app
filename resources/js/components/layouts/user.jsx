@@ -92,7 +92,7 @@ useEffect(() => {
                                  <BsFillPersonFill /> Minha conta
                               </button>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>
+                                {(user.role==='')&&(<NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>)}
                                 
                                {(user.role!=='')?( <button onClick={logout}  className="dropdown-item " >Sair</button>):
                                (<NavLink  to='/login' className="dropdown-item " >Acessar</NavLink>)}
@@ -100,21 +100,22 @@ useEffect(() => {
                             </div>
                 
                     </li>
-                    <li className="nav-item m">
+                    {(user.role==='user'||user.role==='')&&(<li className="nav-item m">
                           <NavLink to='/cliente/whish' className="nav-link  text-danger" >
                              <BsFillHeartFill size={25}/><span className='float-right number-box text-dark mt-0'>{wish.length}</span> 
                           </NavLink>
-                    </li>
-                    <li className="nav-item m">
+                    </li>)}
+
+                     {(user.role==='user'||user.role==='')&&(<li className="nav-item m">
                           <NavLink to='/cliente/carinho' className="nav-link  text-dark" >
                              <BsCart3 size={25}/><span className='float-right number-box text-dark mt-0'>{carrinho.length}</span> 
                           </NavLink>
-                    </li>
+                    </li>)}
                   </ul>
               </div>
             </nav>
         </header>
-        <div className='container  h-100'>
+        <div className='container-md  h-100'>
              <Outlet  context={[wish,setWish, carrinho, setCarrinho]} />
         </div>  
       
@@ -150,9 +151,7 @@ useEffect(() => {
                         <a target='_blank' href='https://bit.ly/3rABIyv' className='btn btn-outline-dark b-rounded' title='Whatsapp'><BsWhatsapp size={30} /></a>
 
                    </div>
-                   <div className='text-end'>
-                     <Link to='admin/produtos/cadastrar' className='nav-link text-dark' >.</Link>
-                   </div>
+                 
                   </div>
             
               

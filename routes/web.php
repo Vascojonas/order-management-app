@@ -25,6 +25,9 @@ if (App::environment('production')) {
 //ADMIN AND USER API
 
 //--produtos
+
+Route::get('/api/admin/produtos/categorias',[\App\Http\Controllers\AppController::class, 'categorias']);
+
 Route::post('/api/admin/produtos/salvar',[\App\Http\Controllers\AppController::class,'cadastrarProduto']);
 Route::get('/api/admin/produtos',[\App\Http\Controllers\AppController::class, 'allProducts']);
 Route::delete('/api/admin/produtos/delete/{id}',[\App\Http\Controllers\AppController::class, 'deleteProduct']);

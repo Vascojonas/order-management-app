@@ -44,6 +44,7 @@ function carinho() {
        }else{
             swal("Ops","Nenhum item foi selecionado!", "error")
        }
+
        
     }
     
@@ -79,7 +80,7 @@ function carinho() {
                          axios.put('/encomenda/finalizar/compra', data).then(res => {
                             if(res.data.status==200){
                               //console.log(res.data.data)
-                              swal("Sucesso!","Encomenda efectuada com sucesso","success");
+                              swal("Encomenda efectuada com sucesso!", "","success");
                               setComprar(false);
                             }else if(res.data.status==402){
                               swal("Ops!","O correu um erro durante o pagamento tente novamente!","error");
@@ -215,12 +216,6 @@ function carinho() {
     const deleteItemCarrinho= (e,id)=>{
         e.preventDefault();
         const thisClicked = e.currentTarget;
-        thisClicked.innerText = "Deletar";
-  
-        
-
-       // //console.log(user.id);
-        ////console.log(id);  
 
         let data ={
             user_id: user.id,
@@ -235,7 +230,7 @@ function carinho() {
                 setCarrinho(carrinho.filter((item)=>
                     item.id !== id       
                  ))
-                 swal("Eliminado!",res.data.message,"success");
+                 swal("Artigo removido do carrinho!","","success");
                  thisClicked.closest("tr").remove()  
               }
           });

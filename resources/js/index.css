@@ -506,9 +506,7 @@ body{
   }
   
 
-  .nav-header{
-    
-  }
+
 
  .nav-header li a{
     border-left: 1px solid gray;
@@ -621,8 +619,7 @@ body{
 }
 
 .vazia{
-
-  height: 390px;
+  min-height: 390px;
 }
 
 .btn-outline-danger {

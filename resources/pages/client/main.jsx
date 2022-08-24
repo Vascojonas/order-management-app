@@ -1,16 +1,13 @@
 import React,{useState, useEffect}  from 'react'
 import { Link, useOutletContext, useNavigate } from 'react-router-dom';
-import {IoSearch} from 'react-icons/io5';
-import { get, set } from 'lodash';
-import Login from '../../js/components/login';
 import {BsFillHeartFill,BsHeart,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
 
 import swal from 'sweetalert';
 
 import AuthUser from '../../js/components/AuthUser';
-import { FaRegNewspaper } from 'react-icons/fa';
 import axios from 'axios';
-
+import { storage } from '../../js/firebase';
+import { ref,deleteObject, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 
 function main() {
@@ -24,7 +21,7 @@ function main() {
     });
 
     const navigate = useNavigate();
-
+    const [progress, setProgress]= useState(0);
     const [pesquisar, setPesquisar]=useState(false);
     const [resultadoPesquisa, setResultado]= useState([]);
     const [encontrado, setEncontrado] = useState(false);
@@ -33,6 +30,8 @@ function main() {
      const [editPage,setEdit]=useState(false);
      const [bannerImage, setBannerImage] = useState(null);
      const [banners, setBanners]= useState([]);
+
+     const [categorias, setCategorias]= useState([]);
       
     const [publicidadeInput, setPublicidade]= useState({
         titulo: '',
@@ -44,8 +43,6 @@ function main() {
     })
 
 
-    const[compra, setCompra] = useState(false);
-
     let novaEncomenda;
     const [products, setproducts] = useState([]);
 
@@ -53,30 +50,38 @@ function main() {
 
         e.preventDefault();
       
-        const config = {
-          headers: {
-              'content-type': 'multipart/form-data'
-          }
-        }
-        let dataImage = new FormData();
-          dataImage.append('file', bannerImage);
-      
-          axios.post('/api/admin/produtos/upload', dataImage, config)
-          .then(function (res) {
-             ////console.log(res.data.success);
-             ////console.log(res.data.path);
+        const sotrageRef = ref(storage, `publicidades/${bannerImage.name}`);
+        const uploadTask = uploadBytesResumable(sotrageRef, bannerImage);
+    
+   let imageUrl;
+     uploadTask.on(
+       "state_changed",
+       (snapshot) => {
+         const prog = Math.round(
+           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+         );
+         setProgress(prog);
+
+        
+       },
+       (error) => console.log(error),
+       () => {
+         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            imageUrl=downloadURL;
+           //console.log("File available at", downloadURL);
+
               
              const data = {
               titulo:publicidadeInput.titulo,
               descricao:publicidadeInput.descricao,
-              imagem: res.data.path
+              imagem: imageUrl
              }
           
             //console.log(data);
           axios.post('/api/admin/banner/salvar', data).then(res => {
             if(res.data.status === 200)
             {
-                swal("Sucesso!",res.data.message,"success");
+                swal(res.data.message,"","success");
                 setPublicidade({
                     titulo: '',
                      descricao: '',
@@ -93,14 +98,15 @@ function main() {
               {
                 //console.log("Fails", res.data.validate_err);
                 //setPublicidade({...publicidadeInput, error_list: res.data.validate_err });
-              }
-            });
-              
-              })
-            .catch(function (err) {
-              //console.log(err);
-            });
-      }
+            }
+        });
+
+
+       });
+     }
+   );
+
+} 
 
     const hadleEdit=()=>{
         setEdit(!editPage);
@@ -122,7 +128,7 @@ function main() {
         }
     
 
-       
+     
 
         if(!user.id){
             navigate('/login');
@@ -229,7 +235,7 @@ function main() {
                                 {
                                     ////console.log(presp.data.message);
 
-                                    swal("Sucesso!",presp.data.message,"success")
+                                    swal(presp.data.message,"","success")
 
                                 }
                                 else if(presp.data.status === 405)
@@ -305,7 +311,7 @@ function main() {
                                  {
                                      ////console.log(presp.data.message);
  
-                                     swal("Sucesso!",presp.data.message,"success")
+                                     swal(presp.data.message,"","success")
  
                                  }
                                  else if(presp.data.status === 405)
@@ -356,11 +362,56 @@ function main() {
                 setproducts(res.data.products)
             }
         });
+
+        axios.get(`/api/admin/produtos/categorias`).then(res=>{
+            if(res.status === 200)
+            {
+            
+               setCategorias(res.data.categoria)
+            }
+        });
   
     }, []);
 
+    let CATEGORIAS_HTML = categorias.map((categoria, index)=>{
+        return (
+            <div key={index} className=' quadros mt-5'> 
+                <h4>{(categoria.categoria).charAt(0).toUpperCase()+(categoria.categoria).slice(1)}</h4>
+                <div className='row justify-content-start artigos mt-4'>
+                      {
+                        products.map((item, index) => {
+                            return categoria.categoria===item.categoria &&(
+                              <div key={index}>
+                                    <div  className=" artigo border-golden m-2 " >
+                                        <img className='artigo-imagem' src={item.imagem} >
+                        
+                                    </img>
+                                    <div className=" artigo-conteudo">
+                                            <div className='artigo-action d-flex col-8 offset-2 ' >
+                                                <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
+                                                <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                                                <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
+                                                </div>
+                                        <div className='artigo-textos' >
+                                            <small><strong>{item.nome}</strong></small><br/>
+                                            <small>{item.descricao}</small> 
+                                            <small > <strong>{item.preco} MT</strong></small>
+                        
+                                        </div>
+                            
+                                    </div>
+                                      </div>
+                              </div>
+                            );
+                          })
+                      }                 
+                         
+                </div>
+            </div>
+         )
+        });
 
-    let content_html =  products.map((item, key)=>{ 
+    let content_html =  products.map((item, key)=>{
         return (
 
              <div key={key} className=" artigo border-golden m-2 " >
@@ -387,141 +438,7 @@ function main() {
     })
 
 
-    let quadros_html =  products.map((item, key)=>{ 
-        if(item.categoria==='quadro'){
 
-            return (
-    
-                 <div key={key} className=" artigo border-golden m-2 " >
-                    <img className='artigo-imagem' src={item.imagem} >
-    
-                   </img>
-                   <div className=" artigo-conteudo">
-                           <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
-                            </div>
-                       <div className='artigo-textos' >
-                           <small><strong>{item.nome}</strong></small><br/>
-                           <small>{item.descricao}</small> 
-                           <small > <strong>{item.preco} MT</strong></small>
-    
-                       </div>
-        
-                   </div>
-                  </div>
-                 
-            )
-
-        }
-        
-    })
-
-
-    let chavenas_html =  products.map((item, key)=>{ 
-        if(item.categoria==='chavena'){
-
-            return (
-    
-                 <div key={key} className=" artigo border-golden m-2 " >
-                    <img className='artigo-imagem' src={item.imagem} >
-    
-                   </img>
-                   <div className=" artigo-conteudo">
-                           <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
-                            </div>
-                       <div className='artigo-textos' >
-                           <small><strong>{item.nome}</strong></small><br/>
-                           <small>{item.descricao}</small> 
-                           <small > <strong>{item.preco} MT</strong></small>
-    
-                       </div>
-        
-                   </div>
-                  </div>
-                 
-            )
-
-        }
-        
-    })
-
-    let bebedouros_html =  products.map((item, key)=>{ 
-        if(item.categoria==='bebedouro'){
-
-            return (
-    
-                 <div key={key} className=" artigo border-golden m-2 " >
-                    <img className='artigo-imagem' src={item.imagem} >
-    
-                   </img>
-                   <div className=" artigo-conteudo">
-                           <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
-                            </div>
-                       <div className='artigo-textos' >
-                           <small><strong>{item.nome}</strong></small><br/>
-                           <small>{item.descricao}</small> 
-                           <small > <strong>{item.preco} MT</strong></small>
-    
-                       </div>
-        
-                   </div>
-                  </div>
-                 
-            )
-
-        }
-        
-    })
-
-    let chaveiros_html =  products.map((item, key)=>{ 
-        if(item.categoria==='chaveiro'){
-
-            return (
-    
-                 <div key={key} className=" artigo border-golden m-2 " >
-                    <img className='artigo-imagem' src={item.imagem} >
-    
-                   </img>
-                   <div className=" artigo-conteudo">
-                           <div className='artigo-action d-flex col-8 offset-2 ' >
-                               <button value={item.id} onClick={handleWish}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsHeart/></button>
-                               <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
-                               <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
-                            </div>
-                       <div className='artigo-textos' >
-                           <small><strong>{item.nome}</strong></small><br/>
-                           <small>{item.descricao}</small> 
-                           <small > <strong>{item.preco} MT</strong></small>
-    
-                       </div>
-        
-                   </div>
-                  </div>
-                 
-            )
-
-        }
-        
-    })
-
-
-    let vazia_html = ()=>{
-        return(
-            <div className="vazia">
-                <div className="d-flex">
-                    Nenhum resultado foi encontrado
-                </div>
-            </div>
-        )
-    }
 
     let pesquisa_html =  resultadoPesquisa.map((item, key)=>{ 
         return (
@@ -548,6 +465,16 @@ function main() {
              
        )
     })
+
+    if(!pesquisa_html.length){
+
+        pesquisa_html=(
+        <div className='d-flex justify-content-center align-items-center w-100  vazia'>
+            <h4 className=''>Nenhum resultado foi encontrado!</h4>
+        </div>
+        )
+    }
+    
    
 
     let countlist=0
@@ -573,7 +500,7 @@ function main() {
 
 
     const  handlePesquisa=(e)=>{
-        console.log(e.target.value);
+     
         let value = e.target.value;
 
         if(value!==''){
@@ -581,7 +508,7 @@ function main() {
             axios.get('produtos/pesquisar/'+value)
             .then((res)=>{{
                 if(res.data.status==200){
-                    console.log(res.data.data);
+                    //console.log(res.data.data);
                     setResultado(res.data.data);
                     setEncontrado(true)
                 }else if(res.data.status==404){
@@ -595,10 +522,17 @@ function main() {
         }
     }
 
-    const deleteBanner =(e, id)=>{
+    const deleteBanner =(e, id,imgref)=>{
         e.preventDefault();
         const thisClicked = e.currentTarget;
-        thisClicked.innerText = "Deletar";
+        
+    let fileRef =ref(storage, imgref);
+      
+      deleteObject(fileRef).then(() => {
+          //console.log("Success");
+      }).catch((error) => {
+          //console.log("Success");
+      });
 
      
         ////console.log(data);
@@ -610,7 +544,7 @@ function main() {
                 setBanners(banners.filter((item)=>
                     item.id !== id       
                  ))
-                 swal("Eliminado!",res.data.message,"success");
+                 swal("Banner eliminado!"," ","success");
                  thisClicked.closest("tr").remove()  
               }
           });
@@ -626,7 +560,7 @@ function main() {
                       </th>
                       <td>{item.titulo}</td>                     
                      <td >
-                          <button onClick={(e) => deleteBanner(e, item.id)}  className="btn btn-sm btn-circle btn-outline-danger"   title="Remover">Remover</button>
+                          <button onClick={(e) => deleteBanner(e, item.id,item.imagem)}  className="btn btn-sm btn-circle btn-outline-danger"   title="Remover">Remover</button>
                       </td>
                  </tr>
             ) 
@@ -640,13 +574,19 @@ function main() {
       <>
       
     
-      <div className=' container-fluid mt-5'>
+      <div className=' container-fluid mt-5 '>
     
-         <div className='d-flex  input-group col-12 search p-0'>
+         <div className='d-flex  input-group col-12 search p-0 justify-content-between'>
               <div className=' col-6 p-0' >
                  <input className='form-control border-golden text-black' type="search" name="pesquisar" id="pesquisar"
                   placeholder="Pesquisar..." onChange={handlePesquisa} />
                </div>
+
+               {(user.role=='admin'||user.role=='editor')&&(
+                <div className=' d-flex justify-content-end '>
+                    <Link  to='/admin/produtos/cadastrar' className="btn btn-sm btn-circle bg-principal  ml-1 mr-1" title="Administração">Painel Administrativo </Link>
+                </div>
+                )}
                
           </div>
 
@@ -654,10 +594,9 @@ function main() {
          {(pesquisar)?
               <div className=' container-fluid mt-5'>
                   <div className='row p-0 justify-content-start mt-4'>
-                    {(encontrado)?
+                    {
                         pesquisa_html
-                    :
-                        vazia_html
+                   
                     }
 
                       
@@ -750,6 +689,7 @@ function main() {
             
                     <div className='form-group row ml-2'>
                     <label className="col-md-4 col-form-label" htmlFor="imagem">Selecione a imagem</label>
+                
                     <div className="col-md-8">
                         <input className='form-control border border-white' type="file"  name="imagem" id="imagem" accept="image/*" 
                             onChange={(event)=>{
@@ -763,6 +703,10 @@ function main() {
             
                         </div>
                     </div>
+                    <div className="progress m-3">
+                      <div className="progress-bar" role="progressbar" style={{width: progress+"%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{progress}%</div>
+                     </div>
+
                     <div className='d-flex justify-content-end'>
                             <button disabled={!bannerImage} onClick={saveBanner} className='btn bg-principal'>Salvar</button>
                     </div>
@@ -787,41 +731,20 @@ function main() {
 
                           </table>
             
+            
                 </div>
                 </div>
                 )} 
             
-            
+
                 <div className='row p-2 justify-content-between mt-4'>
                     {content_html}
                 </div>
-            
-                <div className=' quadros mt-5'> 
-                    <h4>Quadros</h4>
-                    <div className='row justify-content-start artigos mt-4'>
-                    {quadros_html}
-                    </div>
+
+                <div className="">
+                    {CATEGORIAS_HTML}
                 </div>
-                        
-                
-                <div className=' quadros mt-5'> 
-                    <h4>Chávenas</h4>
-                    <div className='row justify-content-start artigos mt-4'>
-                    {chavenas_html}
-                    </div>
-                </div>
-                <div className=' quadros mt-5'> 
-                    <h4>Bebedouros</h4>
-                    <div className='row justify-content-start artigos mt-4'>
-                    {bebedouros_html}
-                    </div>
-                </div>
-                <div className=' quadros mt-5'> 
-                    <h4>Chaveiros</h4>
-                    <div className='row justify-content-start artigos mt-4'>
-                    {chaveiros_html}
-                    </div>
-                </div>
+          
             </>
          }
     

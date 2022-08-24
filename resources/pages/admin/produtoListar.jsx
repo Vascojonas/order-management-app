@@ -1,5 +1,7 @@
 import React,{useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
+import { ref,deleteObject} from "firebase/storage";
+import { storage } from '../../js/firebase';
 
 import {IoSearch} from 'react-icons/io5';
 import {FontAwesomeIcon }from 'react-icons/fa';
@@ -29,21 +31,28 @@ function produtoListar() {
 
   }, []);
 
-  const deleteProduct = (e, id) => {
+  const deleteProduct = (e, id, imgref) => {
       e.preventDefault();
       const thisClicked = e.currentTarget;
-      thisClicked.innerText = "Deleting";
+      
+      let fileRef =ref(storage, imgref);
+      
+      deleteObject(fileRef).then(() => {
+          //console.log("Success");
+      }).catch((error) => {
+          //console.log("Success");
+      });
 
-      axios.delete(`/api/admin/produtos/delete/${id}`).then(res=>{
+     axios.delete(`/api/admin/produtos/delete/${id}`).then(res=>{
           if(res.data.status === 200)
           {
-              swal("Eliminado!",res.data.message,"success");
+              swal("Artigo eliminado!"," ","success");
               thisClicked.closest("tr").remove()   
           }
           else if(res.data.status === 404)
           {
               swal("Ops",res.data.message,"error");
-              thisClicked.innerText = "Eliminar";
+              
           }
 
       });
@@ -120,7 +129,7 @@ function produtoListar() {
                 <td width="160">
                 <button href="#" className="btn btn-sm btn-circle btn-outline-golden " title="Visualizar"><i className="fa fa-eye"></i></button>
                 <Link to={`/admin/produtos/cadastrar/${item.id}`} className="btn btn-sm btn-circle bg-principal ml-1 mr-1" title="Editar"><i className="fa fa-edit"></i></Link>
-                <button className="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteProduct(e, item.id)} title="Deletar"><i className="fa fa-times"></i></button>
+                <button className="btn btn-sm btn-circle  btn btn-outline-danger"  onClick={(e) => deleteProduct(e, item.id, item.imagem)} title="Deletar"><i className="fa fa-times"></i></button>
             
                 </td>
              </tr>

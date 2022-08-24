@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useParams } from 'react-router-dom';
 
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { storage } from '../../js/firebase';
+
 import axios from 'axios';
 import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 
 
 
 function produtoCadastrar() {
   const {id } = useParams();
   const[edit, setEdit]= useState(false);
+  const [progress, setProgress]= useState(0);
 
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -22,6 +27,8 @@ function produtoCadastrar() {
       imagem: '',
       error_list: [],
   });
+
+  
 
 
   
@@ -51,74 +58,85 @@ useEffect(()=>{
 
 
 
-
 const handleInput = (e) => {
   e.persist();
   setProduct({...productInput, [e.target.name]: e.target.value })
 }
 
+
+
 const savePrduct = (e) => {
 
   e.preventDefault();
 
-  const config = {
-    headers: {
-        'content-type': 'multipart/form-data'
-    }
-  }
-  let dataImage = new FormData();
-    dataImage.append('file', selectedImage);
+ 
 
-    axios.post('/api/admin/produtos/upload', dataImage, config)
-    .then(function (res) {
-       //console.log(res.data.success);
-       //console.log(res.data.path);
-      
-       
-       const data = {
-        nome:productInput.nome,
-        categoria:productInput.categoria,
-        descricao:productInput.descricao,
-        preco:productInput.preco,
-        imagem: res.data.path
-    }
+   const sotrageRef = ref(storage, `artigos/${selectedImage.name}`);
+   const uploadTask = uploadBytesResumable(sotrageRef, selectedImage);
     
-  
-    axios.post('/api/admin/produtos/salvar', data).then(res => {
-  
-      
-      if(res.data.status === 200)
-      {
-          //console.log(res.data.imagem);
-            console.log("Working");
-  
-          swal("Sucesso!",res.data.message,"success");
-          setProduct({
-              categoria: '',
-              nome: '',
-              descricao: '',
-              preco: '',
-              imagem: '',
-              error_list: [],
-            });
+   let imageUrl;
+     uploadTask.on(
+       "state_changed",
+       (snapshot) => {
+         const prog = Math.round(
+           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+         );
+         setProgress(prog);
 
-            setSelectedImage(null);
-            //history.push('/students');
-            
-        }
-        else if(res.data.status === 422)
-        {
-          console.log("Fails", res.data.validate_err);
-          setProduct({...productInput, error_list: res.data.validate_err });
-          
-        }
-      });
         
-        })
-      .catch(function (err) {
-        console.log(err);
-      });
-}
+       },
+       (error) => console.log(error),
+       () => {
+         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            imageUrl=downloadURL;
+           console.log("File available at", downloadURL);
+
+           const data = {
+            nome:productInput.nome,
+            categoria:productInput.categoria,
+            descricao:productInput.descricao,
+            preco:productInput.preco,
+            imagem: imageUrl
+        }
+        
+      
+        axios.post('/api/admin/produtos/salvar', data).then(res => {
+      
+          
+          if(res.data.status === 200)
+          {
+            
+              Swal.close()
+              swal("Sucesso!",res.data.message,"success");
+              setProduct({
+                  categoria: '',
+                  nome: '',
+                  descricao: '',
+                  preco: '',
+                  imagem: '',
+                  error_list: [],
+                });
+            
+                setProgress(0);
+                setSelectedImage(null);
+                setSelectedImage(null);
+                //history.push('/students');
+                
+            }
+            else if(res.data.status === 422)
+            {
+              console.log("Fails", res.data.validate_err);
+              setProduct({...productInput, error_list: res.data.validate_err });
+              
+            }
+          });
+
+
+         });
+       }
+     );
+
+  } 
 
 const updateProduct = (e)=>{
   e.preventDefault();
@@ -175,12 +193,12 @@ const updateProduct = (e)=>{
                     <div className="col-md-8">
                       <select className="form-control border-golden " id='categoria' name='categoria' onChange={handleInput} value={productInput.categoria}>
                               <option >Selecione a categoria do brinde</option>
-                              <option value={"quadro"} >Quadro</option>
-                              <option value={"combo"} >Combo</option>
-                              <option value={"chavena"}>Chávena</option>
-                              <option value={"chaveiro"}>Chaveiro</option>
-                              <option value={"bebedouro"}>Bebedouro</option>
-                              <option value={"popsocket"}>Popsocket</option>
+                              <option value={"quadros"} >Quadro</option>
+                              <option value={"combos"} >Combo</option>
+                              <option value={"chavenas"}>Chávena</option>
+                              <option value={"chaveiros"}>Chaveiro</option>
+                              <option value={"bebedouros"}>Bebedouro</option>
+                              <option value={"popsockets"}>Popsocket</option>
                          </select>
                     <span className="text-danger">{productInput.error_list.categoria}</span>
 
@@ -260,8 +278,13 @@ const updateProduct = (e)=>{
                       //console.log(productInput.imagem)
   
                     }} />
+                     <div className="progress ml-5">
+                      <div className="progress-bar" role="progressbar" style={{width: progress+"%"}} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{progress}%</div>
+                     </div>
                   </div>)}
                     <span className="text-danger  offset-2">{productInput.error_list.imagem}</span>
+                    
+                   
           
             </div>
 

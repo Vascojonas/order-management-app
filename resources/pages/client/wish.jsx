@@ -1,14 +1,14 @@
-import React,{useState, useEffect} from 'react'
-import { Link, useOutletContext } from 'react-router-dom';
-import {BsCartX,BsCartCheck, BsFillPencilFill} from 'react-icons/bs'
+import React,{useState,} from 'react'
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { set } from 'lodash';
 import AuthUser from '../../js/components/AuthUser';
+import {BsFillHeartFill,BsHeart,BsCartPlus,BsCartX,BsCartCheck} from 'react-icons/bs'
 
-import Mpesa from './mpesa.jpg'
 import swal from 'sweetalert';
  
 
 function wish() {
+    const navigate = useNavigate();
     const {getUser,getToken} = AuthUser();
     const [user, setUser] = useState(()=>{
       if(getUser()){
@@ -18,207 +18,161 @@ function wish() {
       }
     });
 
-    
-    const [comprar, setComprar]= useState(false);
 
-    const [message, setMessage]= useState(null);
-    const [btnDisabled, setBtnDisabled]= useState(true)
-    const [pagamentoInput, setPagamento]= useState({
-        numero:'',
-        valor:'',
-        error_list:[]
-
-    })
 
     const [wish,setWish, carrinho, setCarrinho] =  useOutletContext();
-    const [compras, setCompras]= useState([])
 
 
-    const halndleComrar = (e)=>{
-       if(!compras.length==0){
-
-           setComprar(!comprar);
-    
-           //console.log("compras");
-           //console.log(compras);
-       }else{
-            swal("Ops","Nenhum item foi selecionado!", "error")
-       }
+    const handleCarinho =(e)=>{
        
-    }
-    
-    let total=0;
-    let total_compra=0;
-    const encomendar = (e)=>{
-        e.preventDefault();
-
-        let data={
-            from: pagamentoInput.numero,
-            valor: total_compra
-        }
-
-        //console.log(data);
-        axios.post('/carrinho/encomendar', data).then(res => {
-          
-            if(res.data.status === 200)
-            {
-                  //console.log(res.data);
-
-                    compras.map((item)=>{
-                         console.log(item);
-
-
-                         const data = {
-                            id: item.id,
-                            user_id: user.id,
-                            valor: item.preco,
-                            quantidade: item.quantidade,
-                            status: 1
-                         }
-
-                         axios.put('/encomenda/finalizar/compra', data).then(res => {
-                            if(res.data.status==200){
-                              //console.log(res.data.data)
-                              swal("Sucesso!","Encomenda efectuada com sucesso","success");
-                              setComprar(false);
-                            }else if(res.data.status==402){
-                              swal("Ops!","O correu um erro durante o pagamento tente novamente!","error");
-                              console.log(res.data.data)
-                            }else if(res.data.status==404){
-                              swal("Ops!","O correu um erro durante o pagamento tente novamente!","error");
-                              //swal("Ops!",res.data.message,"error");
+        const result = carrinho.find((item) => item.id == e.target.value);
+        
+ 
+         if(result){
+             ////console.log("Encontrado")
+         }else{
+           
+             let novoItem = [...carrinho];
+             let nova = (wish.filter((item)=> item.id == e.target.value))[0];
+             novoItem.push(nova);
+             setCarrinho(novoItem)
+         }
+     
+ 
+        
+ 
+         if(!user.id){
+             navigate('/login');
+         }else{
+ 
+             let data ={
+                 id:user.id
+               }
+                 ////console.log(data);
+             axios.get('/clientes/carrinho/'+data.id).then(res=>{
+                 if(res.data.status === 200)
+                 {     
+                        // //console.log("Carrinho encontrado")
+                        ////console.log(res.data)
+                         let carrinho=res.data.data;
+ 
+                         if(carrinho){
+                            let data={
+                                 produto_id: e.target.value,
+                                 carrinho_id: carrinho.id
                             }
-                        })
-                    })
-                
-                
-                 //swal("Sucesso!",res.data.message,"success");
+ 
+                            //console.log(data);
+                            axios.post('/carrinho/produtos/salvar',data).then(presp=>{
+                                 if(presp.data.status === 200)
+                                 {
+                                     ////console.log(presp.data.message);
+ 
+                                     swal(presp.data.message, "","success")
+ 
+                                 }
+                                 else if(presp.data.status === 405)
+                                 {
+                                     //console.log(presp.data.message);
+                                     swal("Ops!",presp.data.message,"error")
+ 
+                                 }
+                            })
+ 
+                         }else{
+                             //console.log("existe")
+ 
+                         }
+                 }
+                 else if(res.data.status === 404)
+                 {
+ 
+                     //console.log(res.data.data)
+                     
+                 }
+         
+             });
+         }
+ 
+ 
+ 
+ 
+     }
 
-                  
-              }
-              else if(res.data.status === 422)
-              {
-                //console.log(res.data); 
+     const handleCompra =(e)=>{
+        const result = carrinho.find((item) => item.id == e.target.value);
+       
 
-                swal("Ops!","Ocorreu um erro durante o pagamento!", 'error');
-              }
-            }).catch((err)=>{
-                //console.log(err);
-            });
-    }
-
-    const handleInput = (e) => {
-        e.persist();
-        setPagamento({...pagamentoInput, [e.target.name]: e.target.value })
-
-        if(e.target.name==='numero'&& e.target.name===''){
-            setMessage(null);
-            setBtnDisabled(true)
-        }else if(e.target.name==='numero'&& (e.target.value).length!==9){
-            setMessage("Digite um número válido")
-            setBtnDisabled(true)
-        }else if(e.target.name==='numero'&& (e.target.value).length===9){
-            setMessage(null)
-            setBtnDisabled(false)
+        if(result){
+            ////console.log("Encontrado")
+        }else{
+          
+            let novoItem = [...carrinho];
+            let nova = (whish.filter((item)=> item.id == e.target.value))[0];
+            novoItem.push(nova);
+            setCarrinho(novoItem)
         }
 
-    }
 
-    let count =0
-    const handleCompras =(e, id)=>{
+        if(!user.id){
+            navigate('/login');
+        }else{
 
-        setComprar(false);
-        //console.log(id);
-        let result;
+            let data ={
+                id:user.id
+              }
+                ////console.log(data);
+            axios.get('/clientes/carrinho/'+data.id).then(res=>{
+                if(res.data.status === 200)
+                {     
+                       // //console.log("Carrinho encontrado")
+                       ////console.log(res.data)
+                        let carrinho=res.data.data;
 
-        let element = document.getElementById('cb-'+id);
+                        if(carrinho){
+                           let data={
+                                produto_id: e.target.value,
+                                carrinho_id: carrinho.id
+                           }
 
-        wish.map((item)=>{
+                           //console.log(data);
+                           axios.post('/carrinho/produtos/salvar',data).then(presp=>{
+                                if(presp.data.status === 200)
+                                {
+                                    ////console.log(presp.data.message);
 
-            if( element.checked ===true){
-               
-                axios.get(`/clientes/encomenda/itens/`+user.id+'-'+id).then(res=>{
-          
-                    if(res.data.status===200){
+                                    navigate('/cliente/carinho');
 
-                        if(res.data.data.status===1){
-                            element.checked=false;
-                            swal("Ops!", "Esse item já foi pago!","")
-                            
+                                }
+                                else if(presp.data.status === 405)
+                                {
+                                    ////console.log(presp.data.message);
+                                    navigate('/cliente/carinho');
+
+                                }
+                           })
+
                         }else{
-                            let compraItem = [...compras];
-                            let nova = (carrinho.filter((item)=> item.id == id))[0];
-                            compraItem.push(nova);
-                            setCompras(compraItem)
-                           
-                            ////console.log(compras);
-                            count ++;
-                           // //console.log(count);
+                            //console.log("existe")
 
                         }
-
-                        
-      
-                    }else  if(res.data.status===404){
-                    
-                       ////console.log("Esta encomenda ainda não foi personalizada")
-                       element.checked=false;
-                       swal("Encomenda não personalizada!", "Clique na caneta para personalizar!", "error")
-                       
-
-                    }
-                
-                })  
-
-                
-            }else if(element.checked ===false){
-
-                setCompras(compras.filter((item)=>
-                    item.id !== id       
-                 ))
-            }
-        })  
-    }
-
-    const updateQuantidade= (e, id)=>{
-       
-        let oldPrice;
-        let newPrice;
-        let newTotal;
-
-        setComprar(false);
-       
-        wish.map((item)=>{
-            
-                if(item.id==id){
-                    if(e.target.value===0){
-                        e.target.value=1
-                    }
-                    oldPrice=item.quantidade*item.preco;
-                    item.quantidade=e.target.value
-                    newPrice=item.quantidade*item.preco;
                 }
-        })
+                else if(res.data.status === 404)
+                {
 
-
-        total = total - oldPrice + newPrice;
-        setPagamento({...pagamentoInput, valor:total})
-        document.getElementById('pt-'+id).innerHTML=newPrice +',00MT' 
-        document.getElementById('total').innerHTML=total +',00MT' 
-        ////console.log(total);
-
+                    //console.log(res.data.data)
+                    
+                }
+        
+            });
+        }
 
     }
-   
+ 
+
     const deleteItemWish= (e,id)=>{
         e.preventDefault();
         const thisClicked = e.currentTarget;
-        thisClicked.innerText = "Deletar";
-  
-        
-
-       // //console.log(user.id);
-        ////console.log(id);  
 
         let data ={
             user_id: user.id,
@@ -233,7 +187,7 @@ function wish() {
                 setWish(wish.filter((item)=>
                     item.id !== id       
                  ))
-                 swal("Eliminado!",res.data.message,"success");
+                 swal("Artigo removido dos favoritos"," ","success");
                  thisClicked.closest("tr").remove()  
               }
           });
@@ -241,63 +195,37 @@ function wish() {
     }
     
     
-    const wish_TABLE = wish.map((item, key)=>{
-        total += item.quantidade*item.preco;
-            return(
+    const wish_TABLE = wish.map((item, key)=>{ 
+        return (
 
-                <tr key={key}>
-                      <th scope="row" className=' list-img p-0'>
-                          <img className='list-img' src={item.imagem} />
-                      </th>
-                      <td>{item.nome}</td>
-                      <td >
-                        <input onChange={(e)=> updateQuantidade(e, item.id)} type='number' min={0} className='form-control-file col-8' name='quantidade' value={item.quantidade} />
-                      </td>
-                      <td>{item.preco},00MT</td>
-                     
-                    <td id={`pt-${item.id}`}>
-                        {item.preco*item.quantidade},00MT
-                    </td>
-                     <td width="160">
-            
-                          <input onChange={(e) => handleCompras(e, item.id)}  className=" btn btn-success big-checkbox mr-1" type="checkbox" value="" id={'cb-'+item.id}/>
-                          <Link  to={'/encomendas/personalizar/'+item.id}  className="btn btn-sm btn-circle btn-outline-success mr-1"   title="Detalhes"><BsFillPencilFill/></Link>
-                          <button  onClick={(e) => deleteItemWish(e, item.id)} className="btn btn-sm btn-circle btn-outline-danger"   title="Remover"><BsCartX/></button>
+             <div key={key} className=" artigo border-golden m-2 " >
+                <img className='artigo-imagem' src={item.imagem} >
 
-                      </td>
-                 </tr>
-            ) 
-            
-       
-        })
+               </img>
+               <div className=" artigo-conteudo">
+                       <div className='artigo-action d-flex col-8 offset-2 ' >
+                           <button value={item.id} onClick={(e) => deleteItemWish(e, item.id)}  className='btn btn-outline-danger btn-sm  btn-carrinho mr-1'> <BsFillHeartFill/></button>
+                           <button value={item.id} onClick={handleCarinho}  className='btn btn-outline-success btn-sm  btn-carrinho mr-1'> <BsCartPlus/></button>
+                           <button value={item.id} onClick={handleCompra}   className='btn btn-outline-secondary btn-sm  btn-carrinho '> Comprar</button>
+                        </div>
+                   <div className='artigo-textos' >
+                       <small><strong>{item.nome}</strong></small><br/>
+                       <small>{item.descricao}</small> 
+                       <small > <strong>{item.preco} MT</strong></small>
 
-    const compras_html = compras.map((item, key)=>{
-        console.log(compras);
-        if(item){
-            total_compra += item.quantidade*item.preco;
-            return(
+                   </div>
     
-                <tr key={key}>
-                      <th scope="row" className=' list-img p-0'  >
-                          <img className='list-img' src={item.imagem} style={{width: "60px", height:"60px"}} />
-                      </th>
-                      <td >
-                        <input  readOnly type='number' min={0} className='form-control-file col-8' name='quantidade' value={item.quantidade} />
-                      </td>
-                      <td>{item.preco}</td>
-                     
-                    <td id={`pt-${item.id}`}>
-                        {item.preco*item.quantidade},00MT
-                    </td>
-                    
-                 </tr>
-            ) 
-        }
+               </div>
+              </div>
+             
+       )
     })
-    
 
 
-    if(carrinho.length==0){
+
+
+
+    if(wish.length==0){
         return(
             <div className='d-flex justify-content-center align-items-center  vazia '>
                 <h4 className=''>Lista de  favoritos vazia</h4>
@@ -306,103 +234,19 @@ function wish() {
     }else{
 
         return (
-          <div>
+          <div className='mt-5'>
              <h4>Favoritos</h4>
       
-              <div className='conteudo mt-3 border-top'>
-                  <div className='col-8 offset-2 mt-3'>
+              <div className='container-fluid mt-5'>
+                  <div className='row p-0 justify-content-start mt-4'>
       
-                          <table className="table table-striped">
-                          <thead>
-                              <tr>
-                                      <th>Imagem</th>
-                                      <th>Nome</th>
-                                      <th width=''>Quantidade</th>
-                                      <th width=''>Preço_Unitário</th>
-                                      <th width='155'>Preço_Total</th>
-                                      <th width='300'></th>
-                              </tr>
-                          </thead>
-      
-                          <tbody>
+                        
       
                             {wish_TABLE}
                           
       
-                          </tbody>
-
-                          <tfoot>
-                                <tr className=''>
-                                
-                                <td></td>
-                                <th  colSpan={3}>Total nos favoritos</th>
-                                <td id='center' align='' >{total},00MT</td>
-                                {<td className='pr-0'> 
-                                    <button onClick={halndleComrar} className='btn  bg-principal btn-block'>Comprar</button>
-                                </td>}
-                            
-                                </tr>
-  
-                          </tfoot>
-                          </table>
+                
                   </div>
-
-               {comprar&&(
-                <div>
-                        <div className='row col-6'>
-                            <img src={Mpesa} className="mpesa"/>
-                            <h4>Pagamentos por M-pesa</h4>
-                        </div>
-                     
-
-                     
-                         {message && <div className='col-6 p-3 text-danger'>{message}</div>}
-                        <div className='d-flex justify-content-end'>
-                            
-                            <div className='form-group d-flex flex-column justify-content-start ml-2 col-6 '>
-                                
-                                    <div className="col-md-8">
-                                        <input name='numero' className="form-control" type="number" placeholder="Digite o numero do telefone" 
-                                        onChange={handleInput} value={pagamentoInput.numero} />
-                                        <span className="text-danger">{pagamentoInput.error_list.numero}</span>
-                                         <button onClick={encomendar} disabled={btnDisabled} className='btn bg-principal mt-3'>Encomendar</button>
-                                    </div>
-                            </div>
-
-                            <div className='col-6'>
-                            <table className="table table-striped">
-                          <thead>
-                              <tr>
-                                      <th>Imagem</th>
-                                      <th width='155'>Quantidade</th>
-                                      <th width='155'>Preço Unitário</th>
-                                      <th width='155'>Preço Total</th>
-                              </tr>
-                          </thead>
-      
-                          <tbody>
-      
-                            {compras_html}
-                          
-      
-                          </tbody>
-
-                          <tfoot>
-                                <tr className=''>
-                                
-                                <td colSpan={2}></td>
-                                <th>Total</th>
-                                <td id='total_compra' >{total_compra},00MT</td>
-                                
-                                </tr>
-  
-                          </tfoot>
-                          </table>
-                            </div>
-                            
-                        </div>
-                </div>)}
-
               </div>
           </div>
         )

@@ -514,6 +514,16 @@ class AppController extends Controller
         ]);
     }
 
+    function categorias(){
+        $categoria = DB::table('produtos')
+        ->distinct()->get(['categoria']);
+
+        return response()->json([
+            'status'=> 200,
+            'categoria'=>$categoria,
+        ]);
+    }
+
     function allBanners(){
         $publicidades = Publicidade::all();
 
