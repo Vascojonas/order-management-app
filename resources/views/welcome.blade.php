@@ -22,14 +22,15 @@
         <link href="{{ asset('css/index.css') }}" rel="stylesheet" />
 
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-       
+        <script type="text/javascript">      
+            window.csrf_token = "{{ csrf_token() }}"
+         </script>
     </head>
+
     <body class=" antialiased">
         <div id="root" class="h"></div>
         <script src="{{mix('js/app.js')}}">
-               
-              window.csrf_token = "{{ csrf_token() }}"
-
+            
         </script>
     </body>
 
