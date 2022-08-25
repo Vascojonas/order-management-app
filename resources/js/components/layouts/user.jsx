@@ -39,7 +39,6 @@ function user() {
       if(res.status === 200)
         {
          // console.log(res.data.data)
-          
           setCarrinho(res.data.data)
           
         }
@@ -65,6 +64,9 @@ useEffect(() => {
 
 }, []);
 
+
+    
+  
 
 
 
@@ -92,7 +94,7 @@ useEffect(() => {
                                  <BsFillPersonFill /> Minha conta
                               </button>
                               <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              {(user.role==='user')&&(<NavLink  to='/cliente/encomendas' className="dropdown-item btn" >Encomendas</NavLink>)}
+                              {(user.role==='user')&&(<NavLink  to={{ pathname: "/cliente/encomendas"}} className="dropdown-item btn" >Encomendas</NavLink>)}
                                 
                                 {(user.role==='')&&(<NavLink  to='clientes/cadastrar' className="dropdown-item btn" >Cadastrar-se</NavLink>)}
                                {(user.role!=='')?( <button onClick={logout}  className="dropdown-item " >Sair</button>):

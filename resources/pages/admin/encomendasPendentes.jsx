@@ -8,7 +8,6 @@ function encomendas() {
 
    const [pendentes, setPedentes]= useState(true);
    const [loading, setLoading] = useState(false);
-   const [agenda, setAgenda]=useState([]);
    const [encomendas, setEncomendas] = useOutletContext();
 
   
@@ -133,7 +132,7 @@ if(loading){
                 </div>
                 </div>*/}
 
-            <div className='mt-3'>
+            <div className='mt-3 list-admin'>
                     <table className="table table-striped">
                         <thead>
                             <tr>

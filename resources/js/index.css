@@ -542,11 +542,18 @@ body{
 
   .banners-view{
     height: 300px;
-    overflow-y:scroll;
+    
   }
 
-
+.encomendas-views{
+  overflow-y:scroll;
   
+}
+  
+.list-admin {
+  overflow-y:scroll;
+  height: 500px;
+}
   .artigo{
     min-width: 255px;
     max-width: 255px;

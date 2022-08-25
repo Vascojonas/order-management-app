@@ -136,7 +136,7 @@ function produtoListar() {
           );
       });
 
-   var pesquisa_html = resultadoPesquisa.map( (item, key) => {
+   var PESQUISA_HTML = resultadoPesquisa.map( (item, key) => {
         return (
           <tr key={key} className=''>
               <th scope="row" className=' list-img p-0'>
@@ -176,7 +176,7 @@ function produtoListar() {
 
 
   return (
-    <div>
+    <div className=''>
        <h4 className='mt-3'>Todos Brindes</h4>
 
        <div className=''>
@@ -191,7 +191,7 @@ function produtoListar() {
          </div>
        </div>
 
-       <div className='mt-3'>
+       <div className='mt-3 list-admin'>
             <table className="table table-striped">
               <thead>
                 <tr>
@@ -204,14 +204,12 @@ function produtoListar() {
                </thead>
 
             <tbody>
-
+                
                 {(pesquisar)?
-                  pesquisa_html
+                  PESQUISA_HTML
                 :
                    FUNCIONARIO_HTMLTABLE
                 }
-
-
             </tbody>
             </table>
        </div>

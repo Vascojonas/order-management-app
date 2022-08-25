@@ -144,7 +144,7 @@ const deleteUser = (e, id) => {
                 </div>
                 </div>*/}
     
-                <div className='mt-3'>
+                <div className='mt-3 list-admin'>
                         <table className="table table-striped">
                             <thead>
                                 <tr>

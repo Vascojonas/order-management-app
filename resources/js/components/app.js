@@ -11,7 +11,8 @@ import Personalizar from "../../pages/client/personalizarEncomenda";
 
 import Carinho from "../../pages/client/carinho";
 import Wish from '../../pages/client/wish';
-import Encomendas from '../../pages/admin/encomendasPendentes';
+import Encomendas from '../../pages/client/encomendas';
+import EncomendasRecebidas from '../../pages/client/encomendasRecebidas';
 
 import ClienteCadastro from '../../pages/client/clienteCadastro';
 import Login from './login';
@@ -111,6 +112,7 @@ function App(){
               <Route path='/cliente/carinho' element={<Carinho/>}/>
               <Route path='/cliente/whish' element={<Wish/>}/>
               <Route path='/cliente/encomendas' element={<Encomendas/>}/>
+              <Route path='/cliente/encomendas/recebidas' element={<EncomendasRecebidas/>}/>
               <Route path='/clientes/cadastrar' element={<ClienteCadastro/>}/>
             </Route>
 
