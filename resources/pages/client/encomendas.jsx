@@ -45,7 +45,7 @@ function encomendas() {
        
         setEncomenda(...encomendas.filter((item)=> item.encomendaId==id));
   
-        setDetails(!details);
+        setDetails(true);
     }
 
 

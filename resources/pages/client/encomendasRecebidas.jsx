@@ -44,7 +44,7 @@ function encomendasRecebidas() {
         e.preventDefault();
        
         setEncomenda(...encomendas.filter((item)=> item.encomendaId==id));
-        setDetails(!details);
+        setDetails(true);
     }
 
 
